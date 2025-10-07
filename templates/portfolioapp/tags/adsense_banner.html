@@ -1,0 +1,126 @@
+{% load static %}
+
+{% if ad_code %}
+<div class="adsense-container {{ css_class }}" data-position="{{ position }}">
+    {% if custom_css %}
+    <style>
+        .adsense-container[data-position="{{ position }}"] {
+            {{ custom_css|safe }}
+        }
+    </style>
+    {% endif %}
+    
+    <div class="adsense-wrapper">
+        {{ ad_code|safe }}
+    </div>
+    
+    {% comment %}
+    <!-- Label optionnel pour identifier les publicités -->
+    <div class="adsense-label">
+        <small class="text-muted">Publicité</small>
+    </div>
+    {% endcomment %}
+</div>
+
+<style>
+.adsense-container {
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+.adsense-wrapper {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.adsense-label {
+    font-size: 10px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+/* Styles spécifiques par position */
+.adsense-container[data-position="header"] {
+    margin: 10px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.adsense-container[data-position="sidebar"] {
+    margin: 15px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.adsense-container[data-position="content_top"] {
+    margin: 20px 0 30px 0;
+}
+
+.adsense-container[data-position="content_middle"] {
+    margin: 30px 0;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.adsense-container[data-position="content_bottom"] {
+    margin: 30px 0 20px 0;
+}
+
+.adsense-container[data-position="footer"] {
+    margin: 15px 0;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.adsense-container[data-position="between_posts"] {
+    margin: 40px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .adsense-container {
+        margin: 15px 0;
+    }
+    
+    .adsense-container[data-position="sidebar"] {
+        margin: 10px 0;
+        padding: 10px;
+    }
+    
+    .adsense-container[data-position="between_posts"] {
+        margin: 25px 0;
+        padding: 15px;
+    }
+}
+
+/* Animation d'apparition */
+.adsense-container {
+    opacity: 0;
+    animation: fadeInAd 0.5s ease-in-out 0.3s forwards;
+}
+
+@keyframes fadeInAd {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style pour les erreurs de chargement */
+.adsense-container .adsbygoogle[data-adsbygoogle-status="unfilled"] {
+    display: none !important;
+}
+</style>
+{% endif %}

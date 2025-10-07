@@ -1,0 +1,13 @@
+{% extends 'portfolioapp/base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-4">Contactez-moi</h1>
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+    </form>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Retour à l'accueil</a>
+{% endblock %}

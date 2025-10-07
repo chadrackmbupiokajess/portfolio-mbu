@@ -1,0 +1,432 @@
+{% extends 'portfolioapp/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Article principal -->
+    <div class="row">
+        <div class="col-lg-8">
+            <article class="mb-4">
+                <!-- En-tête de l'article -->
+                <header class="mb-4">
+                    <h1 class="display-5 mb-3">{{ post.title }}</h1>
+                    
+                    <!-- Métadonnées -->
+                    <div class="text-muted mb-3">
+                        <small>
+                            <i class="bi bi-calendar"></i> Publié le {{ post.published_date|date:"d F Y" }}
+                            <span class="ms-3">
+                                <i class="bi bi-eye"></i> {{ post.views_count }} vue{{ post.views_count|pluralize }}
+                            </span>
+                            {% if post.updated_at != post.published_date %}
+                                <span class="ms-3">
+                                    <i class="bi bi-pencil"></i> Mis à jour le {{ post.updated_at|date:"d F Y" }}
+                                </span>
+                            {% endif %}
+                        </small>
+                    </div>
+                    
+                    <!-- Tags -->
+                    {% if post.tags.all %}
+                        <div class="mb-3">
+                            {% for tag in post.tags.all %}
+                                <a href="{% url 'blog' %}?tag={{ tag.id }}" class="badge text-decoration-none me-1" 
+                                   style="background-color: {{ tag.color }}; font-size: 0.8rem; padding: 0.4rem 0.6rem;">
+                                    {{ tag.name }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </header>
+
+                <!-- Image de l'article -->
+                {% if post.image %}
+                    <div class="mb-4">
+                        <img src="{{ post.image.url }}" class="img-fluid rounded" alt="{{ post.title }}" loading="lazy">
+                    </div>
+                {% endif %}
+
+                <!-- Contenu de l'article -->
+                <div class="article-content">
+                    {{ post.content|safe }}
+                </div>
+
+                <!-- Boutons de partage -->
+                <div class="mt-4 pt-3 border-top">
+                    <h6><i class="bi bi-share"></i> Partager cet article :</h6>
+                    <div class="d-flex gap-2">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-facebook"></i> Facebook
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" 
+                           target="_blank" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-twitter"></i> Twitter
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                           target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-linkedin"></i> LinkedIn
+                        </a>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="copyToClipboard()">
+                            <i class="bi bi-link-45deg"></i> Copier le lien
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Articles similaires -->
+            {% if related_posts %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-journal-text"></i> Articles similaires
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% for related_post in related_posts %}
+                            <div class="mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}">
+                                <h6 class="mb-1">
+                                    <a href="{% url 'blog_detail' related_post.slug %}" class="text-decoration-none">
+                                        {{ related_post.title }}
+                                    </a>
+                                </h6>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> {{ related_post.published_date|date:"d M Y" }}
+                                    <span class="ms-2">
+                                        <i class="bi bi-eye"></i> {{ related_post.views_count }}
+                                    </span>
+                                </small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Retour au blog -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <a href="{% url 'blog' %}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left"></i> Retour au blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ===== STYLES BLOG DETAIL ULTRA-MODERNES ===== */
+    .article-content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .article-content h1, .article-content h2, .article-content h3 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: inherit;
+    }
+    
+    .article-content p {
+        margin-bottom: 1.5rem;
+        color: inherit;
+    }
+    
+    .article-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.375rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .article-content img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .article-content blockquote {
+        border-left: 4px solid #007bff;
+        padding-left: 1rem;
+        margin: 1.5rem 0;
+        font-style: italic;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        transition: all 0.3s ease;
+    }
+    
+    .article-content code {
+        background-color: #f8f9fa;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+    
+    .article-content pre {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        overflow-x: auto;
+        transition: all 0.3s ease;
+    }
+
+    /* ===== THÈME SOMBRE POUR BLOG DETAIL ===== */
+    [data-theme="dark"] body {
+        background-color: #1a202c !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .container {
+        background-color: #1a202c !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .row {
+        background-color: #1a202c !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .col-lg-8,
+    [data-theme="dark"] .col-lg-4 {
+        background-color: #1a202c !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] article {
+        background-color: #1a202c !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] header {
+        background-color: #1a202c !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .display-5 {
+        color: #f7fafc !important;
+    }
+
+    [data-theme="dark"] .card {
+        background-color: #2d3748 !important;
+        border-color: #4a5568 !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .card-header {
+        background-color: #2d3748 !important;
+        border-bottom-color: #4a5568 !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .card-body {
+        background-color: #2d3748 !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .text-muted {
+        color: #a0aec0 !important;
+    }
+
+    [data-theme="dark"] .border-top {
+        border-color: #4a5568 !important;
+    }
+
+    [data-theme="dark"] .border-bottom {
+        border-color: #4a5568 !important;
+    }
+
+    [data-theme="dark"] .article-content {
+        color: #e2e8f0;
+    }
+
+    [data-theme="dark"] .article-content h1,
+    [data-theme="dark"] .article-content h2,
+    [data-theme="dark"] .article-content h3,
+    [data-theme="dark"] .article-content h4,
+    [data-theme="dark"] .article-content h5,
+    [data-theme="dark"] .article-content h6 {
+        color: #f7fafc !important;
+    }
+
+    [data-theme="dark"] .article-content p,
+    [data-theme="dark"] .article-content li,
+    [data-theme="dark"] .article-content span {
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .article-content blockquote {
+        background-color: #2d3748 !important;
+        border-left-color: #4299e1 !important;
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .article-content code {
+        background-color: #2d3748 !important;
+        color: #f56565 !important;
+    }
+
+    [data-theme="dark"] .article-content pre {
+        background-color: #2d3748 !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #4a5568;
+    }
+
+    [data-theme="dark"] .article-content img {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="dark"] .article-content img:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    [data-theme="dark"] .btn-outline-primary {
+        border-color: #4299e1;
+        color: #4299e1;
+    }
+
+    [data-theme="dark"] .btn-outline-primary:hover {
+        background-color: #4299e1;
+        color: #1a202c;
+    }
+
+    [data-theme="dark"] .btn-outline-info {
+        border-color: #38b2ac;
+        color: #38b2ac;
+    }
+
+    [data-theme="dark"] .btn-outline-info:hover {
+        background-color: #38b2ac;
+        color: #1a202c;
+    }
+
+    [data-theme="dark"] .btn-outline-secondary {
+        border-color: #718096;
+        color: #718096;
+    }
+
+    [data-theme="dark"] .btn-outline-secondary:hover {
+        background-color: #718096;
+        color: #1a202c;
+    }
+
+    [data-theme="dark"] .badge {
+        color: #1a202c !important;
+    }
+
+    [data-theme="dark"] a {
+        color: #4299e1;
+    }
+
+    [data-theme="dark"] a:hover {
+        color: #63b3ed;
+    }
+
+    [data-theme="dark"] .text-decoration-none {
+        color: #e2e8f0 !important;
+    }
+
+    [data-theme="dark"] .text-decoration-none:hover {
+        color: #4299e1 !important;
+    }
+
+    /* ===== ANIMATIONS ET EFFETS MODERNES ===== */
+    .card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    [data-theme="dark"] .card {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="dark"] .card:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+        font-weight: 600;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .badge {
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+        transform: scale(1.05);
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 768px) {
+        .article-content {
+            font-size: 1rem;
+        }
+        
+        .article-content h1 {
+            font-size: 1.8rem;
+        }
+        
+        .article-content h2 {
+            font-size: 1.5rem;
+        }
+        
+        .article-content h3 {
+            font-size: 1.3rem;
+        }
+        
+        .d-flex.gap-2 {
+            flex-direction: column;
+            gap: 0.5rem !important;
+        }
+        
+        .btn-sm {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    function copyToClipboard() {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            // Créer une notification temporaire
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-success position-fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '9999';
+            notification.innerHTML = '<i class="bi bi-check-circle"></i> Lien copié !';
+            
+            document.body.appendChild(notification);
+            
+            // Supprimer la notification après 3 secondes
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'portfolioapp/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Notifications</h2>
+
+    {% if notifications %}
+        <!-- Bouton pour marquer toutes les notifications comme lues -->
+        <form method="post" action="{% url 'mark_all_notifications_as_read' %}" class="mb-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-check-circle"></i> Marquer toutes comme lues
+            </button>
+        </form>
+
+        <!-- Liste des notifications -->
+        <div class="list-group">
+            {% for notification in notifications %}
+                <a href="{% url 'mark_notification_as_read' notification.id %}" class="list-group-item list-group-item-action {% if not notification.is_read %}list-group-item-warning{% else %}list-group-item-light{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold">{{ notification.message }}</span>
+                            <br>
+                            <small class="text-muted">{{ notification.created_at }}</small>
+                        </div>
+                        {% if not notification.is_read %}
+                            <span class="badge bg-warning rounded-pill">Nouveau</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Message si aucune notification -->
+        <div class="alert alert-info" role="alert">
+            <i class="fas fa-info-circle"></i> Vous n'avez aucune notification pour le moment.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

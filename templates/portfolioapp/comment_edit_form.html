@@ -1,0 +1,134 @@
+{% load static %}
+
+<div class="comment-edit-form" data-comment-id="{{ comment.id }}">
+    <form method="POST" action="{% url 'edit_comment' comment.id %}" class="edit-comment-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group mb-2">
+            {{ form.text }}
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="comment-actions">
+                    <button type="button" class="btn btn-sm btn-link text-muted p-0 me-2" data-bs-toggle="tooltip" title="Ajouter une image">
+                        <i class="far fa-image"></i>
+                        {{ form.image }}
+                    </button>
+                    <span class="text-muted small char-counter">
+                        <span class="current">0</span>/<span class="max">5000</span>
+                    </span>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary me-2 cancel-edit">Annuler</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Enregistrer</button>
+                </div>
+            </div>
+            {% if form.image.value %}
+                <div class="mt-2">
+                    <img src="{{ form.image.value.url }}" class="img-thumbnail" style="max-width: 200px;">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="remove_image" id="remove_image">
+                        <label class="form-check-label" for="remove_image">
+                            Supprimer l'image
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Gestion du compteur de caractères
+    const $textArea = $('.edit-comment-form textarea');
+    const $charCounter = $('.edit-comment-form .char-counter .current');
+    const maxLength = parseInt($textArea.attr('maxlength'));
+    
+    function updateCharCount() {
+        const currentLength = $textArea.val().length;
+        $charCounter.text(currentLength);
+        
+        if (currentLength > maxLength * 0.9) {
+            $charCounter.addClass('text-danger');
+        } else {
+            $charCounter.removeClass('text-danger');
+        }
+    }
+    
+    // Initialiser le compteur
+    updateCharCount();
+    
+    // Mettre à jour le compteur lors de la frappe
+    $textArea.on('input', updateCharCount);
+    
+    // Gestion de l'annulation de l'édition
+    $('.cancel-edit').on('click', function() {
+        const commentId = $(this).closest('.comment-edit-form').data('comment-id');
+        const $comment = $('#comment-' + commentId);
+        
+        // Remplacer le formulaire par le contenu du commentaire
+        $comment.find('.comment-content').show();
+        $comment.find('.comment-edit-form').remove();
+    });
+    
+    // Soumission du formulaire en AJAX
+    $('.edit-comment-form').on('submit', function(e) {
+        e.preventDefault();
+        const $form = $(this);
+        const $formContainer = $form.closest('.comment-edit-form');
+        const commentId = $formContainer.data('comment-id');
+        const $comment = $('#comment-' + commentId);
+        
+        // Désactiver le bouton de soumission
+        $form.find('button[type="submit"]').prop('disabled', true);
+        
+        // Envoyer le formulaire en AJAX
+        $.ajax({
+            type: 'POST',
+            url: $form.attr('action'),
+            data: new FormData($form[0]),
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+                    // Mettre à jour le contenu du commentaire
+                    $comment.find('.comment-text').html(response.new_text);
+                    $comment.find('.comment-meta .edited-badge').remove();
+                    
+                    if (response.updated_at) {
+                        $comment.find('.comment-meta').append(
+                            '<span class="text-muted small ms-2 edited-badge">modifié ' + response.updated_at + '</span>'
+                        );
+                    }
+                    
+                    // Cacher le formulaire d'édition et réafficher le contenu
+                    $comment.find('.comment-content').show();
+                    $formContainer.remove();
+                    
+                    // Afficher une notification de succès
+                    showNotification('Commentaire mis à jour avec succès', 'success');
+                } else {
+                    // Afficher les erreurs
+                    showNotification('Une erreur est survenue: ' + (response.error || 'Veuillez vérifier les champs.'), 'error');
+                    $form.find('button[type="submit"]').prop('disabled', false);
+                }
+            },
+            error: function(xhr, status, error) {
+                showNotification('Une erreur est survenue lors de la mise à jour du commentaire.', 'error');
+                $form.find('button[type="submit"]').prop('disabled', false);
+            }
+        });
+    });
+    
+    // Afficher un aperçu de l'image sélectionnée
+    $('input[type="file"]').on('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const $preview = $('<div class="mt-2"><img src="' + e.target.result + '" class="img-thumbnail" style="max-width: 200px;"></div>');
+                $('.edit-comment-form .form-group').append($preview);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>

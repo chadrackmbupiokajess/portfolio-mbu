@@ -1,0 +1,702 @@
+{% load static %}
+<div class="comment-card-premium" id="comment-{{ comment.id }}" data-comment-id="{{ comment.id }}">
+    <div class="comment-avatar-section">
+        {% if comment.author.profile.profile_picture %}
+            <img src="{{ comment.author.profile.profile_picture.url }}" alt="{{ comment.author.username }}" class="comment-avatar-premium">
+        {% else %}
+            <div class="comment-avatar-placeholder-premium">
+                {{ comment.author.username|first|upper }}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="comment-content-section">
+        <div class="comment-header-premium">
+            <div class="comment-author-info">
+                <h4 class="comment-author-name-premium">{{ comment.author.username }}</h4>
+                <span class="comment-timestamp-premium">
+                    <i class="far fa-clock"></i>
+                    <span>{{ comment.created_at|timesince }}</span>
+                </span>
+            </div>
+            <div class="comment-options">
+                <button class="comment-options-btn" onclick="toggleOptionsMenu({{ comment.id }})">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <div class="comment-options-menu" id="options-menu-{{ comment.id }}">
+                    {% if user == comment.author or user.is_superuser %}
+                        <div class="comment-option-item edit-comment" data-comment-id="{{ comment.id }}">
+                            <i class="far fa-edit"></i>
+                            <span>Modifier</span>
+                        </div>
+                        <div class="comment-option-item delete-option delete-comment" data-comment-id="{{ comment.id }}">
+                            <i class="far fa-trash-alt"></i>
+                            <span>Supprimer</span>
+                        </div>
+                    {% else %}
+                        <div class="comment-option-item report-comment" data-comment-id="{{ comment.id }}">
+                            <i class="far fa-flag"></i>
+                            <span>Signaler</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="comment-body-premium">
+            <p class="comment-text-premium">{{ comment.text|urlize }}</p>
+            
+            {% if comment.image %}
+                <div class="comment-image-container">
+                    <img src="{{ comment.image.url }}" alt="Image du commentaire" class="comment-image">
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="comment-actions-premium">
+            <button class="comment-action-btn like-comment-btn" data-comment-id="{{ comment.id }}">
+                <i class="far fa-thumbs-up"></i>
+                <span>J'aime</span>
+                {% if comment.likes.count > 0 %}
+                    <span class="like-count">{{ comment.likes.count }}</span>
+                {% endif %}
+                <div class="reaction-tooltip">
+                    <span class="reaction-emoji" data-reaction="like">👍</span>
+                    <span class="reaction-emoji" data-reaction="love">❤️</span>
+                    <span class="reaction-emoji" data-reaction="haha">😆</span>
+                    <span class="reaction-emoji" data-reaction="wow">😮</span>
+                    <span class="reaction-emoji" data-reaction="sad">😢</span>
+                    <span class="reaction-emoji" data-reaction="angry">😡</span>
+                </div>
+            </button>
+            <button class="comment-action-btn reply-comment-btn" data-comment-id="{{ comment.id }}">
+                <i class="far fa-comment"></i>
+                <span>Répondre</span>
+            </button>
+            <button class="comment-action-btn share-comment-btn">
+                <i class="fas fa-share"></i>
+                <span>Partager</span>
+            </button>
+        </div>
+        
+        <!-- Réponses aux commentaires -->
+        {% if comment.replies.count > 0 %}
+            <button class="view-replies-btn" data-comment-id="{{ comment.id }}" onclick="toggleReplies({{ comment.id }})">
+                <i class="fas fa-chevron-down"></i>
+                <span>Voir les {{ comment.replies.count }} réponse{{ comment.replies.count|pluralize }}</span>
+            </button>
+            
+            <div class="replies-section-premium" id="replies-{{ comment.id }}" style="display: none;">
+                {% for reply in comment.replies.all %}
+                    {% include 'portfolioapp/comment_item.html' with comment=reply is_reply=True %}
+                {% endfor %}
+                
+                <!-- Bouton pour charger plus de réponses si nécessaire -->
+                {% if comment.replies.count > 3 %}
+                    <button class="view-more-replies-btn" data-comment-id="{{ comment.id }}">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Afficher plus de réponses</span>
+                    </button>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+        <!-- Formulaire de réponse -->
+        <div class="reply-form-container" id="reply-form-{{ comment.id }}">
+            <div class="comment-form-premium">
+                <div class="form-header-premium">
+                    <div class="user-avatar-premium">
+                        {% if user.profile.profile_picture %}
+                            <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}">
+                        {% else %}
+                            <div class="avatar-placeholder-premium">
+                                {{ user.username|first|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="user-info-premium">
+                        <span class="user-name-premium">{{ user.username }}</span>
+                    </div>
+                </div>
+
+                <form method="post" action="{% url 'add_reply' comment.id %}" class="reply-form" data-comment-id="{{ comment.id }}">
+                    {% csrf_token %}
+                    <div class="form-field-premium">
+                        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                        <textarea name="text" class="comment-input-premium" rows="1" placeholder="Écrire une réponse..." required></textarea>
+                        <div class="char-counter">0/1000</div>
+                    </div>
+                    <div class="form-actions-premium">
+                        <button type="button" class="comment-action-btn cancel-reply-btn" data-comment-id="{{ comment.id }}">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn-comment-premium" disabled>
+                            <span class="btn-content">
+                                <span>Répondre</span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification de commentaire -->
+<div class="comment-notification" id="comment-notification-{{ comment.id }}">
+    <div class="notification-avatar">
+        {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}">
+        {% else %}
+            <div class="avatar-placeholder-premium">
+                {{ user.username|first|upper }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="notification-content">
+        <p class="notification-text">Votre commentaire a été publié</p>
+        <p class="notification-time">À l'instant</p>
+    </div>
+    <button class="notification-close" onclick="hideNotification({{ comment.id }})">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<script>
+// Fonction pour basculer l'affichage du menu des options
+function toggleOptionsMenu(commentId) {
+    const menu = document.getElementById(`options-menu-${commentId}`);
+    const allMenus = document.querySelectorAll('.comment-options-menu');
+    
+    // Fermer tous les autres menus ouverts
+    allMenus.forEach(m => {
+        if (m.id !== `options-menu-${commentId}`) {
+            m.classList.remove('show');
+        }
+    });
+    
+    // Basculer le menu actuel
+    menu.classList.toggle('show');
+}
+
+// Fonction pour basculer l'affichage des réponses
+function toggleReplies(commentId) {
+    const repliesSection = document.getElementById(`replies-${commentId}`);
+    const button = document.querySelector(`.view-replies-btn[data-comment-id="${commentId}"]`);
+    const icon = button.querySelector('i');
+    
+    if (repliesSection.style.display === 'none' || !repliesSection.style.display) {
+        repliesSection.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+        button.querySelector('span').textContent = 'Masquer les réponses';
+    } else {
+        repliesSection.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+        button.querySelector('span').textContent = `Voir les ${repliesSection.children.length} réponse${repliesSection.children.length > 1 ? 's' : ''}`;
+    }
+}
+
+// Fonction pour afficher une notification
+function showNotification(commentId) {
+    const notification = document.getElementById(`comment-notification-${commentId}`);
+    if (notification) {
+        notification.classList.add('show');
+        setTimeout(() => {
+            hideNotification(commentId);
+        }, 5000);
+    }
+}
+
+// Fonction pour masquer une notification
+function hideNotification(commentId) {
+    const notification = document.getElementById(`comment-notification-${commentId}`);
+    if (notification) {
+        notification.classList.remove('show');
+    }
+}
+
+// Gestionnaire d'événement pour le clic en dehors du menu des options
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.comment-options')) {
+        document.querySelectorAll('.comment-options-menu').forEach(menu => {
+            menu.classList.remove('show');
+        });
+    }
+});
+
+// Initialisation des écouteurs d'événements après le chargement du DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion des formulaires de réponse
+    document.querySelectorAll('.reply-form').forEach(form => {
+        const textarea = form.querySelector('textarea');
+        const charCounter = form.querySelector('.char-counter');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Ajustement automatique de la hauteur du textarea
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            
+            // Mise à jour du compteur de caractères
+            const maxLength = 1000;
+            const currentLength = this.value.length;
+            charCounter.textContent = `${currentLength}/${maxLength}`;
+            
+            // Désactiver le bouton si le texte est vide ou dépasse la limite
+            if (currentLength === 0 || currentLength > maxLength) {
+                submitBtn.disabled = true;
+                if (currentLength > maxLength) {
+                    charCounter.classList.add('limit-reached');
+                } else {
+                    charCounter.classList.remove('limit-reached');
+                }
+            } else {
+                submitBtn.disabled = false;
+                charCounter.classList.remove('limit-reached');
+            }
+        });
+        
+        // Soumission du formulaire via AJAX
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const commentId = this.closest('.comment-card-premium').dataset.commentId;
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Réinitialiser le formulaire
+                    this.reset();
+                    textarea.style.height = 'auto';
+                    charCounter.textContent = '0/1000';
+                    submitBtn.disabled = true;
+                    
+                    // Afficher la notification
+                    showNotification(commentId);
+                    
+                    // Mettre à jour l'interface utilisateur si nécessaire
+                    const repliesSection = document.getElementById(`replies-${commentId}`);
+                    if (repliesSection) {
+                        // Recharger les réponses ou ajouter la nouvelle réponse dynamiquement
+                        // Cette partie dépendra de votre implémentation côté serveur
+                    }
+                } else {
+                    // Afficher les erreurs de validation
+                    console.error('Erreur lors de la publication de la réponse:', data.errors);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
+    });
+    
+    // Gestion des boutons "Annuler" pour les réponses
+    document.querySelectorAll('.cancel-reply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commentId = this.dataset.commentId;
+            const formContainer = document.getElementById(`reply-form-${commentId}`);
+            if (formContainer) {
+                formContainer.style.display = 'none';
+            }
+        });
+    });
+    
+    // Gestion des boutons pour afficher les formulaires de réponse
+    document.querySelectorAll('.reply-comment-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commentId = this.dataset.commentId;
+            const formContainer = document.getElementById(`reply-form-${commentId}`);
+            if (formContainer) {
+                // Masquer tous les autres formulaires de réponse
+                document.querySelectorAll('.reply-form-container').forEach(container => {
+                    if (container.id !== `reply-form-${commentId}`) {
+                        container.style.display = 'none';
+                    }
+                });
+                
+                // Basculer l'affichage du formulaire actuel
+                if (formContainer.style.display === 'none' || !formContainer.style.display) {
+                    formContainer.style.display = 'block';
+                    formContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    formContainer.querySelector('textarea').focus();
+                } else {
+                    formContainer.style.display = 'none';
+                }
+            }
+        });
+    });
+});
+</script>
+
+<style>
+/* ===== COMMENTAIRES PREMIUM ULTRA-MODERNES ===== */
+:root {
+    --comment-primary: #1a1a2e;
+    --comment-secondary: #4a5568;
+    --comment-muted: #718096;
+    --comment-light: #ffffff;
+    --comment-bg: #f7fafc;
+    --comment-card: #ffffff;
+    --comment-border: rgba(0, 0, 0, 0.05);
+    --comment-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --comment-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.16);
+    --comment-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --comment-gold: #d4af37;
+    --comment-radius: 20px;
+    --comment-transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.comment-card-premium {
+    display: flex;
+    gap: 1.5rem;
+    background: var(--comment-card);
+    border-radius: var(--comment-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--comment-shadow);
+    border: 1px solid var(--comment-border);
+    transition: var(--comment-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.comment-card-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--comment-gradient);
+}
+
+.comment-card-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--comment-shadow-hover);
+}
+
+/* ===== AVATAR SECTION ===== */
+.comment-avatar-section {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.comment-avatar-premium {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--comment-gold);
+    transition: var(--comment-transition);
+}
+
+.comment-avatar-premium:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+}
+
+.comment-avatar-placeholder-premium {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--comment-gradient);
+    border: 3px solid var(--comment-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--comment-light);
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: var(--comment-transition);
+}
+
+.comment-avatar-placeholder-premium:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 24px rgba(103, 126, 234, 0.3);
+}
+
+.comment-status-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    background: #4caf50;
+    border: 3px solid var(--comment-card);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== CONTENU SECTION ===== */
+.comment-content-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.comment-header-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.comment-author-info {
+    flex: 1;
+}
+
+.comment-author-name-premium {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--comment-primary);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+.comment-author-role {
+    font-size: 0.85rem;
+    color: var(--comment-muted);
+    font-weight: 500;
+}
+
+.comment-timestamp-premium {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--comment-muted);
+    padding: 0.5rem 1rem;
+    background: var(--comment-bg);
+    border-radius: 20px;
+    border: 1px solid var(--comment-border);
+}
+
+.comment-timestamp-premium i {
+    font-size: 0.8rem;
+    color: var(--comment-gold);
+}
+
+/* ===== CORPS DU COMMENTAIRE ===== */
+.comment-body-premium {
+    margin-bottom: 1.5rem;
+}
+
+.comment-text-premium {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--comment-secondary);
+    margin: 0;
+    word-wrap: break-word;
+}
+
+/* ===== ACTIONS DU COMMENTAIRE ===== */
+.comment-actions-premium {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.comment-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: 2px solid var(--comment-border);
+    border-radius: 25px;
+    color: var(--comment-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--comment-transition);
+    text-decoration: none;
+}
+
+.comment-action-btn:hover {
+    background: var(--comment-bg);
+    border-color: var(--comment-gold);
+    color: var(--comment-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.comment-action-btn i {
+    font-size: 0.9rem;
+    transition: var(--comment-transition);
+}
+
+.like-comment-btn:hover {
+    border-color: #e91e63;
+    color: #e91e63;
+}
+
+.like-comment-btn:hover i {
+    animation: heartBeat 0.6s ease-in-out;
+}
+
+.reply-comment-btn:hover {
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.share-comment-btn:hover {
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+/* ===== SECTION RÉPONSES ===== */
+.replies-section-premium {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--comment-bg);
+}
+
+.replies-container {
+    padding-left: 2rem;
+    border-left: 3px solid var(--comment-bg);
+    position: relative;
+}
+
+.replies-container::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--comment-gradient);
+    border-radius: 1px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes heartBeat {
+    0% {
+        transform: scale(1);
+    }
+    14% {
+        transform: scale(1.3);
+    }
+    28% {
+        transform: scale(1);
+    }
+    42% {
+        transform: scale(1.3);
+    }
+    70% {
+        transform: scale(1);
+    }
+}
+
+/* ===== RESPONSIVITÉ ===== */
+@media (max-width: 768px) {
+    .comment-card-premium {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .comment-header-premium {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .comment-actions-premium {
+        justify-content: center;
+    }
+    
+    .comment-action-btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 0;
+    }
+    
+    .replies-container {
+        padding-left: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .comment-card-premium {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .comment-avatar-premium,
+    .comment-avatar-placeholder-premium {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .comment-actions-premium {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .comment-action-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== ÉTATS SPÉCIAUX ===== */
+.comment-card-premium.highlighted {
+    border-color: var(--comment-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1), var(--comment-shadow-hover);
+}
+
+.comment-card-premium.new-comment {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== THÈME SOMBRE (OPTIONNEL) ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --comment-primary: #ffffff;
+        --comment-secondary: #e2e8f0;
+        --comment-muted: #a0aec0;
+        --comment-light: #1a1a2e;
+        --comment-bg: #2d3748;
+        --comment-card: #1a202c;
+        --comment-border: rgba(255, 255, 255, 0.1);
+    }
+}
+</style>

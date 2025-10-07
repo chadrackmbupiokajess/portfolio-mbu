@@ -1,0 +1,503 @@
+/* Import des variables CSS */
+@import '_variables.css';
+
+/* Reset et normalisation */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== IMAGES RESPONSIVES GLOBALES ===== */
+img, video, iframe, embed, object {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* Conteneurs d'images */
+.image-container, .img-container, .photo-container {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Styles de base */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+    opacity: 0.9;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ===== PRÉVENTION DES DÉBORDEMENTS ===== */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Conteneurs responsives */
+.container-fluid, .row, .col, [class*="col-"] {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Éléments qui peuvent déborder */
+pre, code, table, .table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+/* Texte responsif */
+h1, h2, h3, h4, h5, h6, p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Boutons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #166fe5;
+    border-color: #166fe5;
+    color: white;
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: rgba(24, 119, 242, 0.1);
+}
+
+/* Cartes */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+    box-shadow: var(--shadow);
+}
+
+.card-header {
+    padding: 1rem 1.25rem;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-footer {
+    padding: 0.75rem 1.25rem;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Formulaire */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--input-bg);
+    background-clip: padding-box;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(24, 119, 242, 0.25);
+}
+
+/* Alertes */
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.alert-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+}
+
+.alert-info {
+    color: #055160;
+    background-color: #cff4fc;
+    border-color: #b6effb;
+}
+
+/* Utilitaires */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-light {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Animation de chargement */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 0.25rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+
+/* Animation du logo avec rotation et agrandissement */
+.loader img {
+    width: 80px; /* Taille initiale du logo */
+    height: 80px;
+    animation: rotateAndScale 2s ease-out forwards; /* Animation de 2 secondes */
+}
+
+/* Animation de rotation et d'agrandissement du logo */
+@keyframes rotateAndScale {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.5);  /* Logo plus grand à la moitié */
+    }
+    100% {
+        transform: rotate(360deg) scale(1);  /* Retour à la taille originale */
+    }
+}
+
+/* Autres styles pour la navigation, footer, etc. */
+
+.navbar-nav .nav-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff6f61; /* Couleur de survol */
+    transform: scale(1.1); /* Légère mise à l'échelle au survol */
+}
+
+footer {
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ffcc00;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #333;
+    display: none;
+    z-index: 999;
+}
+
+.notification.show {
+    display: block;
+}
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    footer {
+        font-size: 14px;
+    }
+}
+
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ffcc00;
+    padding: 12px 25px;
+    border-radius: 10px;
+    color: #333;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre pour plus de visibilité */
+    opacity: 0;
+    transform: translateY(20px); /* Décalage vertical initial */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition fluide */
+}
+
+/* Afficher la notification avec animation */
+.notification.show {
+    display: block;
+    opacity: 1; /* Rendre la notification visible */
+    transform: translateY(0); /* Réinitialiser le décalage vertical */
+}
+
+/* Animation pour l'apparition de la notification */
+@keyframes showNotification {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Optionnel : Animation de disparition après quelques secondes */
+.notification.hide {
+    animation: hideNotification 1s forwards;
+}
+
+@keyframes hideNotification {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+
+/* Ajout d'un peu de style pour les sections */
+.text-center {
+    padding-top: 50px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-top: 30px;
+    color: #333;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-top: 20px;
+    color: #333;
+}
+
+p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.btn-lg {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.rounded-circle {
+    border-radius: 50%;
+}
+
+/* Section des compétences */
+.row .col-md-4 {
+    margin-bottom: 20px;
+}
+
+/* Animation Fade-In */
+.fade-in {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style pour les cartes de compétences */
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Style du carousel */
+.carousel-inner img {
+    object-fit: cover;
+    height: 400px;
+}
+
+/* Animation Fade-In au défilement */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Transition douce pour les boutons */
+.hover-transition {
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-transition:hover {
+    transform: scale(1.1);
+    background-color: #ff6f61; /* Changer la couleur de fond lors du survol */
+}
+
+/* Effet de mise à l'échelle pour les cartes de compétence */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Effet de parallax (optionnel) pour l'arrière-plan */
+.parallax {
+    background-image: url('{% static 'images/parallax-background.jpg' %}');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 400px;
+}
+
+/* Style pour le carousel */
+.carousel-inner img {
+    object-fit: cover;
+    height: 400px;
+}
+
+/* Améliorer la visibilité des images de la section projets */
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+}

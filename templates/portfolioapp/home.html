@@ -1,0 +1,863 @@
+{% extends 'portfolioapp/base.html' %}
+
+{% load static %}
+
+{% block head %}
+    <!-- Balises meta spécifiques à la page d'accueil -->
+    <meta name="description" content="Bienvenue sur le portfolio de Chadrack Mbu Jess, alias Chadrack Mbu, Chadrackmbu ou Chadrackmbujess. Découvrez mes projets, mes compétences et mes réalisations en développement web, design et multimédia.">
+    <meta name="keywords" content="Chadrack Mbu Jess, Chadrack Mbu, Chadrackmbu, Chadrackmbujess, portfolio, accueil, développement web, design, multimédia, projets, compétences">
+    <meta property="og:title" content="Accueil | Portfolio de Chadrack Mbu Jess">
+    <meta property="og:description" content="Bienvenue sur le portfolio de Chadrack Mbu Jess. Découvrez mes projets, mes compétences et mes réalisations en développement web, design et multimédia.">
+    <meta property="og:image" content="{% static 'images/profil1.jpg' %}">
+    <meta property="og:image:alt" content="Photo de profil de Chadrack Mbu Jess">
+    <meta property="og:url" content="http://www.votresite.com">
+    <meta name="twitter:title" content="Accueil | Portfolio de Chadrack Mbu Jess">
+    <meta name="twitter:description" content="Bienvenue sur le portfolio de Chadrack Mbu Jess. Découvrez mes projets, mes compétences et mes réalisations en développement web, design et multimédia.">
+    <meta name="twitter:image" content="{% static 'images/profil1.jpg' %}">
+    <meta name="twitter:image:alt" content="Photo de profil de Chadrack Mbu Jess">
+    <meta name="google-site-verification" content="Y1OupyXaAXT6Wa7iaA8abCEXCiUZe3YLMu1rlNNdgNY" />
+    
+    <!-- CSS spécifique à la page d'accueil -->
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    
+    <!-- Styles pour le mode sombre -->
+    <style>
+        /* ===== THÈME SOMBRE POUR HOME ===== */
+        [data-theme="dark"] .container {
+            background-color: #1a202c !important;
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .section-header {
+            background-color: #1a202c !important;
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .section-title {
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .section-subtitle {
+            color: #a0aec0 !important;
+        }
+
+        [data-theme="dark"] .section-badge {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Cartes de fonctionnalités */
+        [data-theme="dark"] .feature-card-modern {
+            background-color: #2d3748 !important;
+            border-color: #4a5568 !important;
+            color: #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        [data-theme="dark"] .feature-card-modern:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        [data-theme="dark"] .feature-card-modern h3 {
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .feature-card-modern p {
+            color: #e2e8f0 !important;
+        }
+
+        /* Cartes de projets */
+        [data-theme="dark"] .project-card-premium {
+            background-color: #2d3748 !important;
+            border-color: #4a5568 !important;
+            color: #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        [data-theme="dark"] .project-card-premium:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        [data-theme="dark"] .project-content-modern {
+            background-color: #2d3748 !important;
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .project-title-modern {
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .project-description-modern {
+            color: #e2e8f0 !important;
+        }
+
+        /* Supprimer les barres blanches dans les images */
+        [data-theme="dark"] .project-image-container {
+            background-color: #2d3748 !important;
+            border: none !important;
+        }
+
+        [data-theme="dark"] .project-placeholder {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Cartes d'expertise */
+        [data-theme="dark"] .expertise-card {
+            background-color: #2d3748 !important;
+            border-color: #4a5568 !important;
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .expertise-content h3 {
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .expertise-content p {
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .skill-name {
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .skill-progress {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Cartes de témoignages */
+        [data-theme="dark"] .testimonial-card-modern {
+            background-color: #2d3748 !important;
+            border-color: #4a5568 !important;
+            color: #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        [data-theme="dark"] .testimonial-card-modern:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        [data-theme="dark"] .testimonial-content p {
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .author-info h4 {
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .author-info span {
+            color: #a0aec0 !important;
+        }
+
+        [data-theme="dark"] .quote-icon {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+        }
+
+        /* Sections avec arrière-plan */
+        [data-theme="dark"] .features-section {
+            background-color: #1a202c !important;
+        }
+
+        [data-theme="dark"] .projects-section {
+            background-color: #1a202c !important;
+        }
+
+        [data-theme="dark"] .testimonials-section {
+            background-color: #1a202c !important;
+        }
+
+        /* Carousel */
+        [data-theme="dark"] .projects-carousel-container {
+            background-color: #1a202c !important;
+        }
+
+        [data-theme="dark"] .carousel-btn {
+            background: rgba(45, 55, 72, 0.9) !important;
+            color: #e2e8f0 !important;
+            border-color: #4a5568 !important;
+        }
+
+        [data-theme="dark"] .carousel-btn:hover {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+            color: #f7fafc !important;
+        }
+
+        [data-theme="dark"] .indicator {
+            background: rgba(255, 255, 255, 0.4) !important;
+        }
+
+        [data-theme="dark"] .indicator.active {
+            background: linear-gradient(135deg, #d69e2e 0%, #b7791f 100%) !important;
+        }
+
+        /* Boutons */
+        [data-theme="dark"] .btn-view-all {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+            color: #e2e8f0 !important;
+            border-color: #4a5568 !important;
+        }
+
+        [data-theme="dark"] .btn-view-all:hover {
+            background: linear-gradient(135deg, #d69e2e 0%, #b7791f 100%) !important;
+            color: #1a202c !important;
+        }
+
+        /* Tech badges */
+        [data-theme="dark"] .tech-tag,
+        [data-theme="dark"] .tech-badge {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Status badges */
+        [data-theme="dark"] .project-category {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%) !important;
+            color: #1a202c !important;
+        }
+
+        /* Stats */
+        [data-theme="dark"] .stat {
+            color: #a0aec0 !important;
+        }
+
+        [data-theme="dark"] .stat i {
+            color: #4299e1 !important;
+        }
+
+        /* Liens */
+        [data-theme="dark"] .feature-link {
+            color: #4299e1 !important;
+        }
+
+        [data-theme="dark"] .feature-link:hover {
+            color: #63b3ed !important;
+        }
+
+        /* Meta données des projets */
+        [data-theme="dark"] .project-meta {
+            background-color: #2d3748 !important;
+        }
+
+        /* Corrections spécifiques pour éliminer le blanc */
+        [data-theme="dark"] * {
+            border-color: #4a5568 !important;
+        }
+
+        [data-theme="dark"] .bg-white,
+        [data-theme="dark"] .bg-light {
+            background-color: #2d3748 !important;
+        }
+
+        [data-theme="dark"] .text-dark {
+            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .border,
+        [data-theme="dark"] .border-top,
+        [data-theme="dark"] .border-bottom,
+        [data-theme="dark"] .border-left,
+        [data-theme="dark"] .border-right {
+            border-color: #4a5568 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Accueil | Portfolio de Chadrack Mbu Jess{% endblock %}
+
+{% block content %}
+    <!-- Hero Section Ultra-Moderne -->
+    <section class="hero-section">
+        <div class="hero-background">
+            <div class="hero-particles"></div>
+            <div class="hero-gradient"></div>
+        </div>
+        
+        <div class="container">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-text">Portfolio 2025</span>
+                        <div class="badge-glow"></div>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        <span class="title-line">Chadrack Mbu Jess</span>
+                        <span class="title-subtitle">Développeur Full-Stack</span>
+                        <span class="title-accent">& Expert IA</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        🎯 <strong>Développeur Full-Stack Premium</strong> avec +3 ans d'expertise. Je transforme vos idées en 
+                        <span class="highlight-text">solutions digitales rentables</span> qui génèrent des résultats concrets. 
+                        <strong>ROI garanti</strong> ou remboursement intégral !
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Projets</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3+</span>
+                            <span class="stat-label">Années</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Satisfaction</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions">
+                        <a href="{% url 'contact' %}" class="btn-primary-modern urgency-cta">
+                            <span>🚀 DÉMARRER MAINTENANT</span>
+                            <i class="fas fa-rocket"></i>
+                            <div class="urgency-badge">GRATUIT</div>
+                        </a>
+                        <a href="{% url 'projects' %}" class="btn-secondary-modern">
+                            <span>Voir mes réalisations</span>
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="urgency-indicators">
+                        <div class="indicator-item">
+                            <i class="fas fa-clock text-warning"></i>
+                            <span>Consultation gratuite limitée</span>
+                        </div>
+                        <div class="indicator-item">
+                            <i class="fas fa-users text-success"></i>
+                            <span>+50 clients satisfaits</span>
+                        </div>
+                        <div class="indicator-item">
+                            <i class="fas fa-star text-warning"></i>
+                            <span>5/5 étoiles moyenne</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 hero-visual">
+                    <div class="profile-showcase">
+                        <div class="profile-card">
+                            <div class="profile-image-modern">
+                                <img src="{% static 'images/profil1.jpg' %}" alt="Chadrack Mbu Jess" class="profile-img">
+                                <div class="profile-ring"></div>
+                                <div class="profile-glow"></div>
+                            </div>
+                            
+                            <div class="floating-elements">
+                                <div class="floating-tech tech-1">
+                                    <i class="fab fa-python"></i>
+                                </div>
+                                <div class="floating-tech tech-2">
+                                    <i class="fab fa-js-square"></i>
+                                </div>
+                                <div class="floating-tech tech-3">
+                                    <i class="fab fa-react"></i>
+                                </div>
+                                <div class="floating-tech tech-4">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+{% load portfolio_extras %}
+    <!-- Ad between Hero and Features -->
+    {% adsense_unit 'between_posts' %}
+
+    <!-- Section Fonctionnalités Premium -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Innovations</span>
+                <h2 class="section-title">Fonctionnalités Avancées</h2>
+                <p class="section-subtitle">
+                    Découvrez les dernières technologies intégrées pour une expérience utilisateur exceptionnelle
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card-modern" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon-modern">
+                        <div class="icon-bg"></div>
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Système de Likes</h3>
+                    <p>Interactions en temps réel avec notifications instantanées et analytics avancés</p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Real-time</span>
+                        <span class="tech-tag">WebSocket</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card-modern" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon-modern">
+                        <div class="icon-bg"></div>
+                        <i class="fas fa-blog"></i>
+                    </div>
+                    <h3>Blog Intelligent</h3>
+                    <p>Système de publication avec IA, tags automatiques et optimisation SEO</p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">AI-Powered</span>
+                        <span class="tech-tag">SEO</span>
+                    </div>
+                    <a href="{% url 'blog' %}" class="feature-link">Explorer →</a>
+                </div>
+                
+                <div class="feature-card-modern" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon-modern">
+                        <div class="icon-bg"></div>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Témoignages 360°</h3>
+                    <p>Système de notation multi-critères avec validation automatique</p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">ML Validation</span>
+                        <span class="tech-tag">Analytics</span>
+                    </div>
+                    <a href="{% url 'testimonials' %}" class="feature-link">Découvrir →</a>
+                </div>
+                
+                <div class="feature-card-modern" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon-modern">
+                        <div class="icon-bg"></div>
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Recherche Cognitive</h3>
+                    <p>Moteur de recherche intelligent avec filtres dynamiques et suggestions</p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">ElasticSearch</span>
+                        <span class="tech-tag">NLP</span>
+                    </div>
+                    <a href="{% url 'search_projects' %}" class="feature-link">Tester →</a>
+                </div>
+                
+                <div class="feature-card-modern" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon-modern">
+                        <div class="icon-bg"></div>
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>Tags Intelligents</h3>
+                    <p>Classification automatique avec couleurs adaptatives et clustering</p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Auto-Tag</span>
+                        <span class="tech-tag">Color AI</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card-modern" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-icon-modern">
+                        <div class="icon-bg"></div>
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics Pro</h3>
+                    <p>Dashboard temps réel avec prédictions et insights comportementaux</p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Predictive</span>
+                        <span class="tech-tag">BigData</span>
+                    </div>
+                    <a href="{% url 'portfolio_stats' %}" class="feature-link">Analyser →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projets Premium -->
+    <section class="projects-sectdion">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Portfolio</span>
+                <h2 class="section-title">Projets Récents</h2>
+                <p class="section-subtitle">
+                    Une sélection de mes réalisations les plus innovantes et impactantes
+                </p>
+            </div>
+            
+            <!-- Carousel de Projets Premium -->
+            <div class="projects-carousel-container">
+                <div class="projects-carousel" id="projectsCarousel">
+                    <div class="carousel-track">
+                        {% for project in projects|slice:":6" %}
+                        <div class="project-slide {% if forloop.first %}active{% endif %}">
+                            <div class="project-card-premium">
+                                <div class="project-image-container">
+                                    {% if project.image %}
+                                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image" loading="lazy">
+                                    {% else %}
+                                        <div class="project-placeholder">
+                                            <i class="fas fa-code"></i>
+                                            <span class="placeholder-text">{{ project.title }}</span>
+                                        </div>
+                                    {% endif %}
+                                    <div class="project-overlay-modern">
+                                        <div class="project-actions">
+                                            <a href="{% url 'project_detail' project.pk %}" class="action-btn primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if project.github_url %}
+                                            <a href="{{ project.github_url }}" target="_blank" class="action-btn secondary">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                            {% endif %}
+                                            {% if project.demo_url %}
+                                            <a href="{{ project.demo_url }}" target="_blank" class="action-btn tertiary">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="project-content-modern">
+                                    <div class="project-meta">
+                                        {% if project.category %}
+                                            <span class="project-category">{{ project.category.name }}</span>
+                                        {% endif %}
+                                        <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                                    </div>
+                                    
+                                    <h3 class="project-title-modern">{{ project.title }}</h3>
+                                    <p class="project-description-modern">{{ project.description|striptags|truncatewords:15 }}</p>
+                                    
+                                    {% if project.technologies %}
+                                    <div class="project-tech-stack">
+                                        {% with project.technologies as tech_list %}
+                                            {% for tech in tech_list %}
+                                                {% if "," in tech_list %}
+                                                    {% for single_tech in tech_list %}
+                                                        {% if single_tech != "," %}
+                                                            <span class="tech-badge">{{ single_tech }}</span>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <span class="tech-badge">{{ tech }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="project-stats">
+                                        <div class="stat">
+                                            <i class="fas fa-eye"></i>
+                                            <span>{{ project.views_count }}</span>
+                                        </div>
+                                        <div class="stat">
+                                            <i class="fas fa-heart"></i>
+                                            <span>{{ project.likes.count }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Navigation du Carousel -->
+                <div class="carousel-navigation">
+                    <button class="carousel-btn prev-btn" onclick="moveSlide(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next-btn" onclick="moveSlide(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Indicateurs -->
+                <div class="carousel-indicators">
+                    {% for project in projects|slice:":6" %}
+                    <button class="indicator {% if forloop.first %}active{% endif %}" onclick="goToSlide({{ forloop.counter0 }})"></button>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="projects-cta">
+                <a href="{% url 'projects' %}" class="btn-view-all">
+                    <span>Voir tous les projets</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ad between Projects and Expertise -->
+    {% adsense_unit 'content_middle' %}
+
+    <!-- Section Expertise -->
+    <section class="expertise-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Expertise</span>
+                <h2 class="section-title">Domaines de Compétences</h2>
+                <p class="section-subtitle">
+                    Technologies de pointe et méthodologies éprouvées pour des solutions d'excellence
+                </p>
+            </div>
+            
+            <div class="expertise-grid">
+                <div class="expertise-card" data-aos="fade-right" data-aos-delay="100">
+                    <div class="expertise-icon">
+                        <i class="fas fa-code"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <div class="expertise-content">
+                        <h3>Développement Full-Stack</h3>
+                        <p>Architecture moderne avec Django, React, et technologies cloud natives</p>
+                        <div class="skill-bars">
+                            <div class="skill-bar">
+                                <span class="skill-name">Python/Django</span>
+                                <div class="skill-progress" data-progress="95"></div>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">JavaScript/React</span>
+                                <div class="skill-progress" data-progress="90"></div>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Cloud/DevOps</span>
+                                <div class="skill-progress" data-progress="85"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="expertise-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="expertise-icon">
+                        <i class="fas fa-brain"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <div class="expertise-content">
+                        <h3>Intelligence Artificielle</h3>
+                        <p>Solutions ML/DL pour l'automatisation et l'analyse prédictive</p>
+                        <div class="skill-bars">
+                            <div class="skill-bar">
+                                <span class="skill-name">Machine Learning</span>
+                                <div class="skill-progress" data-progress="88"></div>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Deep Learning</span>
+                                <div class="skill-progress" data-progress="82"></div>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">NLP/Computer Vision</span>
+                                <div class="skill-progress" data-progress="80"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="expertise-card" data-aos="fade-left" data-aos-delay="300">
+                    <div class="expertise-icon">
+                        <i class="fas fa-palette"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <div class="expertise-content">
+                        <h3>UX/UI Design</h3>
+                        <p>Interfaces intuitives et expériences utilisateur exceptionnelles</p>
+                        <div class="skill-bars">
+                            <div class="skill-bar">
+                                <span class="skill-name">UI/UX Design</span>
+                                <div class="skill-progress" data-progress="92"></div>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Prototyping</span>
+                                <div class="skill-progress" data-progress="87"></div>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Design Systems</span>
+                                <div class="skill-progress" data-progress="85"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Témoignages Premium -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Témoignages</span>
+                <h2 class="section-title">Retours Clients</h2>
+                <p class="section-subtitle">
+                    La satisfaction client au cœur de chaque collaboration
+                </p>
+            </div>
+            
+            <div class="testimonials-slider">
+                <div class="testimonial-card-modern" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"Grâce à Chadrack, notre plateforme a été transformée avec des fonctionnalités IA révolutionnaires. Son expertise technique et sa vision stratégique ont dépassé nos attentes."</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="{% static 'images/user.png' %}" alt="Jordache Nzita">
+                        </div>
+                        <div class="author-info">
+                            <h4>Jordache Nzita</h4>
+                            <span>Lead Developer, TechCorp</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card-modern" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"Un développeur exceptionnel qui allie créativité et rigueur technique. Nos projets ont gagné en performance et en innovation grâce à son approche méthodique."</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="{% static 'images/client2.jpg' %}" alt="Miradie Ndongala">
+                        </div>
+                        <div class="author-info">
+                            <h4>Miradie Ndongala</h4>
+                            <span>Marketing Director, InnovaCorp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonials-cta">
+                <a href="{% url 'testimonials' %}" class="btn-secondary-modern">
+                    <span>Voir tous les témoignages</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section CTA Final -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content" data-aos="zoom-in">
+                <div class="cta-background">
+                    <div class="cta-particles"></div>
+                </div>
+                <h2>🚀 DERNIÈRE CHANCE : Consultation Gratuite Limitée !</h2>
+                <p>⏰ <strong>Plus que 3 places disponibles cette semaine</strong> - Transformez votre business avec des solutions digitales qui <span class="highlight-text">multiplient vos revenus par 3</span> en moins de 6 mois !</p>
+                
+                <div class="urgency-timer">
+                    <div class="timer-item">
+                        <span class="timer-number">02</span>
+                        <span class="timer-label">JOURS</span>
+                    </div>
+                    <div class="timer-item">
+                        <span class="timer-number">14</span>
+                        <span class="timer-label">HEURES</span>
+                    </div>
+                    <div class="timer-item">
+                        <span class="timer-number">35</span>
+                        <span class="timer-label">MINUTES</span>
+                    </div>
+                </div>
+                
+                <div class="cta-actions">
+                    <a href="{% url 'contact' %}" class="btn-primary-modern urgency-cta">
+                        <span>💎 RÉSERVER MA CONSULTATION GRATUITE</span>
+                        <i class="fas fa-rocket"></i>
+                        <div class="urgency-badge">GRATUIT</div>
+                    </a>
+                    <a href="{% url 'projects' %}" class="btn-outline-modern">
+                        <span>Voir mes réalisations</span>
+                        <i class="fas fa-chart-line"></i>
+                    </a>
+                </div>
+                
+                <div class="social-proof">
+                    <p>✅ <strong>Rejoignez 50+ entrepreneurs</strong> qui ont déjà transformé leur business</p>
+                    <div class="testimonial-mini">
+                        <span>"Chadrack a multiplié notre chiffre d'affaires par 4 en 3 mois !" - <strong>Sarah M., CEO</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5640124347001712"
+     crossorigin="anonymous"></script>
+<!-- essaie -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5640124347001712"
+     data-ad-slot="3396061703"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    <!-- JavaScript pour le Carousel -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.project-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function updateCarousel() {
+            // Mettre à jour les slides
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+
+            // Mettre à jour les indicateurs
+            indicators.forEach((indicator, index) => {
+                indicator.classList.remove('active');
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+            
+            updateCarousel();
+        }
+
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateCarousel();
+        }
+
+        // Auto-play du carousel (optionnel)
+        setInterval(() => {
+            moveSlide(1);
+        }, 5000); // Change de slide toutes les 5 secondes
+
+        // Initialiser le carousel
+        updateCarousel();
+    </script>
+{% endblock %}

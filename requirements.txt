@@ -1,0 +1,12 @@
+asgiref==3.8.1
+Django==5.1.5
+django-allauth==65.3.1
+django-ckeditor==6.7.2
+django-countries==7.6.1
+django-js-asset==3.0.1
+pillow==11.1.0
+sqlparse==0.5.3
+typing_extensions==4.12.2
+django-material-admin==1.8.6
+material==0.1
+django-ckeditor-5

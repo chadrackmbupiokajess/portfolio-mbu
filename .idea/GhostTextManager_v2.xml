@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GhostTextManager">
+    <option name="inputs">
+      <map>
+        <entry key="AFFICHE la photo par utilisateur non une seule phto pour tous les utilisteurs">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752356737793" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 488, in _call_with_frames_removed&#10;  File &quot;D:\Python\Portfolio reussi\portfolioapp\models.py&quot;, line 113, in &lt;module&gt;&#10;    @&lt;file_name&gt;sender=BlogPost)&#10;                                ^^^^^^^^&#10;NameError: name 'BlogPost' is not defined&#10;&#10;EN FRANCAIS">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752336629472" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="File &quot;C:\Users\Administrateur\AppData\Roaming\Python\Python313\site-packages\django\template\base.py&quot;, line 611, in find_filter&#10;    raise TemplateSyntaxError(&quot;Invalid filter: '%s'&quot; % filter_name)&#10;django.template.exceptions.TemplateSyntaxError: Invalid filter: 'mul'&#10;[12/Jul/2025 23:49:35] &quot;GET / HTTP/1.1&quot; 500 285181&#10;&#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752360986686" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ImportError at /&#10;Module &quot;portfolioapp.context_processors&quot; does not define a &quot;unread_notifications_count&quot; attribute/class &#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752406803651" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Mais dans home.html rien n'a etait chancher c'est comme si y a pas de css&#10;&#10;pourquoi?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752397155057" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Met plus d'option motivant qui vas pousser de clients de me contacter rapidement donc un design ultra ultra moderne et professionnel dans la page accueil modifier encore">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752398938712" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Met toute les pages responsives adaptes a tous les appareils que cela soit plus professionnel et ultra moderne">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="2.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753832168020" />
+                  <option value="1753832131122" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="QUE tous les utilisateurs puissent voir les notifications, une fois un des utilisateurs commente&#10;&#10;comme seul administrateur qui vois mais que cela soit appliqué à tous les utilisateurs">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752345926444" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Supprime la photo qui est par defaut dans le code met ça vide si un utilisateur n'a pas de profil affiche un login vide de photo">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752353657643" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="TemplateDoesNotExist at /blog/&#10;portfolioapp/blog_list.html&#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752337017856" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="TemplateSyntaxError at /&#10;Invalid block tag on line 132: 'adsense_banner', expected 'endblock'. Did you forget to register or load this tag?&#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752801839794" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="TemplateSyntaxError at /&#10;Invalid block tag on line 132: 'adsense_unit', expected 'endblock'. Did you forget to register or load this tag?&#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752802474171" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="TypeError at /admin/portfolioapp/&#10;string indices must be integers, not 'str'&#10;&#10;VOICI L'erreur">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752343592239" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="active le mode nuit/jour qui est dans base.html et ca doit prendre toute le page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753840128779" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="affichage des images n'est pas bien met ca plus professionnel et ultra moderne">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752409440484" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="affiche de nouvelle fonctionnalités dans la page comme exemple de likes..... tout ce qui manques">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752357425767" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ajoute des fonctionnalité qui manque dans mon portfolio">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752335775562" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ajoute maintenant ce qui manques dans ce site verifier bien le models">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752404439206" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ajoute maintenant du css a l'interieur du fichier home.css">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752394050753" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ajouter d'autre fonctionnalité">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1750285168055" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ajouter d'autre fonctionnalités">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1750285034963" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="c'est bon maintenant modifier le design de commentaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752442240596" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="c'est bon met la durée de 2 seconde pas 3">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752403905299" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ca fonctionne bien mais dans la page projet_detail je ne vois rien qui s'affiche de ce que tu as ajouter meme le zone pour le reponses ne s'affiche pas&#10;&#10;dans l'endroit ou je t'ai dit mettre comme facebook donc mais aussi des reponses comme facebook dans la session commentaire comme facebook  tu comprends?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752484412840" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="change encore ça ne me plait pas ce design met ultra professionnel">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752433193315" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="change le design de menu en professionnel et moderne et responsives donc base.html">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753836259913" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="complet maintenant tout que ca soit ultra moderne et professionnelle pour faire de pubs a mes clients pour que ca les attire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752395049195" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="continuer">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="5.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752487745638" />
+                  <option value="1752487720273" />
+                  <option value="1752389192154" />
+                  <option value="1752359493458" />
+                  <option value="1752341166638" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="corrige cette erreur TemplateSyntaxError at /&#10;Invalid block tag on line 132: 'adsense_unit', expected 'endblock'. Did you forget to register or load this tag?&#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752803337728" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="corrige ça si possible tu supprime et recommences pour eviter des conflits et les erreurs&#10;&#10;ecrit en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752481965390" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="creer un fichier home.css nele melange pas dans home.html">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="2.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752393225733" />
+                  <option value="1752393209036" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans Projets Récents&#10;mets ca en slides plus professionnel">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752400578780" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans adsense test dans header je vois seulement l'espace vide qui affiche ça montre que c'est bien présent alors pourquoi ca n'affiche rien ? dans les pages ça affiche rien mais ca creer un espace au dessus&#10;purquoi?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752809850955" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans ce responsive, le projet similaire doit etre au dessous donc apres le commentaire dans le telephone et tablette">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752487253188" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans home.html j'ai pas de fichier css">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752394597779" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans home.html met un design ultra moderne et professionnel&#10;&#10;pour faire de pub a mes clients">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="3.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752393004699" />
+                  <option value="1752392642463" />
+                  <option value="1752392453323" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans la section de slides seule la premiere image qui est afficher en entier et les autres ça affiche a lift et il laisse un vide a right pourquoi?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752402946287" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans le menu y a trop d'espace entre le menu arrange ca">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753839131230" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="dans le test je dois avoir quelque jours qui affiche pour adsense n'est ce pas?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752808334927" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="essaye d'abord d'ajouter meme un seule ligne dans home.css pour verifier si ca fonctionne">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752394767176" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="http://127.0.0.1:8000/projects/&#10;&#10;les images est troop grand et c ne pas professionnel ni meme ultra design moderne">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752410628643" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="insere le code maintenant">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752360612730" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="integrer google adsesnse dans mon portfolio pour etre renumerer">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752799881108" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="j'ai activé position aussi header mets rien ne s'affiche seulement y a une espace qui affiche dans header pourquoi ça">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="3.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752809246613" />
+                  <option value="1752809178164" />
+                  <option value="1752808931029" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="j'ai configurer les vraid IDS">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752810250657" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="je ne vois pas le css que tu as mis dans home.html  tu comprends?&#10;&#10;verifier home.html&#10;&#10;INSERT CA">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752390548156" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="je ne vois pas toujours le profil d'utilisateur qui commente donc je vois seulement ce qui est par defaut">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752345311129" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="je viens de commenter avec utilisateur bejo mais je ne vois pas toujours sa phto de profil apparaisse dans le commentaire seulement de admin qui est par defaut">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752341852352" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="la page projet_detail n'est pas trop professionnel et design rend ça ultra design">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752431375623" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="le css que tu as mis le home.html ne prenne pas ca en charge">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752396330296" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="les photo de profil des utilisateurs dans le commentaire est trop grand mets ça dans un petit boule avant le nom de commentataire&#10;&#10;compris?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752439159714" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="les slides doivent recupere les images de projet depuis la base de donnée">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752401410394" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="maintenant ajoute ça &#10;J'aime&#10;&#10;Répondre&#10;&#10;Partager&#10;&#10;dans chaque commentaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752477198092" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais ca je clique sur j'aime, commentaire et partager aucune reaction">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752477903733" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais dans la page projrt_detail je ne vois rien qui s'affiche de ce que tu as ajouter meme le zone pour le reponses ne s'affiche pas pourquoi?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752484248779" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais je vois toujours la photo de profil par defaut">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752356024352" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais je vois un vide dans home.css">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752394251590" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="met la barre de menu fixe et enleve la zone de recherche et ajoute une fleche a la fin de la page qui permet de monter au dessus debut de la page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753837526198" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="met la page detail_projet en responsive&#10;&#10;ecrit en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752486035376" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="met la page en responsive">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752486300603" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="met tout en noir ce qui sont en blanc meme le carte et les ecrit en blanc">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753843258222" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="met tout les endroit blanc en dark ok? je veux que cela soit propre et ultra moderne professionnel">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753842296473" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="modifier aussi le projet_detail dans un design plus professionnel et ultra moderne">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752421406856" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="modifier la page home donc ultra moderne et plus professionnel">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752358387581" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="modifier le design de projet">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752408150922" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="non les image ne s'affiche pas en responsive y a de marges qui depasse la limites sur ceux arrange toutes les pages comme home, blog, blog_detail, projet,projet_detail,">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753834131504" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="non rien n'a changer dans le design commentaire affiche ca avant meme que je clique sur publier donc met similliaire a facebook mais plus personnel et ultra moderne">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752474756686" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="on commence par home tout les cartes doit etres bien gris foncé et au dessus de ca Portfolio&#10;Projets Récents&#10;&#10;y a un barre blanche donc enleve ça dans le projet image aussi met gris foncé&#10;au dessous de bouton Voir tous les projets&#10;y a un card blanc et noir enleve ca &#10;&#10;ok?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1753844499172" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="oui">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752394651897" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="oui bien sur mais je ne vois pas l'image au centre donc apres le premier image ca pars au coin donc affiche ça dans 3 seconde">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752402025173" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="oui continuer">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752359856102" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="oui mais pourquoi le projet similaire est au dessus de commentaire?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752487399518" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="plus encore donc c mon portfolio pubs aussi">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752399892069" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="quand j'actualise le photo de commentaire disparait et affiche la photo par defaut">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752352919001" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="quand je clique sur j'aime dans le commentaire le nombre de j'aime d'augmente pas en autre terme ça ne fonctionne pas , quand je clique sur repondre y a pas une zone de texte qui apparaisse pour repondre a un commentaire donc rien ne fonctionne et quand je clique sur partager sans succes aussi">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752479925951" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="rien ne marche">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752397816295" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="si j'enregistre la photo de profil ça ne s'arregistre pas dans la base de donnée et meme quand je commente">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752352095344" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="supprime tous le mention de photo profil par defaut parce que si j'actualise la photo par defaut apparait toujours">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752354482114" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="toujours erreur File &quot;C:\Users\Administrateur\AppData\Roaming\Python\Python313\site-packages\django\template\base.py&quot;, line 611, in find_filter&#10;    raise TemplateSyntaxError(&quot;Invalid filter: '%s'&quot; % filter_name)&#10;django.template.exceptions.TemplateSyntaxError: Invalid filter: 'split'&#10;[13/Jul/2025 00:06:02] &quot;GET / HTTP/1.1&quot; 500 279753&#10;Not Found: /favicon.ico&#10;[13/Jul/2025 00:06:03] &quot;GET /favicon.ico HTTP/1.1&quot; 404 9125&#10;&#10;&#10;en francais">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752361604039" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="tu n'as pas mis le css que tu vennais d'ecrire dans le template home">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752362372150" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="une fois utilisateur commente une publication, met sa photo">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752338215482" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="vas dans static css creer un fichier home.css sans code">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752393863977" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="vas y">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752394374892" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="verfier si c'est bon">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1752392344107" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

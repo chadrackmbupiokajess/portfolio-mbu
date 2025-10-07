@@ -1,0 +1,35 @@
+/* Variables CSS pour les thèmes */
+:root {
+    /* Thème clair (par défaut) */
+    --card-bg: #ffffff;
+    --border-color: #dddfe2;
+    --text-color: #050505;
+    --text-muted: #65676b;
+    --hover-bg: #f0f2f5;
+    --primary-color: #1877f2;
+    --input-bg: #f0f2f5;
+    --image-bg: #f0f2f5;
+    --deleted-bg: rgba(0, 0, 0, 0.02);
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* Thème sombre */
+[data-theme="dark"] {
+    --card-bg: #242526;
+    --border-color: #3a3b3c;
+    --text-color: #e4e6eb;
+    --text-muted: #b0b3b8;
+    --hover-bg: #3a3b3c;
+    --primary-color: #2d88ff;
+    --input-bg: #3a3b3c;
+    --image-bg: #3a3b3c;
+    --deleted-bg: rgba(255, 0, 0, 0.05);
+}

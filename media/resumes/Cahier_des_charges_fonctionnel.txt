@@ -1,0 +1,107 @@
+Cahier des charges fonctionnel
+Système de gestion intégré pour une entreprise publique d’estampillage
+1. Présentation générale
+1.1. Objectif
+Mettre en place une application web centralisée permettant la gestion complète des activités d’estampillage, la comptabilité, les finances, le personnel, et l'intégration d’un système de gestion de courriels.
+
+1.2. Public cible
+Administrateurs internes
+
+Agents OPG (Opérateurs de la perception)
+
+Division de l’Industrie
+
+Direction Générale
+
+Assujettis externes
+
+2. Modules fonctionnels
+1. Système de gestion d’estampillage
+A. Déclaration détenue par les partenaires (Division de l’industrie)
+Création et gestion des assujettis
+
+Interface de déclaration :
+
+Quantité déclarée
+
+Nombre de sacs estampillés
+
+Sélection du taux d’imposition préconfiguré
+
+Calcul automatique du montant dû
+
+Génération de facture (PDF) avec détails
+
+Enregistrement et transfert automatique vers la note de perception
+
+B. Note de perception
+Notification à l’OPG/DG après déclaration
+
+Vérification des imprimés de valeur :
+
+Entrée du numéro de valeur
+
+Validation si non utilisé
+
+Impression conditionnelle de la note de perception
+
+Génération d’un fichier PDF
+
+Archivage des documents émis
+
+C. Gestion des OPG
+Impression des notes de perception
+
+Système de déclaration de fraude :
+
+Signalement des anomalies ou fraudes
+
+Application automatique d'une pénalité ou taxe (% configurable)
+
+Activation après un délai paramétrable (ex: 10 jours)
+
+Suivi des notes et transmission automatique aux départements concernés
+
+D. Dashboard & Administration
+Gestion des utilisateurs
+
+Affectation aux sites (frontières, péages…)
+
+Rôles : OPG, DG, Comptable, Chef Personnel, etc.
+
+Gestion des fonctions et niveaux d’accès
+
+Création et impression des imprimés de valeurs
+
+Vue statistique :
+
+Entrées journalières/mensuelles
+
+Répartition des revenus (% configurable : Entreprise, DGRKC, État)
+
+Gestion des assujettis (recherche, historique, profil)
+
+Suivi de toutes les transactions
+
+2. Journal d’activité (Audit log)
+Suivi des actions de chaque utilisateur
+
+Horodatage des opérations sensibles
+
+Export en PDF ou Excel
+
+3. Archivage et sauvegarde
+Archivage automatique des documents PDF (déclarations, notes, bulletins…)
+
+Sauvegarde régulière des bases de données
+
+Restauration possible sur demande
+
+4. Notifications
+Système d’alerte en temps réel :
+
+Nouvelle déclaration
+
+Échéance atteinte
+
+Message interne

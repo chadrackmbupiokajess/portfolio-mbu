@@ -1,0 +1,190 @@
+<!-- templates/registration/login.html -->
+{% extends 'portfolioapp/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Ajout de Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Styles intégrés pour la page de connexion -->
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .login-page {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative; /* Pour positionner les icônes */
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #555;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 40px 12px 40px; /* Espace pour les icônes */
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .form-group .icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #777;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .form-group .icon-left {
+        left: 10px;
+    }
+
+    .form-group .icon-right {
+        right: 10px;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .login-button:hover {
+        background-color: #0056b3;
+    }
+
+    .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .signup-link a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .signup-link a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<!-- Structure de la page de connexion -->
+<div class="login-page">
+    <!-- Logo -->
+    <div class="logo">
+        <img src="{% static 'images/logo-chadrackmbujess.png' %}" alt="Logo">
+    </div>
+
+    <!-- Titre -->
+    <h2 class="login-title">Connexion</h2>
+
+    <!-- Formulaire -->
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Champ Nom d'utilisateur avec icône -->
+        <div class="form-group">
+            <label for="id_username">Nom d'utilisateur</label>
+            <div style="position: relative;">
+                <i class="fas fa-user icon icon-left"></i> <!-- Icône utilisateur -->
+                <input type="text" name="username" id="id_username" class="form-control" required>
+            </div>
+        </div>
+
+        <!-- Champ Mot de passe avec icônes -->
+        <div class="form-group">
+            <label for="id_password">Mot de passe</label>
+            <div style="position: relative;">
+                <i class="fas fa-lock icon icon-left"></i> <!-- Icône cadenas -->
+                <input type="password" name="password" id="id_password" class="form-control" required>
+                <i class="fas fa-eye icon icon-right" id="togglePassword"></i> <!-- Icône œil -->
+            </div>
+        </div>
+
+        <!-- Bouton de connexion -->
+        <button type="submit" class="login-button">Se connecter</button>
+    </form>
+
+    <!-- Lien vers la page d'inscription -->
+    <p class="signup-link">
+        Pas encore de compte ? <a href="{% url 'signup' %}">Inscrivez-vous ici</a>.
+    </p>
+</div>
+
+<!-- JavaScript pour basculer l'affichage du mot de passe -->
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('id_password');
+        const icon = this;
+
+        // Basculer entre type "password" et "text"
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
+{% endblock %}
