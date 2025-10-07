@@ -10,3 +10,4 @@ typing_extensions==4.12.2
 django-material-admin==1.8.6
 material==0.1
 django-ckeditor-5
+django-csp==4.0
