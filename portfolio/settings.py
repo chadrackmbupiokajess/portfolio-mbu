@@ -52,10 +52,12 @@ INSTALLED_APPS = [
 
     'material',
     'material.admin',
+    'csp'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -309,6 +311,60 @@ MATERIAL_ADMIN_SITE = {
     'LOGIN_LOGO': 'images/logo-chadrackmbujess.png',  # Logo sur la page de connexion (optionnel)
     #'LOGOUT_BG': 'images/logo-chadrackmbujess.png',  # Image de fond sur la page de déconnexion (optionnel)
 }
+
+
+# ------------------------------
+# SECURITY
+# ------------------------------
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# X_FRAME_OPTIONS = 'DENY' # Remplacé par la directive CSP 'frame-ancestors'
+
+# ------------------------------
+# CONTENT SECURITY POLICY (CSP)
+# ------------------------------
+CONTENT_SECURITY_POLICY = {
+    'DIRECTIVES': {
+        'frame-ancestors': [
+            "'self'",
+            "http://127.0.0.1:8000"
+        ],
+        'default-src': [
+            "'self'",
+        ],
+        'script-src': [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",  # Requis pour Alpine.js
+            "https://cdn.tailwindcss.com",
+            "https://unpkg.com",
+            "https://cdnjs.cloudflare.com",
+            "https://cdn.jsdelivr.net",
+        ],
+        'style-src': [
+            "'self'",
+            "'unsafe-inline'",
+            "https://cdnjs.cloudflare.com",
+            "https://fonts.googleapis.com",
+            "https://cdn.jsdelivr.net",
+        ],
+        'font-src': [
+            "'self'",
+            "https://cdnjs.cloudflare.com",
+            "https://fonts.gstatic.com",
+            "https://cdn.jsdelivr.net",
+        ],
+        'img-src': [
+            "'self'",
+            "data:",
+            "https://ui-avatars.com",
+        ],
+    }
+}
+
+# ------------------------------
+# END
+# ------------------------------
 
 
 
