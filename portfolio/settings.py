@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-gzy9dxg(x==)q2)-&2n4m^)0wlf1e)a(+clg0l@^d)%yrz)e4&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['chadrackmbu.pythonanywhere.com']
+ALLOWED_HOSTS = ['chadrackmbu.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'material',
+    'material.admin',
     #'grappelli',
     # 'admin_interface',
     # 'colorfield',
@@ -50,14 +52,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount',  # Optionnel pour les connexions sociales
     'django_countries',
 
-    'material',
-    'material.admin',
-    'csp'
+    #'csp'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'csp.middleware.CSPMiddleware',
+    #'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -316,7 +316,7 @@ MATERIAL_ADMIN_SITE = {
 # ------------------------------
 # SECURITY
 # ------------------------------
-SECURE_BROWSER_XSS_FILTER = True
+"""SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 # X_FRAME_OPTIONS = 'DENY' # Remplacé par la directive CSP 'frame-ancestors'
 
@@ -364,7 +364,7 @@ CONTENT_SECURITY_POLICY = {
 
 # ------------------------------
 # END
-# ------------------------------
+# ------------------------------"""
 
 
 
