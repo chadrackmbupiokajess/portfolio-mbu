@@ -23,25 +23,31 @@
     <!-- Styles pour le mode sombre -->
     <style>
         /* ===== THÈME SOMBRE POUR HOME ===== */
-        [data-theme="dark"] .container {
-            background-color: #1a202c !important;
-            color: #e2e8f0 !important;
+        [data-theme="dark"] body {
+            background-color: #1a202c;
+            color: #e2e8f0;
         }
 
-        [data-theme="dark"] .section-header {
+        [data-theme="dark"] .section-header-modern,
+        [data-theme="dark"] .features-section,
+        [data-theme="dark"] .projects-section,
+        [data-theme="dark"] .expertise-section,
+        [data-theme="dark"] .testimonials-section {
             background-color: #1a202c !important;
-            color: #e2e8f0 !important;
         }
 
-        [data-theme="dark"] .section-title {
+        [data-theme="dark"] .section-title-modern {
             color: #f7fafc !important;
+            background: var(--gold-gradient) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
         }
 
-        [data-theme="dark"] .section-subtitle {
+        [data-theme="dark"] .section-subtitle-modern {
             color: #a0aec0 !important;
         }
 
-        [data-theme="dark"] .section-badge {
+        [data-theme="dark"] .section-badge-modern {
             background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
             color: #e2e8f0 !important;
         }
@@ -50,7 +56,6 @@
         [data-theme="dark"] .feature-card-modern {
             background-color: #2d3748 !important;
             border-color: #4a5568 !important;
-            color: #e2e8f0 !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
         }
 
@@ -66,11 +71,15 @@
             color: #e2e8f0 !important;
         }
 
+        [data-theme="dark"] .feature-icon-modern i {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
         /* Cartes de projets */
         [data-theme="dark"] .project-card-premium {
             background-color: #2d3748 !important;
             border-color: #4a5568 !important;
-            color: #e2e8f0 !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
         }
 
@@ -80,7 +89,6 @@
 
         [data-theme="dark"] .project-content-modern {
             background-color: #2d3748 !important;
-            color: #e2e8f0 !important;
         }
 
         [data-theme="dark"] .project-title-modern {
@@ -106,7 +114,12 @@
         [data-theme="dark"] .expertise-card {
             background-color: #2d3748 !important;
             border-color: #4a5568 !important;
-            color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .expertise-icon i {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            background: none !important;
         }
 
         [data-theme="dark"] .expertise-content h3 {
@@ -125,11 +138,14 @@
             background: rgba(255, 255, 255, 0.1) !important;
         }
 
+        [data-theme="dark"] .skill-progress::before {
+            background: var(--gold-gradient) !important;
+        }
+
         /* Cartes de témoignages */
         [data-theme="dark"] .testimonial-card-modern {
             background-color: #2d3748 !important;
             border-color: #4a5568 !important;
-            color: #e2e8f0 !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
         }
 
@@ -151,19 +167,6 @@
 
         [data-theme="dark"] .quote-icon {
             background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
-        }
-
-        /* Sections avec arrière-plan */
-        [data-theme="dark"] .features-section {
-            background-color: #1a202c !important;
-        }
-
-        [data-theme="dark"] .projects-section {
-            background-color: #1a202c !important;
-        }
-
-        [data-theme="dark"] .testimonials-section {
-            background-color: #1a202c !important;
         }
 
         /* Carousel */
@@ -265,9 +268,21 @@
 {% block title %}Accueil | Portfolio de Chadrack Mbu Jess{% endblock %}
 
 {% block content %}
-    <!-- Hero Section Ultra-Moderne -->
+    <!-- Hero Section (Retouchée) -->
     <section class="hero-section">
         <div class="hero-background">
+            <div class="bubbles">
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+            </div>
             <div class="hero-particles"></div>
             <div class="hero-gradient"></div>
         </div>
@@ -275,62 +290,44 @@
         <div class="container">
             <div class="row min-vh-100 align-items-center">
                 <div class="col-lg-6 hero-content">
-                    <div class="hero-badge">
-                        <span class="badge-text">Portfolio 2025</span>
-                        <div class="badge-glow"></div>
-                    </div>
-                    
-                    <h1 class="hero-title">
-                        <span class="title-line">Chadrack Mbu Jess</span>
-                        <span class="title-subtitle">Développeur Full-Stack</span>
-                        <span class="title-accent">& Expert IA</span>
-                    </h1>
-                    
-                    <p class="hero-description">
-                        🎯 <strong>Développeur Full-Stack Premium</strong> avec +3 ans d'expertise. Je transforme vos idées en 
-                        <span class="highlight-text">solutions digitales rentables</span> qui génèrent des résultats concrets. 
-                        <strong>ROI garanti</strong> ou remboursement intégral !
-                    </p>
-                    
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Projets</span>
+                    <div class="hero-card">
+                        <div class="hero-badge">
+                            <span class="badge-text">Portfolio 2025</span>
+                            <div class="badge-glow"></div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">3+</span>
-                            <span class="stat-label">Années</span>
+                        
+                        <h1 class="hero-title">
+                            <span class="title-line">Chadrack Mbu Jess</span>
+                            <span class="title-subtitle">Développeur Full-Stack & Expert IA</span>
+                        </h1>
+                        
+                        <p class="hero-description">
+                            Je conçois et développe des solutions web sur mesure, de la simple page vitrine à l'application complexe. Mon objectif : transformer votre vision en un produit digital <span class="highlight-text">performant et rentable</span>.
+                        </p>
+                        
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">50+</span>
+                                <span class="stat-label">Projets Livrés</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">3+</span>
+                                <span class="stat-label">Années d'Expérience</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">100%</span>
+                                <span class="stat-label">Satisfaction Client</span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100%</span>
-                            <span class="stat-label">Satisfaction</span>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-actions">
-                        <a href="{% url 'contact' %}" class="btn-primary-modern urgency-cta">
-                            <span>🚀 DÉMARRER MAINTENANT</span>
-                            <i class="fas fa-rocket"></i>
-                            <div class="urgency-badge">GRATUIT</div>
-                        </a>
-                        <a href="{% url 'projects' %}" class="btn-secondary-modern">
-                            <span>Voir mes réalisations</span>
-                            <i class="fas fa-eye"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="urgency-indicators">
-                        <div class="indicator-item">
-                            <i class="fas fa-clock text-warning"></i>
-                            <span>Consultation gratuite limitée</span>
-                        </div>
-                        <div class="indicator-item">
-                            <i class="fas fa-users text-success"></i>
-                            <span>+50 clients satisfaits</span>
-                        </div>
-                        <div class="indicator-item">
-                            <i class="fas fa-star text-warning"></i>
-                            <span>5/5 étoiles moyenne</span>
+                        
+                        <div class="hero-actions">
+                            <a href="{% url 'contact' %}" class="btn-primary-modern">
+                                <span>🚀 Démarrer un Projet</span>
+                            </a>
+                            <a href="{% url 'projects' %}" class="btn-secondary-modern">
+                                <span>Voir mes réalisations</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -375,10 +372,10 @@
     <!-- Section Fonctionnalités Premium -->
     <section class="features-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Innovations</span>
-                <h2 class="section-title">Fonctionnalités Avancées</h2>
-                <p class="section-subtitle">
+            <div class="section-header-modern">
+                <span class="section-badge-modern">Innovations</span>
+                <h2 class="section-title-modern">Fonctionnalités Avancées</h2>
+                <p class="section-subtitle-modern">
                     Découvrez les dernières technologies intégrées pour une expérience utilisateur exceptionnelle
                 </p>
             </div>
@@ -470,12 +467,12 @@
     </section>
 
     <!-- Section Projets Premium -->
-    <section class="projects-sectdion">
+    <section class="projects-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Portfolio</span>
-                <h2 class="section-title">Projets Récents</h2>
-                <p class="section-subtitle">
+            <div class="section-header-modern">
+                <span class="section-badge-modern">Portfolio</span>
+                <h2 class="section-title-modern">Projets Récents</h2>
+                <p class="section-subtitle-modern">
                     Une sélection de mes réalisations les plus innovantes et impactantes
                 </p>
             </div>
@@ -594,10 +591,10 @@
     <!-- Section Expertise -->
     <section class="expertise-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Expertise</span>
-                <h2 class="section-title">Domaines de Compétences</h2>
-                <p class="section-subtitle">
+            <div class="section-header-modern">
+                <span class="section-badge-modern">Expertise</span>
+                <h2 class="section-title-modern">Domaines de Compétences</h2>
+                <p class="section-subtitle-modern">
                     Technologies de pointe et méthodologies éprouvées pour des solutions d'excellence
                 </p>
             </div>
@@ -684,10 +681,10 @@
     <!-- Section Témoignages Premium -->
     <section class="testimonials-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Témoignages</span>
-                <h2 class="section-title">Retours Clients</h2>
-                <p class="section-subtitle">
+            <div class="section-header-modern">
+                <span class="section-badge-modern">Témoignages</span>
+                <h2 class="section-title-modern">Retours Clients</h2>
+                <p class="section-subtitle-modern">
                     La satisfaction client au cœur de chaque collaboration
                 </p>
             </div>
@@ -759,29 +756,13 @@
                 <div class="cta-background">
                     <div class="cta-particles"></div>
                 </div>
-                <h2>🚀 DERNIÈRE CHANCE : Consultation Gratuite Limitée !</h2>
-                <p>⏰ <strong>Plus que 3 places disponibles cette semaine</strong> - Transformez votre business avec des solutions digitales qui <span class="highlight-text">multiplient vos revenus par 3</span> en moins de 6 mois !</p>
-                
-                <div class="urgency-timer">
-                    <div class="timer-item">
-                        <span class="timer-number">02</span>
-                        <span class="timer-label">JOURS</span>
-                    </div>
-                    <div class="timer-item">
-                        <span class="timer-number">14</span>
-                        <span class="timer-label">HEURES</span>
-                    </div>
-                    <div class="timer-item">
-                        <span class="timer-number">35</span>
-                        <span class="timer-label">MINUTES</span>
-                    </div>
-                </div>
+                <h2>🚀 Prêt à transformer votre idée en réalité ?</h2>
+                <p>Discutons de votre projet. Je suis disponible pour une consultation gratuite afin de définir la meilleure stratégie pour atteindre vos objectifs.</p>
                 
                 <div class="cta-actions">
                     <a href="{% url 'contact' %}" class="btn-primary-modern urgency-cta">
-                        <span>💎 RÉSERVER MA CONSULTATION GRATUITE</span>
+                        <span>💎 Planifier une consultation</span>
                         <i class="fas fa-rocket"></i>
-                        <div class="urgency-badge">GRATUIT</div>
                     </a>
                     <a href="{% url 'projects' %}" class="btn-outline-modern">
                         <span>Voir mes réalisations</span>
@@ -791,9 +772,6 @@
                 
                 <div class="social-proof">
                     <p>✅ <strong>Rejoignez 50+ entrepreneurs</strong> qui ont déjà transformé leur business</p>
-                    <div class="testimonial-mini">
-                        <span>"Chadrack a multiplié notre chiffre d'affaires par 4 en 3 mois !" - <strong>Sarah M., CEO</strong></span>
-                    </div>
                 </div>
             </div>
         </div>

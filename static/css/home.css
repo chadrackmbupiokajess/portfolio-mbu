@@ -422,7 +422,7 @@ img, video, iframe, embed, object {
 .projects-section,
 .expertise-section,
 .testimonials-section {
-    padding: 100px 0;
+    padding: 10px 0;
     position: relative;
 }
 
@@ -435,8 +435,7 @@ img, video, iframe, embed, object {
 }
 
 .expertise-section {
-    background: var(--bg-dark);
-    color: var(--text-light);
+    background: var(--bg-light);
 }
 
 .testimonials-section {
@@ -471,7 +470,7 @@ img, video, iframe, embed, object {
 }
 
 .expertise-section .section-title {
-    color: var(--text-light);
+    color: var(--text-primary);
 }
 
 .section-subtitle {
@@ -483,7 +482,7 @@ img, video, iframe, embed, object {
 }
 
 .expertise-section .section-subtitle {
-    color: rgba(255,255,255,0.8);
+    color: var(--text-secondary);
 }
 
 /* ===== GRILLE DE FONCTIONNALITÉS ===== */
@@ -909,18 +908,17 @@ img, video, iframe, embed, object {
 }
 
 .expertise-card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: var(--text-light);
+    border: 1px solid #e0e0e0;
     border-radius: var(--border-radius);
     padding: 2.5rem;
     transition: var(--transition);
+    box-shadow: var(--shadow-soft);
 }
 
 .expertise-card:hover {
     transform: translateY(-10px);
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.2);
+    box-shadow: var(--shadow-strong);
 }
 
 .expertise-icon {
@@ -935,7 +933,7 @@ img, video, iframe, embed, object {
 
 .expertise-icon i {
     font-size: 2.5rem;
-    background: var(--gold-gradient);
+    background: var(--primary-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -945,7 +943,7 @@ img, video, iframe, embed, object {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
     border-radius: 50%;
     animation: pulse 3s ease-in-out infinite;
 }
@@ -953,12 +951,12 @@ img, video, iframe, embed, object {
 .expertise-content h3 {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--text-light);
+    color: var(--text-primary);
     margin-bottom: 1rem;
 }
 
 .expertise-content p {
-    color: rgba(255,255,255,0.8);
+    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 2rem;
 }
@@ -976,14 +974,14 @@ img, video, iframe, embed, object {
 }
 
 .skill-name {
-    color: var(--text-light);
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 0.9rem;
 }
 
 .skill-progress {
     height: 8px;
-    background: rgba(255,255,255,0.1);
+    background: #e0e0e0;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
@@ -995,7 +993,7 @@ img, video, iframe, embed, object {
     top: 0;
     left: 0;
     height: 100%;
-    background: var(--gold-gradient);
+    background: var(--primary-gradient);
     border-radius: 10px;
     animation: progressLoad 2s ease-out;
 }
@@ -1294,58 +1292,58 @@ img, video, iframe, embed, object {
     .title-line {
         font-size: 2.5rem;
     }
-    
+
     .title-subtitle {
         font-size: 1.8rem;
     }
-    
+
     .title-accent {
         font-size: 1.4rem;
     }
-    
+
     .hero-stats {
         gap: 2rem;
     }
-    
+
     .hero-actions {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .btn-primary-modern,
     .btn-secondary-modern {
         justify-content: center;
     }
-    
+
     .profile-image-modern {
         width: 250px;
         height: 250px;
     }
-    
+
     .features-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .projects-showcase {
         grid-template-columns: 1fr;
     }
-    
+
     .expertise-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .testimonials-slider {
         grid-template-columns: 1fr;
     }
-    
+
     .section-title {
         font-size: 2.5rem;
     }
-    
+
     .cta-content h2 {
         font-size: 2.5rem;
     }
-    
+
     .cta-actions {
         flex-direction: column;
         align-items: stretch;
@@ -1356,63 +1354,63 @@ img, video, iframe, embed, object {
     .container {
         padding: 0 15px;
     }
-    
+
     .hero-content {
         padding: 1rem 0;
     }
-    
+
     .title-line {
         font-size: 2rem;
     }
-    
+
     .title-subtitle {
         font-size: 1.5rem;
     }
-    
+
     .title-accent {
         font-size: 1.2rem;
     }
-    
+
     .hero-description {
         font-size: 1rem;
     }
-    
+
     .hero-stats {
         gap: 1.5rem;
         flex-wrap: wrap;
         justify-content: center;
     }
-    
+
     .stat-number {
         font-size: 2rem;
     }
-    
+
     .profile-image-modern {
         width: 200px;
         height: 200px;
     }
-    
+
     .floating-tech {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
-    
+
     .feature-card-modern,
     .project-card-premium,
     .expertise-card,
     .testimonial-card-modern {
         padding: 1.5rem;
     }
-    
+
     .cta-content h2 {
         font-size: 2rem;
     }
-    
+
     .cta-content p {
         font-size: 1.1rem;
     }
@@ -1549,7 +1547,7 @@ img, video, iframe, embed, object {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
@@ -1609,7 +1607,7 @@ img, video, iframe, embed, object {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.15), transparent),
         radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.1), transparent),
         radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.2), transparent),
@@ -1778,4 +1776,226 @@ img, video, iframe, embed, object {
 
 .indicator.active::after {
     border-color: rgba(255, 215, 0, 0.5);
+}
+
+/* ===== HERO CARD ===== */
+.hero-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    box-shadow: var(--shadow-strong);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+}
+
+.hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.15) 0%, transparent 30%);
+    transition: var(--transition);
+    opacity: 0;
+}
+
+.hero-card:hover::before {
+    opacity: 1;
+}
+
+/* ===== BUBBLES ===== */
+.bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    animation: rise 25s infinite;
+}
+
+.bubble:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    left: 10%;
+    animation-duration: 15s;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+    width: 20px;
+    height: 20px;
+    left: 20%;
+    animation-duration: 12s;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(3) {
+    width: 50px;
+    height: 50px;
+    left: 35%;
+    animation-duration: 18s;
+    animation-delay: 2s;
+}
+
+.bubble:nth-child(4) {
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    animation-duration: 13s;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(5) {
+    width: 35px;
+    height: 35px;
+    left: 55%;
+    animation-duration: 16s;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(6) {
+    width: 45px;
+    height: 45px;
+    left: 65%;
+    animation-duration: 11s;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(7) {
+    width: 75px;
+    height: 75px;
+    left: 70%;
+    animation-duration: 14s;
+    animation-delay: 2s;
+}
+
+.bubble:nth-child(8) {
+    width: 25px;
+    height: 25px;
+    left: 80%;
+    animation-duration: 17s;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(9) {
+    width: 15px;
+    height: 15px;
+    left: 70%;
+    animation-duration: 19s;
+    animation-delay: 0.5s;
+}
+
+.bubble:nth-child(10) {
+    width: 90px;
+    height: 90px;
+    left: 25%;
+    animation-duration: 22s;
+    animation-delay: 3s;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -100px;
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(100px);
+    }
+    100% {
+        bottom: 1080px;
+        transform: translateX(-200px);
+    }
+}
+
+/* ===== SECTION HEADER MODERN ===== */
+.section-header-modern {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.section-badge-modern {
+    display: inline-block;
+    padding: 10px 25px;
+    background: var(--primary-gradient);
+    color: var(--text-light);
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition);
+}
+
+.section-badge-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-strong);
+}
+
+.section-title-modern {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    background: var(--dark-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle-modern {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.expertise-section .section-title-modern {
+    color: var(--text-primary);
+    background: var(--dark-gradient);
+    -webkit-background-clip: text;
+}
+
+.expertise-section .section-subtitle-modern {
+    color: var(--text-secondary);
+}
+
+/* ===== FINAL DESIGN ADJUSTMENTS ===== */
+.projects-section {
+    background: var(--bg-light);
+}
+
+.expertise-section {
+    background: var(--bg-light);
+}
+
+.testimonials-section {
+    background: var(--bg-light);
+}
+
+.cta-section {
+    background: var(--primary-gradient);
 }
