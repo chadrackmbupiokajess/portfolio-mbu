@@ -14,6 +14,20 @@ def split_technologies(technologies):
     return []
 
 @register.filter
+def plain_text(value, words=None):
+    """Texte brut propre à partir d'un contenu HTML (CKEditor) : les balises
+    deviennent des espaces, les entités sont décodées, puis on tronque si besoin."""
+    import html as _html
+    import re as _re
+    text = _re.sub(r'<[^>]+>', ' ', str(value or ''))
+    text = _re.sub(r'\s+', ' ', _html.unescape(text)).strip()
+    if words:
+        parts = text.split(' ')
+        if len(parts) > int(words):
+            text = ' '.join(parts[:int(words)]).rstrip(',;:.') + '…'
+    return text
+
+@register.filter
 def is_liked_by(project, user):
     """Vérifie si un projet est liké par un utilisateur"""
     if user.is_authenticated:
@@ -39,6 +53,12 @@ def get_recent_blog_posts(limit=3):
 def get_featured_projects(limit=6):
     """Retourne les projets mis en avant"""
     return Project.objects.filter(featured=True).order_by('-created_at')[:limit]
+
+@register.simple_tag
+def get_featured_testimonials(limit=3):
+    """Retourne les témoignages mis en avant (validés depuis l'administration)"""
+    from ..models import Testimonial
+    return Testimonial.objects.filter(is_featured=True).order_by('-created_at')[:limit]
 
 @register.inclusion_tag('portfolioapp/tags/project_card.html')
 def project_card(project, show_actions=True):

@@ -1,0 +1,255 @@
+{% extends 'portfolioapp/base.html' %}
+{% load static %}
+{% load portfolio_extras %}
+
+{% block head %}
+    <meta name="description" content="Découvrez mes projets de développement web, IA et technologies modernes - Portfolio de Chadrack Mbu Jess">
+    <link href="{% static 'css/projects.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Mes Projets | Portfolio de Chadrack Mbu Jess{% endblock %}
+
+{% block content %}
+<!-- Hero Section pour les Projets -->
+<section class="projects-hero">
+    <div class="hero-background">
+        <div class="hero-particles"></div>
+    </div>
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Mes Réalisations</h1>
+            <p class="hero-subtitle">Découvrez mes projets innovants qui transforment les idées en solutions digitales performantes</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">{{ projects.count }}</span>
+                    <span class="stat-label">Projets</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">{{ categories.count }}</span>
+                    <span class="stat-label">Catégories</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Satisfaction</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="projects-main">
+    <div class="container">
+
+        <!-- Section de Filtrage Moderne -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h3 class="filters-title">Filtrer par catégorie</h3>
+                <div class="filters-count">{{ projects.count }} projet{{ projects.count|pluralize }}</div>
+            </div>
+            
+            <div class="categories-container">
+                <div class="categories-scroll" id="categoriesScroll">
+                    <!-- Bouton "Toutes" -->
+                    <a href="?category=all" class="category-btn {% if request.GET.category == 'all' or not request.GET.category %}active{% endif %}" data-aos="fade-up" data-aos-delay="100">
+                        <div class="category-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <span class="category-name">Toutes</span>
+                        <span class="category-count">{{ projects.count }}</span>
+                    </a>
+                    
+                    <!-- Boutons pour chaque catégorie -->
+                    {% for cat in categories %}
+                    <a href="?category={{ cat.id }}" class="category-btn {% if request.GET.category == cat.id|stringformat:'s' %}active{% endif %}" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:50|add:100 }}">
+                        <div class="category-icon">
+                            {% if "Développement" in cat.name %}
+                                <i class="fas fa-code"></i>
+                            {% elif "Design" in cat.name %}
+                                <i class="fas fa-palette"></i>
+                            {% elif "Marketing" in cat.name %}
+                                <i class="fas fa-bullhorn"></i>
+                            {% elif "IA" in cat.name %}
+                                <i class="fas fa-brain"></i>
+                            {% elif "Automatisation" in cat.name %}
+                                <i class="fas fa-robot"></i>
+                            {% elif "Portfolio" in cat.name %}
+                                <i class="fas fa-briefcase"></i>
+                            {% elif "Ecole" in cat.name %}
+                                <i class="fas fa-graduation-cap"></i>
+                            {% elif "BDD" in cat.name %}
+                                <i class="fas fa-database"></i>
+                            {% elif "App Web" in cat.name %}
+                                <i class="fas fa-globe"></i>
+                            {% elif "App Desktop" in cat.name %}
+                                <i class="fas fa-desktop"></i>
+                            {% elif "Aide" in cat.name %}
+                                <i class="fas fa-hands-helping"></i>
+                            {% elif "TV" in cat.name %}
+                                <i class="fas fa-tv"></i>
+                            {% elif "Eglise" in cat.name %}
+                                <i class="fas fa-church"></i>
+                            {% else %}
+                                <i class="fas fa-folder"></i>
+                            {% endif %}
+                        </div>
+                        <span class="category-name">{{ cat.name }}</span>
+                        <span class="category-count">{{ cat.project_set.count }}</span>
+                    </a>
+                    {% endfor %}
+                    
+                    <!-- Bouton pour les projets non catégorisés -->
+                    <a href="?category=uncategorized" class="category-btn {% if request.GET.category == 'uncategorized' %}active{% endif %}" data-aos="fade-up" data-aos-delay="{{ categories.count|multiply:50|add:200 }}">
+                        <div class="category-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <span class="category-name">Non catégorisé</span>
+                        <span class="category-count">{{ uncategorized_count|default:0 }}</span>
+                    </a>
+                </div>
+                
+                <!-- Boutons de navigation -->
+                <button class="scroll-btn scroll-left" onclick="scrollCategories(-200)" id="scrollLeft">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="scroll-btn scroll-right" onclick="scrollCategories(200)" id="scrollRight">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Grille des Projets -->
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card-wrapper" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                {% project_card project %}
+            </div>
+            {% empty %}
+            <!-- Message si aucun projet n'est trouvé -->
+            <div class="no-projects">
+                <div class="no-projects-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Aucun projet trouvé</h3>
+                <p>Essayez de modifier vos critères de filtrage ou explorez toutes les catégories.</p>
+                <a href="?category=all" class="btn-primary-modern">
+                    <span>Voir tous les projets</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination si nécessaire -->
+        {% if projects.has_other_pages %}
+        <div class="pagination-container">
+            <nav aria-label="Pagination des projets">
+                <ul class="pagination-modern">
+                    {% if projects.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ projects.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in projects.paginator.page_range %}
+                        {% if projects.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > projects.number|add:'-3' and num < projects.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if projects.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ projects.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ projects.paginator.num_pages }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</div>
+
+<!-- JavaScript pour les fonctionnalités avancées -->
+<script>
+    // Gestion du défilement des catégories
+    function scrollCategories(offset) {
+        const container = document.getElementById('categoriesScroll');
+        container.scrollBy({
+            left: offset,
+            behavior: 'smooth'
+        });
+        updateScrollButtons();
+    }
+
+    // Mise à jour de la visibilité des boutons de défilement
+    function updateScrollButtons() {
+        const container = document.getElementById('categoriesScroll');
+        const leftBtn = document.getElementById('scrollLeft');
+        const rightBtn = document.getElementById('scrollRight');
+        
+        if (container) {
+            leftBtn.style.opacity = container.scrollLeft <= 10 ? '0.3' : '1';
+            rightBtn.style.opacity = 
+                container.scrollLeft + container.clientWidth >= container.scrollWidth - 10 ? '0.3' : '1';
+        }
+    }
+
+    // Initialisation au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        updateScrollButtons();
+        
+        // Écouter les événements de scroll
+        const container = document.getElementById('categoriesScroll');
+        if (container) {
+            container.addEventListener('scroll', updateScrollButtons);
+        }
+        
+        // Animation des compteurs
+        const statNumbers = document.querySelectorAll('.stat-number');
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.textContent);
+            if (!isNaN(target)) {
+                animateCounter(stat, target);
+            }
+        });
+    });
+
+    // Animation des compteurs
+    function animateCounter(element, target, duration = 2000) {
+        let start = 0;
+        const increment = target / (duration / 16);
+        
+        function updateCounter() {
+            start += increment;
+            if (start < target) {
+                element.textContent = Math.floor(start);
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+            }
+        }
+        
+        updateCounter();
+    }
+</script>
+{% endblock %}

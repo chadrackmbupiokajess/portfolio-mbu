@@ -21,44 +21,24 @@ def blog(request):
     return render(request, 'portfolioapp/blog.html')
 
 def projects_view(request):
-    projects = Project.objects.all().order_by('-created_at')
-    categories = Category.objects.all()
-    category_icons = {
-        "Développement": "bi-code",
-        "Design": "bi-brush",
-        "Marketing": "bi-megaphone",
-        "IA": "bi-cpu",
-        "Gestion de Base de données": "bi-database",
-        "Automatisation": "bi-robot",
-        "Ecole": "bi-building",
-        "Portfolio": "bi-briefcase",
-        "App Desktop": "bi-laptop",
-        "App Web": "bi-globe",
-        "Aide": "bi-life-preserver",
-        "Eglise": "bi-house-door",
-        "TV": "bi-tv",
-    }
+    all_projects = Project.objects.all().order_by('-created_at')
+    projects = all_projects
+    categories = Category.objects.annotate(num_projects=Count('project')).order_by('name')
     category_filter = request.GET.get('category')
-    if category_filter:
-        if category_filter == 'all':
-            pass
-        elif category_filter == 'uncategorized':
+    if category_filter and category_filter != 'all':
+        if category_filter == 'uncategorized':
             projects = projects.filter(category__isnull=True)
         else:
             try:
-                category_id = int(category_filter)
-                projects = projects.filter(category_id=category_id)
+                projects = projects.filter(category_id=int(category_filter))
             except ValueError:
-                pass
-    for project in projects:
-        if not project.image:
-            project.image_url = '/static/images/default.jpg'
-        else:
-            project.image_url = project.image.url
+                category_filter = None
     return render(request, 'portfolioapp/projects.html', {
         'projects': projects,
         'categories': categories,
-        'category_icons': category_icons,
+        'total_count': all_projects.count(),
+        'uncategorized_count': all_projects.filter(category__isnull=True).count(),
+        'active_category': category_filter,
     })
 
 
@@ -66,55 +46,34 @@ def projects_view(request):
 def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
 
-    # Récupérer les commentaires triés par date de création décroissante
-    comments = Comment.objects.filter(project=project).order_by('-created_at')
+    # Compter la visite (une fois par session et par projet)
+    seen = request.session.get('seen_projects', [])
+    if project.pk not in seen:
+        project.increment_views()
+        seen.append(project.pk)
+        request.session['seen_projects'] = seen[-200:]
 
-    # Récupérer les catégories et les projets associés
-    categories = Category.objects.all()
-    categories_with_projects = [category for category in categories if
-                                Project.objects.filter(category=category).exists()]
-    projects_by_category = {category: Project.objects.filter(category=category) for category in
-                            categories_with_projects}
+    # Commentaires de premier niveau (les réponses sont affichées sous leur parent)
+    comments = (Comment.objects
+                .filter(project=project, parent__isnull=True, is_deleted=False)
+                .select_related('author', 'author__profile')
+                .order_by('-created_at'))
+    comments_count = Comment.objects.filter(project=project, is_deleted=False).count()
 
-    # Récupérer les projets non catégorisés
-    uncategorized_projects = Project.objects.filter(category__isnull=True)
-    if uncategorized_projects.exists():
-        projects_by_category["non_categorise"] = uncategorized_projects
-
-    # Gestion des formulaires de commentaire et de réponse
-    if request.method == 'POST':
-        # Gestion de l'ajout de commentaire
-        if 'comment_form' in request.POST:
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.project = project
-                comment.author = request.user
-                comment.save()
-                return redirect('project_detail', pk=project.id)
-
-        # Gestion de l'ajout de réponse
-        elif 'reply_form' in request.POST:
-            reply_form = ReplyForm(request.POST)
-            if reply_form.is_valid():
-                reply = reply_form.save(commit=False)
-                comment_id = request.POST.get('comment_id')
-                comment = get_object_or_404(Comment, id=comment_id)
-                reply.comment = comment
-                reply.author = request.user
-                reply.save()
-                return redirect('project_detail', pk=comment.project.id)
-    else:
-        form = CommentForm()
-        reply_form = ReplyForm()
+    # Autres projets : même catégorie d'abord, puis les plus récents
+    related_projects = list(Project.objects.filter(category=project.category)
+                            .exclude(pk=project.pk).order_by('-created_at')[:3]) if project.category else []
+    if len(related_projects) < 3:
+        exclude_ids = [project.pk] + [p.pk for p in related_projects]
+        related_projects += list(Project.objects.exclude(pk__in=exclude_ids)
+                                 .order_by('-created_at')[:3 - len(related_projects)])
 
     return render(request, 'portfolioapp/project_detail.html', {
         'project': project,
         'comments': comments,
-        'projects_by_category': projects_by_category,
-        'categories': categories_with_projects,
-        'form': form,
-        'reply_form': reply_form,
+        'comments_count': comments_count,
+        'related_projects': related_projects,
+        'is_liked': request.user.is_authenticated and ProjectLike.objects.filter(project=project, user=request.user).exists(),
     })
 
 
@@ -145,11 +104,14 @@ def add_comment(request, project_id):
                     link=reverse('project_detail', args=[project.id]) + f"#comment-{comment.id}"
                 )
             
+            if request.headers.get('x-requested-with') != 'XMLHttpRequest':
+                return redirect(reverse('project_detail', args=[project.id]) + f"#comment-{comment.id}")
+
             # Rendre le template du commentaire en HTML
             comment_html = render_to_string('portfolioapp/comment_item.html', {
                 'comment': comment,
                 'user': request.user
-            })
+            }, request=request)
             return JsonResponse({
                 'success': True, 
                 'comment_html': comment_html,
@@ -180,12 +142,15 @@ def add_reply(request, comment_id):
                     link=reverse('project_detail', args=[comment.project.id]) + f"#comment-{comment.id}"
                 )
             
+            if request.headers.get('x-requested-with') != 'XMLHttpRequest':
+                return redirect(reverse('project_detail', args=[comment.project.id]) + f"#comment-{reply.id}")
+
             # Rendre le template de la réponse en HTML
             reply_html = render_to_string('portfolioapp/comment_item.html', {
                 'comment': reply,
                 'user': request.user,
                 'is_reply': True
-            })
+            }, request=request)
             return JsonResponse({
                 'success': True, 
                 'reply_html': reply_html,
@@ -277,17 +242,19 @@ def contact(request):
 @login_required
 def toggle_like(request, project_id):
     """Vue pour liker/unliker un projet"""
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Méthode non autorisée'}, status=405)
     project = get_object_or_404(Project, id=project_id)
     like, created = ProjectLike.objects.get_or_create(user=request.user, project=project)
-    
+
     if not created:
         like.delete()
         liked = False
     else:
         liked = True
-    
+
     likes_count = project.likes.count()
-    return JsonResponse({'liked': liked, 'likes_count': likes_count})
+    return JsonResponse({'success': True, 'liked': liked, 'likes_count': likes_count})
 
 def search_projects(request):
     """Vue pour la recherche avancée de projets"""

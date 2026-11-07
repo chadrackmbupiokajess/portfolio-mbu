@@ -1,0 +1,151 @@
+{% extends 'portfolioapp/base.html' %}
+{% block title %}Modifier le profil{% endblock %}
+
+{% block content %}
+<!-- Styles personnalisés pour la page de modification du profil -->
+<style>
+    .profile-edit-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-edit-container h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        color: #555;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .form-group .help-text {
+        font-size: 14px;
+        color: #777;
+        margin-top: 5px;
+    }
+
+    .form-group .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Effet de survol pour les champs */
+    .form-group input:hover,
+    .form-group textarea:hover,
+    .form-group select:hover {
+        border-color: #007bff;
+    }
+</style>
+
+<!-- Contenu de la page de modification du profil -->
+<div class="profile-edit-container">
+    <h1>Modifier le profil</h1>
+    
+    <!-- Messages de succès/erreur -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Photo de profil actuelle -->
+        {% if form.instance.profile_picture %}
+            <div class="form-group text-center mb-4">
+                <label>Photo de profil actuelle :</label>
+                <div class="mt-2">
+                    <img src="{{ form.instance.profile_picture.url }}" alt="Photo de profil" 
+                         class="rounded-circle" width="100" height="100" style="object-fit: cover;">
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Affichage des champs du formulaire avec des styles personnalisés -->
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+                <div class="error-message">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <!-- Boutons -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary flex-fill">
+                <i class="bi bi-check-circle"></i> Enregistrer
+            </button>
+            <a href="{% url 'profile' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Annuler
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

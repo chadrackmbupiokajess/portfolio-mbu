@@ -1,0 +1,291 @@
+{% extends 'portfolioapp/base.html' %}
+{% load static %}
+
+{% block title %}Statistiques - Mon Portfolio{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- En-tête -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 mb-3">
+                <i class="bi bi-graph-up text-primary"></i> Statistiques du Portfolio
+            </h1>
+            <p class="lead text-muted">
+                Aperçu des performances et de l'activité de mon portfolio
+            </p>
+        </div>
+    </div>
+
+    <!-- Statistiques générales -->
+    <div class="row mb-5">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="bi bi-folder-fill" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-0">{{ stats.total_projects }}</h2>
+                            <p class="mb-0">Projet{{ stats.total_projects|pluralize }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="bi bi-journal-text" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-0">{{ stats.total_blog_posts }}</h2>
+                            <p class="mb-0">Article{{ stats.total_blog_posts|pluralize }} de blog</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-info text-white shadow">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="bi bi-eye-fill" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-0">{{ stats.total_views }}</h2>
+                            <p class="mb-0">Vue{{ stats.total_views|pluralize }} totales</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-warning text-dark shadow">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="bi bi-heart-fill" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-0">{{ stats.total_likes }}</h2>
+                            <p class="mb-0">Like{{ stats.total_likes|pluralize }} reçus</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projets populaires -->
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-trophy"></i> Projets les plus populaires
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if popular_projects %}
+                        {% for project in popular_projects %}
+                            <div class="d-flex align-items-center mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}">
+                                <div class="me-3">
+                                    {% if project.image %}
+                                        <img src="{{ project.image.url }}" class="rounded" 
+                                             alt="{{ project.title }}" width="60" height="60" style="object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                             style="width: 60px; height: 60px;">
+                                            <i class="bi bi-folder text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <a href="{% url 'project_detail' project.pk %}" class="text-decoration-none">
+                                            {{ project.title }}
+                                        </a>
+                                    </h6>
+                                    <div class="d-flex align-items-center text-muted small">
+                                        <span class="me-3">
+                                            <i class="bi bi-eye"></i> {{ project.views_count }} vues
+                                        </span>
+                                        <span>
+                                            <i class="bi bi-heart"></i> {{ project.likes.count }} likes
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-primary">{{ forloop.counter }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-folder text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-2">Aucun projet disponible</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Articles populaires -->
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-star"></i> Articles les plus lus
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if popular_posts %}
+                        {% for post in popular_posts %}
+                            <div class="d-flex align-items-center mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}">
+                                <div class="me-3">
+                                    {% if post.image %}
+                                        <img src="{{ post.image.url }}" class="rounded" 
+                                             alt="{{ post.title }}" width="60" height="60" style="object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                             style="width: 60px; height: 60px;">
+                                            <i class="bi bi-journal-text text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <a href="{% url 'blog_detail' post.slug %}" class="text-decoration-none">
+                                            {{ post.title }}
+                                        </a>
+                                    </h6>
+                                    <div class="text-muted small">
+                                        <i class="bi bi-eye"></i> {{ post.views_count }} vues
+                                        <span class="ms-2">
+                                            <i class="bi bi-calendar"></i> {{ post.published_date|date:"d M Y" }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-success">{{ forloop.counter }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-journal-text text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-2">Aucun article disponible</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projets récents -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-clock"></i> Projets récents
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if recent_projects %}
+                        <div class="row">
+                            {% for project in recent_projects %}
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3">
+                                                    {% if project.image %}
+                                                        <img src="{{ project.image.url }}" class="rounded" 
+                                                             alt="{{ project.title }}" width="50" height="50" style="object-fit: cover;">
+                                                    {% else %}
+                                                        <div class="bg-white rounded d-flex align-items-center justify-content-center" 
+                                                             style="width: 50px; height: 50px;">
+                                                            <i class="bi bi-folder text-muted"></i>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1">
+                                                        <a href="{% url 'project_detail' project.pk %}" class="text-decoration-none">
+                                                            {{ project.title|truncatechars:25 }}
+                                                        </a>
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        <i class="bi bi-calendar"></i> {{ project.created_at|date:"d M Y" }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-folder text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-2">Aucun projet récent</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informations sur la dernière mise à jour -->
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i>
+                <strong>Dernière mise à jour des statistiques :</strong> 
+                {{ stats.last_updated|date:"d F Y à H:i" }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="btn-group" role="group">
+                <a href="{% url 'projects' %}" class="btn btn-primary">
+                    <i class="bi bi-folder"></i> Voir tous les projets
+                </a>
+                <a href="{% url 'blog' %}" class="btn btn-success">
+                    <i class="bi bi-journal-text"></i> Voir le blog
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-info">
+                    <i class="bi bi-house"></i> Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .bg-primary { background-color: #007bff !important; }
+    .bg-success { background-color: #28a745 !important; }
+    .bg-info { background-color: #17a2b8 !important; }
+    .bg-warning { background-color: #ffc107 !important; }
+</style>
+{% endblock %}

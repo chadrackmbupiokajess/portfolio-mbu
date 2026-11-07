@@ -1,177 +1,50 @@
 {% extends 'portfolioapp/base.html' %}
-{% block title %}Profil de {{ profile.user.username }}{% endblock %}
-{% load static %}
+
+{% block title %}Mon profil — Chadrack Mbu Jess{% endblock %}
+{% block head %}<meta name="robots" content="noindex">{% endblock %}
+
 {% block content %}
-<!-- Styles personnalisés pour la page de profil -->
-<style>
-    .profile-container {
-        max-width: 1200px;
-        margin: 50px auto;
-        padding: 30px;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        background-color: #fff;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        animation: fadeIn 0.5s ease-in-out;
-    }
+<div class="container-site" style="max-width: 900px">
+    <header class="profile-head">
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="" class="avatar avatar-lg">
+        {% else %}
+            <span class="avatar avatar-lg" aria-hidden="true">{{ profile.user.username|first }}</span>
+        {% endif %}
+        <div>
+            <h1>{{ profile.full_name|default:profile.user.username }}</h1>
+            <p class="handle">@{{ profile.user.username }}{% if profile.city or profile.country %} &nbsp;<i class="bi bi-geo-alt" aria-hidden="true"></i> {% if profile.city %}{{ profile.city }}{% endif %}{% if profile.city and profile.country %}, {% endif %}{% if profile.country %}{{ profile.country.name }}{% endif %}{% endif %}</p>
+        </div>
+        <div class="actions">
+            <a href="{% url 'edit_profile' %}" class="btn-site btn-outline-site btn-sm-site"><i class="bi bi-pencil" aria-hidden="true"></i> Modifier le profil</a>
+        </div>
+    </header>
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .profile-picture {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #007bff;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .profile-picture:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
-    }
-    
-    .profile-picture-placeholder {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        background-color: #f8f9fa;
-        border: 4px solid #dee2e6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-    }
-
-    .profile-header h1 {
-        font-size: 32px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 10px;
-        animation: slideIn 0.5s ease-in-out;
-    }
-
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateX(-20px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-
-    .profile-header .username {
-        font-size: 18px;
-        color: #777;
-        margin-bottom: 20px;
-        animation: slideIn 0.5s ease-in-out 0.2s;
-    }
-
-    .profile-bio {
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 30px;
-        animation: slideIn 0.5s ease-in-out 0.4s;
-    }
-
-    .profile-details {
-        list-style: none;
-        padding: 0;
-    }
-
-    .profile-details li {
-        margin-bottom: 15px;
-        font-size: 16px;
-        color: #555;
-        animation: slideIn 0.5s ease-in-out 0.6s;
-    }
-
-    .profile-details li strong {
-        color: #333;
-        font-weight: 500;
-    }
-
-    .profile-details a {
-        color: #007bff;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .profile-details a:hover {
-        color: #0056b3;
-        text-decoration: underline;
-    }
-
-    .btn-edit-profile {
-        padding: 12px 24px;
-        background-color: #007bff;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 500;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        animation: slideIn 0.5s ease-in-out 0.8s;
-    }
-
-    .btn-edit-profile:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-    }
-</style>
-
-<!-- Contenu de la page de profil -->
-<div class="profile-container">
-    <div class="row">
-        <!-- Photo de profil -->
-        <div class="col-md-4 text-center">
-            {% if profile.profile_picture %}
-                <img src="{{ profile.profile_picture.url }}" alt="Photo de profil" class="profile-picture">
+    <div class="layout-aside">
+        <section aria-labelledby="bio-title">
+            <h2 id="bio-title" class="h4">Bio</h2>
+            {% if profile.bio %}
+                <p>{{ profile.bio|linebreaksbr }}</p>
             {% else %}
-                <div class="profile-picture-placeholder"></div>
+                <p class="muted">Vous n'avez pas encore rédigé de bio. <a href="{% url 'edit_profile' %}">Ajouter une bio</a></p>
             {% endif %}
-        </div>
-        <!-- Informations du profil -->
-        <div class="col-md-8">
-            <div class="profile-header">
-                <h1>{{ profile.full_name }}</h1>
-                <p class="username">@{{ profile.user.username }}</p>
-            </div>
-            <div class="profile-bio">
-                <p>{{ profile.bio }}</p>
-            </div>
-            <ul class="profile-details">
-                {% if profile.date_of_birth %}
-                    <li><strong>Date de naissance :</strong> {{ profile.date_of_birth }}</li>
-                {% endif %}
-                {% if profile.education_level %}
-                    <li><strong>Niveau d'études :</strong> {{ profile.get_education_level_display }}</li>
-                {% endif %}
-                {% if profile.sex %}
-                    <li><strong>Sexe :</strong> {{ profile.get_sex_display }}</li>
-                {% endif %}
-                {% if profile.activities %}
-                    <li><strong>Activités :</strong> {{ profile.activities }}</li>
-                {% endif %}
-                {% if profile.city %}
-                    <li><strong>Ville :</strong> {{ profile.city }}</li>
-                {% endif %}
-                {% if profile.country %}
-                    <li><strong>Pays :</strong> {{ profile.country.name }}</li>
-                {% endif %}
-                {% if profile.civil_status %}
-                    <li><strong>État civil :</strong> {{ profile.get_civil_status_display }}</li>
-                {% endif %}
-                {% if profile.website %}
-                    <li><strong>Site web :</strong> <a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></li>
-                {% endif %}
-                {% if profile.location %}
-                    <li><strong>Localisation :</strong> {{ profile.location }}</li>
-                {% endif %}
-            </ul>
-            <!-- Bouton pour modifier le profil -->
-            <a href="{% url 'edit_profile' %}" class="btn-edit-profile">Modifier le profil</a>
-        </div>
+            {% if profile.activities %}
+                <h2 class="h4 mt-5">Activités</h2>
+                <p>{{ profile.activities|linebreaksbr }}</p>
+            {% endif %}
+        </section>
+
+        <aside class="panel" aria-label="Informations">
+            <h2>Informations</h2>
+            <dl class="facts">
+                <div><dt>Membre depuis</dt><dd>{{ profile.user.date_joined|date:"F Y" }}</dd></div>
+                {% if profile.education_level %}<div><dt>Études</dt><dd>{{ profile.get_education_level_display }}</dd></div>{% endif %}
+                {% if profile.location %}<div><dt>Localisation</dt><dd>{{ profile.location }}</dd></div>{% endif %}
+                {% if profile.date_of_birth %}<div><dt>Naissance</dt><dd>{{ profile.date_of_birth|date:"j F Y" }}</dd></div>{% endif %}
+                {% if profile.sex %}<div><dt>Sexe</dt><dd>{{ profile.get_sex_display }}</dd></div>{% endif %}
+                {% if profile.civil_status %}<div><dt>État civil</dt><dd>{{ profile.get_civil_status_display }}</dd></div>{% endif %}
+            </dl>
+        </aside>
     </div>
 </div>
 {% endblock %}

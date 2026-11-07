@@ -7,8 +7,8 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ['email', 'message']
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Votre email'}),
-            'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Votre message', 'rows': 5}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'nom@exemple.com', 'autocomplete': 'email'}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Bonjour, je souhaite…', 'rows': 7}),
         }
 
 class CommentForm(forms.ModelForm):
@@ -89,7 +89,16 @@ class ProfileForm(forms.ModelForm):
             'full_name': forms.TextInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'profile_picture': forms.FileInput(attrs={'accept': 'image/*'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Même apparence pour tous les champs (listes déroulantes et fichiers compris)
+        for field in self.fields.values():
+            css = field.widget.attrs.get('class', '')
+            if 'form-control' not in css:
+                field.widget.attrs['class'] = (css + ' form-control').strip()
 
 class TestimonialForm(forms.ModelForm):
     class Meta:

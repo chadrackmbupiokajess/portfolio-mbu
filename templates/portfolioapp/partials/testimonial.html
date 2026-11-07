@@ -1,0 +1,17 @@
+<figure class="quote{% if testimonial.is_featured %} is-featured{% endif %}">
+    <div class="stars" aria-label="Note : {{ testimonial.rating }} sur 5">
+        {% for i in "12345" %}<span class="{% if forloop.counter > testimonial.rating %}off{% endif %}" aria-hidden="true">&#9733;</span>{% endfor %}
+    </div>
+    <blockquote>{{ testimonial.message|linebreaksbr }}</blockquote>
+    <figcaption>
+        {% if testimonial.photo %}
+            <img src="{{ testimonial.photo.url }}" alt="" class="avatar" loading="lazy">
+        {% else %}
+            <span class="avatar" aria-hidden="true">{{ testimonial.name|first }}</span>
+        {% endif %}
+        <div>
+            <strong>{{ testimonial.name }}</strong>
+            <span>{{ testimonial.position }}{% if testimonial.company %}, {{ testimonial.company }}{% endif %}</span>
+        </div>
+    </figcaption>
+</figure>

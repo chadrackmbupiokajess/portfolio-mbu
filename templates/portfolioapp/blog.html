@@ -1,8 +1,13 @@
 {% extends 'portfolioapp/base.html' %}
 
-{% block title %}Blog{% endblock %}
+{% block title %}Blog — Chadrack Mbu Jess{% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Mon Blog</h1>
-    <p>Articles à venir...</p>
+<div class="container-site">
+    <header class="page-head">
+        <h1>Blog</h1>
+        <p class="lead-text">Les premiers articles arrivent bientôt.</p>
+    </header>
+    <a href="{% url 'blog' %}" class="btn-site btn-outline-site">Voir les articles</a>
+</div>
 {% endblock %}

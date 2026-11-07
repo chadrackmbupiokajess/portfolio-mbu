@@ -1,13 +1,2 @@
-{% load static %}
-<div class="reply" id="reply-{{ reply.id }}">
-    <div class="reply-header">
-        {% if reply.author.profile.profile_picture %}
-            <img src="{{ reply.author.profile.profile_picture.url }}" alt="{{ reply.author.username }}" class="reply-author-img">
-        {% else %}
-            <div class="reply-author-placeholder"></div>
-        {% endif %}
-        <div class="reply-author-name">{{ reply.author.username }}</div>
-        <div class="reply-date">{{ reply.created_at|timesince }}</div>
-    </div>
-    <div class="reply-text">{{ reply.text }}</div>
-</div> 
+{# Conservé pour compatibilité : les réponses utilisent le même gabarit que les commentaires. #}
+{% include 'portfolioapp/comment_item.html' with comment=reply is_reply=True %}

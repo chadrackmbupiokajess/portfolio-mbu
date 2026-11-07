@@ -1,0 +1,157 @@
+{% extends 'portfolioapp/base.html' %}
+{% load static %}
+{% load portfolio_extras %}
+
+{% block head %}
+    <meta name="description" content="Blog de Chadrack Mbu Jess - Articles sur le développement web, l'IA et les technologies modernes">
+    <meta name="keywords" content="blog, développement web, IA, technologies, tutoriels, Chadrack Mbu Jess">
+    <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Blog | Portfolio de Chadrack Mbu Jess{% endblock %}
+
+{% block content %}
+<div class="blog-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Blog & Articles</h1>
+            <p class="hero-subtitle">Découvrez mes réflexions sur le développement web, l'IA et les technologies modernes</p>
+        </div>
+    </div>
+</div>
+
+<section class="blog-section">
+    <div class="container">
+        <div class="row">
+            <!-- Contenu principal -->
+            <div class="col-lg-8">
+                <!-- Barre de recherche -->
+                <div class="search-bar mb-4">
+                    <form method="GET" class="d-flex">
+                        <input type="text" name="search" class="form-control me-2" 
+                               placeholder="Rechercher un article..." 
+                               value="{{ search_query }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Articles -->
+                <div class="blog-grid">
+                    {% for post in page_obj %}
+                        {% blog_card post %}
+                    {% empty %}
+                        <div class="no-posts">
+                            <i class="fas fa-blog fa-3x mb-3"></i>
+                            <h3>Aucun article trouvé</h3>
+                            <p>Aucun article ne correspond à votre recherche.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <nav aria-label="Pagination des articles">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="blog-sidebar">
+                    <!-- Tags populaires -->
+                    <div class="sidebar-widget">
+                        <h4 class="widget-title">Tags Populaires</h4>
+                        <div class="tag-cloud">
+                            {% for tag in popular_tags %}
+                                <a href="?tag={{ tag.id }}" class="tag-item" style="background-color: {{ tag.color }};">
+                                    {{ tag.name }}
+                                    <span class="tag-count">{{ tag.blog_count }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Articles récents -->
+                    <div class="sidebar-widget">
+                        <h4 class="widget-title">Articles Récents</h4>
+                        <div class="recent-posts">
+                            {% get_recent_blog_posts 5 as recent_posts %}
+                            {% for post in recent_posts %}
+                                <div class="recent-post-item">
+                                    {% if post.image %}
+                                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="recent-post-image" loading="lazy">
+                                    {% endif %}
+                                    <div class="recent-post-content">
+                                        <h6><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h6>
+                                        <small class="text-muted">{{ post.published_date|date:"d M Y" }}</small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Projets populaires -->
+                    <div class="sidebar-widget">
+                        <h4 class="widget-title">Projets Populaires</h4>
+                        <div class="popular-projects">
+                            {% get_popular_projects 3 as popular_projects %}
+                            {% for project in popular_projects %}
+                                <div class="popular-project-item">
+                                    {% if project.image %}
+                                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-thumb">
+                                    {% endif %}
+                                    <div class="project-info">
+                                        <h6><a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a></h6>
+                                        <small class="text-muted">{{ project.views_count }} vues</small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

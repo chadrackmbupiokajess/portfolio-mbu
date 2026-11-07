@@ -1,0 +1,214 @@
+{% extends 'portfolioapp/base.html' %}
+{% load static %}
+
+{% block title %}Conditions d'Utilisation | Portfolio de Chadrack Mbu Jess{% endblock %}
+
+{% block head %}
+<meta name="description" content="Conditions d'utilisation du portfolio de Chadrack Mbu Jess. Règles et conditions d'usage du site web.">
+<meta name="robots" content="index, follow">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="legal-document">
+                <h1 class="text-center mb-5">Conditions d'Utilisation</h1>
+                
+                <div class="document-meta text-center mb-4">
+                    <p class="text-muted">Dernière mise à jour : {{ "now"|date:"d F Y" }}</p>
+                </div>
+
+                <div class="legal-content">
+                    <section class="mb-5">
+                        <h2>1. Acceptation des conditions</h2>
+                        <p>
+                            En accédant et en utilisant le site web de <strong>Chadrack Mbu Jess</strong> 
+                            (ci-après "le Site"), vous acceptez d'être lié par ces conditions d'utilisation. 
+                            Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser ce site.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>2. Description du service</h2>
+                        <p>
+                            Ce site est un portfolio professionnel présentant les compétences, projets et services 
+                            de Chadrack Mbu Jess, développeur full-stack et expert en intelligence artificielle. 
+                            Le site propose également un blog, un système de commentaires et des fonctionnalités interactives.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>3. Utilisation acceptable</h2>
+                        <h3>3.1 Vous vous engagez à :</h3>
+                        <ul>
+                            <li>Utiliser le site de manière légale et respectueuse</li>
+                            <li>Fournir des informations exactes dans les formulaires</li>
+                            <li>Respecter les droits de propriété intellectuelle</li>
+                            <li>Ne pas perturber le fonctionnement du site</li>
+                        </ul>
+
+                        <h3>3.2 Il est interdit de :</h3>
+                        <ul>
+                            <li>Publier du contenu offensant, diffamatoire ou illégal</li>
+                            <li>Tenter d'accéder à des zones non autorisées</li>
+                            <li>Utiliser des robots ou scripts automatisés</li>
+                            <li>Transmettre des virus ou codes malveillants</li>
+                            <li>Usurper l'identité d'autrui</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>4. Contenu utilisateur</h2>
+                        <p>
+                            En publiant du contenu sur le site (commentaires, messages), vous accordez 
+                            une licence non exclusive pour utiliser, modifier et afficher ce contenu. 
+                            Vous restez responsable du contenu que vous publiez.
+                        </p>
+                        <p>
+                            Nous nous réservons le droit de modérer, modifier ou supprimer tout contenu 
+                            qui viole ces conditions ou qui est jugé inapproprié.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>5. Propriété intellectuelle</h2>
+                        <p>
+                            Tout le contenu du site (textes, images, code, design) est protégé par les 
+                            droits d'auteur et appartient à Chadrack Mbu Jess, sauf indication contraire. 
+                            Vous ne pouvez pas reproduire, distribuer ou modifier ce contenu sans autorisation écrite.
+                        </p>
+                        <p>
+                            Les projets présentés dans le portfolio peuvent être soumis à des licences spécifiques 
+                            mentionnées dans leurs descriptions respectives.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>6. Services tiers</h2>
+                        <p>Le site utilise des services tiers :</p>
+                        <ul>
+                            <li><strong>Google Analytics :</strong> Pour l'analyse du trafic</li>
+                            <li><strong>Google AdSense :</strong> Pour l'affichage de publicités</li>
+                            <li><strong>Services d'hébergement :</strong> Pour la disponibilité du site</li>
+                        </ul>
+                        <p>
+                            Ces services ont leurs propres conditions d'utilisation et politiques de confidentialité 
+                            auxquelles vous êtes également soumis.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>7. Disponibilité du service</h2>
+                        <p>
+                            Nous nous efforçons de maintenir le site accessible 24h/24 et 7j/7, mais nous ne 
+                            garantissons pas une disponibilité ininterrompue. Le site peut être temporairement 
+                            indisponible pour maintenance, mises à jour ou raisons techniques.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>8. Limitation de responsabilité</h2>
+                        <p>
+                            Le site est fourni "en l'état" sans garantie d'aucune sorte. Nous ne sommes pas 
+                            responsables des dommages directs, indirects, accessoires ou consécutifs résultant 
+                            de l'utilisation ou de l'impossibilité d'utiliser le site.
+                        </p>
+                        <p>
+                            Les informations sur le site sont fournies à titre informatif et peuvent contenir 
+                            des erreurs ou être obsolètes.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>9. Protection des données</h2>
+                        <p>
+                            La collecte et l'utilisation de vos données personnelles sont régies par notre 
+                            <a href="{% url 'privacy_policy' %}">Politique de Confidentialité</a>, 
+                            qui fait partie intégrante de ces conditions d'utilisation.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>10. Modifications des conditions</h2>
+                        <p>
+                            Nous nous réservons le droit de modifier ces conditions d'utilisation à tout moment. 
+                            Les modifications prendront effet dès leur publication sur cette page. Il est de votre 
+                            responsabilité de consulter régulièrement ces conditions.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>11. Résiliation</h2>
+                        <p>
+                            Nous pouvons suspendre ou résilier votre accès au site à tout moment, avec ou sans 
+                            préavis, si vous violez ces conditions d'utilisation.
+                        </p>
+                        <p>
+                            Vous pouvez cesser d'utiliser le site à tout moment. Les dispositions qui, par leur 
+                            nature, doivent survivre à la résiliation, resteront en vigueur.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>12. Droit applicable</h2>
+                        <p>
+                            Ces conditions d'utilisation sont régies par le droit français. Tout litige sera 
+                            soumis à la compétence exclusive des tribunaux français.
+                        </p>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2>13. Contact</h2>
+                        <p>
+                            Pour toute question concernant ces conditions d'utilisation, vous pouvez nous contacter :
+                        </p>
+                        <ul>
+                            <li><strong>Email :</strong> contact@chadrackmbu.com</li>
+                            <li><strong>Nom :</strong> Chadrack Mbu Jess</li>
+                            <li><strong>Site web :</strong> {{ request.get_host }}</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.legal-document {
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 3rem;
+}
+
+.legal-content h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 0.5rem;
+    margin-top: 2rem;
+}
+
+.legal-content h3 {
+    color: #34495e;
+    margin-top: 1.5rem;
+}
+
+.legal-content ul {
+    margin-left: 1.5rem;
+}
+
+.legal-content li {
+    margin-bottom: 0.5rem;
+}
+
+.document-meta {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #e74c3c;
+}
+</style>
+{% endblock %}

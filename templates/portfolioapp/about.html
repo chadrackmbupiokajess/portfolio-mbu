@@ -1,678 +1,84 @@
 {% extends 'portfolioapp/base.html' %}
-
 {% load static %}
 
-{% block head %}
-    <!-- Balises meta pour le référencement -->
-    <meta name="description" content="Découvrez plus sur Chadrack Mbu Jess, alias Chadrack Mbu, Chadrackmbu ou Chadrackmbujess. Développeur web, designer et expert en multimédia.">
-    <meta name="keywords" content="Chadrack Mbu Jess, Chadrack Mbu, Chadrackmbu, Chadrackmbujess, à propos, développement web, design, multimédia, compétences">
-    <meta name="author" content="Chadrack Mbu Jess">
+{% block title %}À propos — Chadrack Mbu Jess{% endblock %}
+{% block meta_description %}Qui est Chadrack Mbu Jess ? Parcours, compétences et façon de travailler d'un développeur full-stack.{% endblock %}
+{% block og_title %}À propos de Chadrack Mbu Jess{% endblock %}
+{% block og_type %}profile{% endblock %}
 
-    <!-- Balises Open Graph pour les réseaux sociaux -->
-    <meta property="og:title" content="À propos de Chadrack Mbu Jess | Développeur et Designer">
-    <meta property="og:description" content="Découvrez plus sur Chadrack Mbu Jess, alias Chadrack Mbu, Chadrackmbu ou Chadrackmbujess. Développeur web, designer et expert en multimédia.">
-    <meta property="og:image" content="{% static 'images/logo-chadrackmbujess.png' %}">
-    <meta property="og:image:alt" content="Logo de Chadrack Mbu Jess">
-    <meta property="og:url" content="http://www.votresite.com/about">
-    <meta property="og:type" content="website">
-
-    <!-- Balise Twitter Card pour Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="À propos de Chadrack Mbu Jess | Développeur et Designer">
-    <meta name="twitter:description" content="Découvrez plus sur Chadrack Mbu Jess, alias Chadrack Mbu, Chadrackmbu ou Chadrackmbujess. Développeur web, designer et expert en multimédia.">
-    <meta name="twitter:image" content="{% static 'images/logo-chadrackmbujess.png' %}">
-    <meta name="twitter:image:alt" content="Logo de Chadrack Mbu Jess">
-
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'images/logo-chadrackmbujess.png' %}" type="image/png">
-
-    <!-- Balise canonique (optionnelle, pour éviter le contenu dupliqué) -->
-    <link rel="canonical" href="http://www.votresite.com/about" />
-{% endblock %}
-
-{% block title %}À propos de Chadrack Mbu Jess | Développeur et Designer{% endblock %}
 {% block content %}
-    <div class="container my-5">
-        <!-- Titre avec effet moderne -->
-        <h1 class="text-center display-4 welcome-text">À propos de moi</h1>
+<div class="container-site">
+    <header class="page-head">
+        <h1>À propos</h1>
+        <p class="lead-text">Développeur full-stack, je travaille aussi bien sur le code que sur l'image : applications web, plateformes multimédia et design.</p>
+    </header>
 
-        <!-- Section principale -->
-        <div class="row mt-5 align-items-center">
-            <!-- Image de profil -->
-            <div class="col-md-6 text-center">
-                <div class="profile-image-container">
-                    {% if about_info.photo %}
-                        <img src="{{ about_info.photo.url }}" alt="À propos de moi" class="img-fluid rounded-circle about-image">
-                    {% else %}
-                        <div class="about-image-placeholder rounded-circle"></div>
-                    {% endif %}
-                    <div class="profile-overlay">
-                        <div class="profile-icons">
-                            <a href="#" class="icon-link"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="icon-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="icon-link"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Description -->
-            <div class="col-md-6">
-                {% if about_info.description %}
-                    <p class="lead about-description fade-in">{{ about_info.description|safe|linebreaksbr  }}</p>
-                {% else %}
-                    <p class="lead about-description fade-in">Aucune description disponible pour le moment.</p>
-                {% endif %}
-            </div>
+    <section class="about-intro" aria-label="Présentation">
+        <div class="portrait">
+            <svg class="portrait-ring" viewBox="0 0 400 400" aria-hidden="true">
+                <circle cx="200" cy="200" r="192" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 25.1327"/>
+            </svg>
+            {% if about_info.photo %}
+                <img src="{{ about_info.photo.url }}" alt="Portrait de Chadrack Mbu Jess" width="300" height="300">
+            {% else %}
+                <img src="{% static 'images/profil1.jpg' %}" alt="Portrait de Chadrack Mbu Jess" width="300" height="300">
+            {% endif %}
         </div>
 
-        <!-- Section des compétences -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h2 class="text-center mb-4 fade-in">Mes compétences</h2>
-                <div class="row">
-                    <!-- Carte 1 : Développement -->
-                    <div class="col-md-4 mb-4">
-                        <div class="skill-card fade-in">
-                            <div class="skill-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <h3>Développement</h3>
-                            <p>Développement web et desktop avec des technologies modernes.</p>
-                            <div class="skill-gradient"></div>
-                        </div>
-                    </div>
-                    <!-- Carte 2 : Multimédia -->
-                    <div class="col-md-4 mb-4">
-                        <div class="skill-card fade-in">
-                            <div class="skill-icon">
-                                <i class="fas fa-film"></i>
-                            </div>
-                            <h3>Multimédia</h3>
-                            <p>Montage vidéo, streaming et création de contenu multimédia.</p>
-                            <div class="skill-gradient"></div>
-                        </div>
-                    </div>
-                    <!-- Carte 3 : Design -->
-                    <div class="col-md-4 mb-4">
-                        <div class="skill-card fade-in">
-                            <div class="skill-icon">
-                                <i class="fas fa-paint-brush"></i>
-                            </div>
-                            <h3>Design</h3>
-                            <p>Création d'affiches, logos et designs avec Photoshop.</p>
-                            <div class="skill-gradient"></div>
-                        </div>
-                    </div>
-                </div>
+        <div class="prose">
+            {% if about_info.description %}
+                {{ about_info.description|safe }}
+            {% else %}
+                <p>Je suis Chadrack Mbu Jess, développeur full-stack. Je conçois des applications web et desktop, des plateformes de diffusion de contenu et les identités visuelles qui les accompagnent.</p>
+                <p>Ce texte peut être modifié depuis l'administration du site, rubrique « À propos ».</p>
+            {% endif %}
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                <a href="{% url 'contact' %}" class="btn-site btn-primary-site">Me contacter</a>
+                {% for resume in global_resumes %}
+                    <a href="{% url 'download_resume' resume.id %}" class="btn-site btn-outline-site"><i class="bi bi-download" aria-hidden="true"></i> Télécharger le CV{% if global_resumes|length > 1 %} ({{ resume.get_language_display }}){% endif %}</a>
+                {% endfor %}
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Styles CSS personnalisés pour la section "À propos" -->
-    <style>
-        /* Effet de texte animé pour le titre */
-        .welcome-text {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #007bff, #00bfff, #007bff);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: shine 3s linear infinite;
-        }
+    <section class="section" aria-labelledby="skills-title">
+        <div class="section-head">
+            <div>
+                <h2 id="skills-title">Compétences</h2>
+                <p>Ce que j'apporte concrètement sur un projet.</p>
+            </div>
+        </div>
+        <ul class="service-list">
+            <li>
+                <i class="bi bi-code-slash" aria-hidden="true"></i>
+                <h3>Développement</h3>
+                <p>Applications web et desktop avec des technologies modernes : Python, Django, JavaScript, bases de données et API.</p>
+            </li>
+            <li>
+                <i class="bi bi-film" aria-hidden="true"></i>
+                <h3>Multimédia</h3>
+                <p>Montage vidéo, streaming et création de contenu, ainsi que les plateformes qui les diffusent.</p>
+            </li>
+            <li>
+                <i class="bi bi-brush" aria-hidden="true"></i>
+                <h3>Design</h3>
+                <p>Affiches, logos et visuels réalisés avec Photoshop, en cohérence avec l'identité de chaque projet.</p>
+            </li>
+        </ul>
+    </section>
 
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        /* Image de profil */
-        .profile-image-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .about-image {
-            width: 300px;
-            height: 300px;
-            object-fit: cover;
-            border: 5px solid #007bff;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .about-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
-        }
-
-        /* Superposition pour les icônes */
-        .profile-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .profile-image-container:hover .profile-overlay {
-            opacity: 1;
-        }
-
-        .profile-icons .icon-link {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        .profile-icons .icon-link:hover {
-            color: #00bfff;
-            transform: translateY(-5px);
-        }
-
-        /* Texte de description */
-        .about-description {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Cartes de compétences */
-        .skill-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease-out forwards;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .skill-icon {
-            font-size: 3rem;
-            color: #007bff;
-            margin-bottom: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover .skill-icon {
-            transform: scale(1.1);
-        }
-
-        .skill-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .skill-card p {
-            font-size: 1rem;
-            color: #666;
-        }
-
-        /* Dégradé animé pour les cartes */
-        .skill-gradient {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #007bff, #00bfff);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-
-        .skill-card:hover .skill-gradient {
-            opacity: 0.1;
-        }
-
-        /* ===== RESPONSIVE DESIGN COMPLET ===== */
-        
-        /* Tablettes (768px - 1024px) */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 0 20px;
-            }
-            
-            .welcome-text {
-                font-size: 2.2rem;
-            }
-            
-            .about-image {
-                width: 280px;
-                height: 280px;
-            }
-            
-            .about-description {
-                font-size: 1.15rem;
-                line-height: 1.7;
-            }
-            
-            .skill-card {
-                padding: 18px;
-                margin-bottom: 20px;
-            }
-            
-            .skill-icon {
-                font-size: 2.8rem;
-            }
-        }
-
-        /* Mobile Large (481px - 768px) */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-            }
-            
-            .welcome-text {
-                font-size: 2rem;
-                margin-bottom: 2rem;
-            }
-
-            /* Réorganisation de la section principale */
-            .row.mt-5.align-items-center {
-                margin-top: 2rem !important;
-            }
-            
-            .col-md-6:first-child {
-                margin-bottom: 2rem;
-            }
-
-            .about-image {
-                width: 250px;
-                height: 250px;
-            }
-
-            .about-description {
-                font-size: 1.1rem;
-                text-align: center;
-                padding: 0 10px;
-            }
-
-            /* Cartes de compétences en 2 colonnes sur tablette */
-            .col-md-4 {
-                flex: 0 0 50%;
-                max-width: 50%;
-            }
-            
-            .skill-card {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-
-            .skill-icon {
-                font-size: 2.5rem;
-            }
-
-            .skill-card h3 {
-                font-size: 1.3rem;
-            }
-
-            .skill-card p {
-                font-size: 0.9rem;
-            }
-            
-            /* Icônes sociales plus grandes sur mobile */
-            .profile-icons .icon-link {
-                font-size: 1.8rem;
-                margin: 0 15px;
-            }
-        }
-
-        /* Mobile Standard (321px - 480px) */
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 10px;
-            }
-            
-            .welcome-text {
-                font-size: 1.8rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .about-image {
-                width: 200px;
-                height: 200px;
-            }
-
-            .about-description {
-                font-size: 1rem;
-                padding: 0 5px;
-                line-height: 1.6;
-            }
-
-            /* Cartes de compétences en colonne unique */
-            .col-md-4 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            .skill-card {
-                padding: 12px;
-                margin-bottom: 12px;
-            }
-
-            .skill-icon {
-                font-size: 2rem;
-            }
-
-            .skill-card h3 {
-                font-size: 1.2rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .skill-card p {
-                font-size: 0.85rem;
-                line-height: 1.5;
-            }
-            
-            .profile-icons .icon-link {
-                font-size: 1.6rem;
-                margin: 0 12px;
-            }
-        }
-
-        /* Mobile Petit (≤320px) */
-        @media (max-width: 320px) {
-            .container {
-                padding: 0 8px;
-            }
-            
-            .welcome-text {
-                font-size: 1.6rem;
-                margin-bottom: 1rem;
-            }
-
-            .about-image {
-                width: 180px;
-                height: 180px;
-                border-width: 3px;
-            }
-
-            .about-description {
-                font-size: 0.95rem;
-                padding: 0;
-            }
-
-            .skill-card {
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-
-            .skill-icon {
-                font-size: 1.8rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .skill-card h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .skill-card p {
-                font-size: 0.8rem;
-            }
-            
-            .profile-icons .icon-link {
-                font-size: 1.4rem;
-                margin: 0 8px;
-            }
-        }
-
-        /* ===== AMÉLIORATIONS POUR L'ACCESSIBILITÉ MOBILE ===== */
-        @media (max-width: 768px) {
-            /* Zones de clic plus grandes pour le tactile */
-            .profile-icons .icon-link {
-                min-width: 44px;
-                min-height: 44px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                transition: all 0.3s ease;
-            }
-            
-            .profile-icons .icon-link:hover {
-                background: rgba(255, 255, 255, 0.2);
-            }
-            
-            /* Améliorer la lisibilité */
-            .about-description {
-                line-height: 1.7;
-            }
-            
-            .skill-card p {
-                line-height: 1.6;
-            }
-        }
-
-        /* ===== OPTIMISATIONS POUR LES ÉCRANS TACTILES ===== */
-        @media (hover: none) and (pointer: coarse) {
-            .about-image:hover {
-                transform: none;
-            }
-            
-            .skill-card:hover {
-                transform: none;
-            }
-            
-            .skill-card:hover .skill-icon {
-                transform: none;
-            }
-            
-            /* Effets tactiles */
-            .about-image:active {
-                transform: scale(0.98);
-            }
-            
-            .skill-card:active {
-                transform: scale(0.98);
-            }
-            
-            .profile-icons .icon-link:active {
-                transform: scale(0.9);
-            }
-        }
-
-        /* ===== ORIENTATION PAYSAGE MOBILE ===== */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .welcome-text {
-                font-size: 1.8rem;
-                margin-bottom: 1rem;
-            }
-            
-            .row.mt-5.align-items-center {
-                margin-top: 1rem !important;
-            }
-            
-            .about-image {
-                width: 200px;
-                height: 200px;
-            }
-            
-            .col-md-6:first-child {
-                margin-bottom: 1rem;
-            }
-            
-            .about-description {
-                font-size: 1rem;
-            }
-            
-            /* Cartes en 3 colonnes en paysage */
-            .col-md-4 {
-                flex: 0 0 33.333333%;
-                max-width: 33.333333%;
-            }
-            
-            .skill-card {
-                padding: 10px;
-            }
-            
-            .skill-icon {
-                font-size: 2rem;
-            }
-        }
-
-        /* ===== ANIMATIONS AMÉLIORÉES POUR MOBILE ===== */
-        @media (max-width: 768px) {
-            .fade-in {
-                animation-duration: 0.6s;
-            }
-            
-            .skill-card {
-                animation-delay: 0.1s;
-            }
-            
-            .skill-card:nth-child(2) {
-                animation-delay: 0.2s;
-            }
-            
-            .skill-card:nth-child(3) {
-                animation-delay: 0.3s;
-            }
-        }
-
-        /* ===== DARK MODE RESPONSIVE (OPTIONNEL) ===== */
-        @media (prefers-color-scheme: dark) and (max-width: 768px) {
-            .skill-card {
-                background: #2d3748;
-                color: #e2e8f0;
-            }
-            
-            .skill-card h3 {
-                color: #f7fafc;
-            }
-            
-            .skill-card p {
-                color: #cbd5e0;
-            }
-            
-            .about-description {
-                color: #e2e8f0;
-            }
-        }
-
-        /* ===== RÉDUCTION DES ANIMATIONS SUR DEMANDE ===== */
-        @media (prefers-reduced-motion: reduce) {
-            .welcome-text {
-                animation: none;
-                background: #007bff;
-                -webkit-background-clip: unset;
-                background-clip: unset;
-                color: #007bff;
-            }
-            
-            .about-description,
-            .skill-card {
-                animation: none;
-                opacity: 1;
-                transform: none;
-            }
-            
-            .about-image,
-            .skill-card,
-            .skill-icon,
-            .profile-icons .icon-link {
-                transition: none;
-            }
-        }
-
-        /* ===== AMÉLIORATIONS SUPPLÉMENTAIRES ===== */
-        
-        /* Placeholder pour image manquante */
-        .about-image-placeholder {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #007bff, #00bfff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 4rem;
-            font-weight: bold;
-            border: 5px solid #007bff;
-            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .about-image-placeholder::before {
-            content: "👤";
-        }
-        
-        .about-image-placeholder:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
-        }
-        
-        @media (max-width: 768px) {
-            .about-image-placeholder {
-                width: 250px;
-                height: 250px;
-                font-size: 3rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .about-image-placeholder {
-                width: 200px;
-                height: 200px;
-                font-size: 2.5rem;
-            }
-        }
-        
-        @media (max-width: 320px) {
-            .about-image-placeholder {
-                width: 180px;
-                height: 180px;
-                font-size: 2rem;
-                border-width: 3px;
-            }
-        }
-
-        /* Focus states pour l'accessibilité */
-        .profile-icons .icon-link:focus {
-            outline: 2px solid #00bfff;
-            outline-offset: 2px;
-        }
-        
-        /* Amélioration du contraste */
-        @media (max-width: 768px) {
-            .skill-card p {
-                color: #555;
-            }
-        }
-    </style>
+    <section class="section">
+        <div class="cta-band">
+            <div>
+                <h2>Travaillons ensemble</h2>
+                <p>Vous avez une idée d'application, de plateforme ou de visuel ? Écrivez-moi et parlons-en.</p>
+            </div>
+            <div class="actions">
+                <a href="{% url 'contact' %}" class="btn-site btn-gold">Écrire un message</a>
+                <a href="{% url 'projects' %}" class="btn-site btn-on-dark">Voir les projets</a>
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}

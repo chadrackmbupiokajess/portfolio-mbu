@@ -1,39 +1,41 @@
 {% extends 'portfolioapp/base.html' %}
 
+{% block title %}Notifications — Chadrack Mbu Jess{% endblock %}
+{% block head %}<meta name="robots" content="noindex">{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4">Notifications</h2>
+<div class="container-site" style="max-width: 820px">
+    <header class="page-head d-flex flex-wrap align-items-end justify-content-between gap-3">
+        <div>
+            <h1>Notifications</h1>
+            <p class="lead-text">Réponses, commentaires et j'aime liés à votre activité.</p>
+        </div>
+        {% if unread_notifications_count %}
+            <form method="post" action="{% url 'mark_all_notifications_as_read' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-site btn-outline-site btn-sm-site"><i class="bi bi-check2-all" aria-hidden="true"></i> Tout marquer comme lu</button>
+            </form>
+        {% endif %}
+    </header>
 
     {% if notifications %}
-        <!-- Bouton pour marquer toutes les notifications comme lues -->
-        <form method="post" action="{% url 'mark_all_notifications_as_read' %}" class="mb-3">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-sm">
-                <i class="fas fa-check-circle"></i> Marquer toutes comme lues
-            </button>
-        </form>
-
-        <!-- Liste des notifications -->
-        <div class="list-group">
+        <ul class="notif-list">
             {% for notification in notifications %}
-                <a href="{% url 'mark_notification_as_read' notification.id %}" class="list-group-item list-group-item-action {% if not notification.is_read %}list-group-item-warning{% else %}list-group-item-light{% endif %}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="fw-bold">{{ notification.message }}</span>
-                            <br>
-                            <small class="text-muted">{{ notification.created_at }}</small>
-                        </div>
-                        {% if not notification.is_read %}
-                            <span class="badge bg-warning rounded-pill">Nouveau</span>
-                        {% endif %}
-                    </div>
-                </a>
+                <li class="{% if not notification.is_read %}is-unread{% endif %}">
+                    <a href="{% url 'mark_notification_as_read' notification.id %}">
+                        <span class="dot" aria-hidden="true"></span>
+                        <span class="msg">{% if not notification.is_read %}<span class="visually-hidden">Non lue : </span>{% endif %}{{ notification.message }}</span>
+                        <time datetime="{{ notification.created_at|date:'c' }}">il y a {{ notification.created_at|timesince }}</time>
+                    </a>
+                </li>
             {% endfor %}
-        </div>
+        </ul>
     {% else %}
-        <!-- Message si aucune notification -->
-        <div class="alert alert-info" role="alert">
-            <i class="fas fa-info-circle"></i> Vous n'avez aucune notification pour le moment.
+        <div class="empty">
+            <i class="bi bi-bell" aria-hidden="true"></i>
+            <h2>Aucune notification</h2>
+            <p>Vous serez prévenu ici quand quelqu'un répondra à vos commentaires.</p>
+            <a href="{% url 'projects' %}" class="btn-site btn-outline-site btn-sm-site">Parcourir les projets</a>
         </div>
     {% endif %}
 </div>

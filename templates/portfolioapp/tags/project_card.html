@@ -1,74 +1,37 @@
-{% load static %}
 {% load portfolio_extras %}
-
-<div class="project-card-premium" data-aos="fade-up">
-    <div class="project-image-container">
+<article class="project-card">
+    <a class="thumb" href="{% url 'project_detail' project.pk %}" tabindex="-1" aria-hidden="true">
         {% if project.image %}
-            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image" loading="lazy">
+            <img src="{{ project.image.url }}" alt="" loading="lazy">
         {% else %}
-            <div class="project-placeholder">
-                <i class="fas fa-code"></i>
-                <span class="placeholder-text">{{ project.title }}</span>
-            </div>
+            <span class="thumb-fallback">{{ project.title|first|upper }}</span>
         {% endif %}
-        
-        {% if show_actions %}
-        <div class="project-overlay-modern">
-            <div class="project-actions">
-                <a href="{% url 'project_detail' project.pk %}" class="action-btn primary" title="Voir le projet">
-                    <i class="fas fa-eye"></i>
-                </a>
-                {% if project.github_url %}
-                <a href="{{ project.github_url }}" target="_blank" class="action-btn secondary" title="Code source">
-                    <i class="fab fa-github"></i>
-                </a>
-                {% endif %}
-                {% if project.demo_url %}
-                <a href="{{ project.demo_url }}" target="_blank" class="action-btn tertiary" title="Démonstration">
-                    <i class="fas fa-external-link-alt"></i>
-                </a>
-                {% endif %}
-            </div>
+    </a>
+    <div class="body">
+        <div class="meta-row">
+            {% if project.category %}<span>{{ project.category.name }}</span>{% endif %}
+            <span class="status status-{{ project.status }}">{{ project.get_status_display }}</span>
         </div>
-        {% endif %}
-    </div>
-    
-    <div class="project-content-modern">
-        <div class="project-meta">
-            {% if project.category %}
-                <span class="project-category">{{ project.category.name }}</span>
-            {% endif %}
-            <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
-        </div>
-        
-        <h3 class="project-title-modern">
-            <a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a>
-        </h3>
-        <p class="project-description-modern">{{ project.description|striptags|truncatewords:15 }}</p>
-        
+        <h3><a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a></h3>
+        <p class="excerpt">{{ project.description|plain_text:22 }}</p>
         {% if project.technologies %}
-        <div class="project-tech-stack">
-            {% for tech in project.technologies|split_technologies %}
-                <span class="tech-badge">{{ tech }}</span>
-            {% endfor %}
-        </div>
+            <ul class="tag-list" aria-label="Technologies">
+                {% for tech in project.technologies|split_technologies|slice:":4" %}
+                    <li class="tag">{{ tech }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
-        
-        <div class="project-stats">
-            <div class="stat">
-                <i class="fas fa-eye"></i>
-                <span>{{ project.views_count }}</span>
-            </div>
-            <div class="stat">
-                <i class="fas fa-heart"></i>
-                <span>{{ project.likes.count }}</span>
-            </div>
-            {% if project.tags.exists %}
-            <div class="stat">
-                <i class="fas fa-tags"></i>
-                <span>{{ project.tags.count }}</span>
-            </div>
+        <div class="foot">
+            <span class="counts">
+                <span title="Vues"><i class="bi bi-eye" aria-hidden="true"></i> {{ project.views_count }}<span class="visually-hidden"> vues</span></span>
+                <span title="J'aime"><i class="bi bi-heart" aria-hidden="true"></i> {{ project.likes.count }}<span class="visually-hidden"> j'aime</span></span>
+            </span>
+            {% if show_actions %}
+                <span class="ext-links">
+                    {% if project.github_url %}<a class="icon-btn" href="{{ project.github_url }}" target="_blank" rel="noopener" aria-label="Code source de {{ project.title }}"><i class="bi bi-github"></i></a>{% endif %}
+                    {% if project.demo_url %}<a class="icon-btn" href="{{ project.demo_url }}" target="_blank" rel="noopener" aria-label="Démo de {{ project.title }}"><i class="bi bi-box-arrow-up-right"></i></a>{% endif %}
+                </span>
             {% endif %}
         </div>
     </div>
-</div>
+</article>

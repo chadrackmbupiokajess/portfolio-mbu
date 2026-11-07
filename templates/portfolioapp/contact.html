@@ -1,13 +1,48 @@
 {% extends 'portfolioapp/base.html' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}Contact — Chadrack Mbu Jess{% endblock %}
+{% block meta_description %}Contactez Chadrack Mbu Jess pour un projet d'application web, de plateforme ou de design.{% endblock %}
+{% block og_title %}Contacter Chadrack Mbu Jess{% endblock %}
 
 {% block content %}
-    <h1 class="text-center my-4">Contactez-moi</h1>
-    <form method="post" class="card p-4 shadow-sm">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
-    </form>
-    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Retour à l'accueil</a>
+<div class="container-site">
+    <header class="page-head">
+        <h1>Contact</h1>
+        <p class="lead-text">Un projet, une question ou une proposition de collaboration ? Laissez-moi un message, je vous réponds par e-mail.</p>
+    </header>
+
+    <div class="contact-layout">
+        <div>
+            <h2 class="h4">Pour bien démarrer</h2>
+            <p class="muted">Quelques lignes suffisent. Pour un projet, précisez si possible :</p>
+            <ul class="contact-points">
+                <li><i class="bi bi-lightbulb" aria-hidden="true"></i><div><strong>Votre besoin</strong><span>Ce que vous voulez construire et pour qui.</span></div></li>
+                <li><i class="bi bi-calendar-event" aria-hidden="true"></i><div><strong>Vos délais</strong><span>Une date de lancement souhaitée, même approximative.</span></div></li>
+                <li><i class="bi bi-paperclip" aria-hidden="true"></i><div><strong>Vos références</strong><span>Un site existant, une maquette ou des exemples qui vous plaisent.</span></div></li>
+            </ul>
+            <p class="muted mt-4 mb-0">Vous préférez l'e-mail ? <a href="mailto:contact@chadrackmbu.com">contact@chadrackmbu.com</a></p>
+        </div>
+
+        <div class="panel panel-lg">
+            <form method="post" class="form-stack" novalidate>
+                {% csrf_token %}
+                {% if form.non_field_errors %}<div class="flash error"><p>{{ form.non_field_errors|join:" " }}</p></div>{% endif %}
+                <div class="field">
+                    <label for="{{ form.email.id_for_label }}">Votre adresse e-mail</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}<div class="error">{{ form.email.errors|join:" " }}</div>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ form.message.id_for_label }}">Votre message</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}<div class="error">{{ form.message.errors|join:" " }}</div>{% endif %}
+                </div>
+                <div>
+                    <button type="submit" class="btn-site btn-primary-site">Envoyer le message</button>
+                </div>
+                <p class="muted mb-0" style="font-size:.88rem">Votre adresse sert uniquement à vous répondre. <a href="{% url 'privacy_policy' %}">Politique de confidentialité</a></p>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
