@@ -526,12 +526,25 @@ a.tag:hover { border-color: var(--line); color: var(--text); }
 /* ---------- 8. Filtres ---------- */
 .filter-bar {
     display: flex;
+    flex-wrap: wrap;          /* ordinateur et tablette : les catégories passent à la ligne, aucun défilement */
     gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 6px;
     margin-bottom: 32px;
-    scrollbar-width: thin;
 }
+/* Téléphone : glissement horizontal au doigt, sans barre de défilement visible */
+@media (max-width: 767px) {
+    .filter-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin-right: -16px;
+        padding-right: 16px;
+        scroll-snap-type: x proximity;
+    }
+    .filter-pill { scroll-snap-align: start; }
+}
+.filter-bar,
+.photo-strip { scrollbar-width: none; -ms-overflow-style: none; }
+.filter-bar::-webkit-scrollbar,
+.photo-strip::-webkit-scrollbar { display: none; }
 .filter-pill {
     flex: none;
     display: inline-flex;
@@ -1218,7 +1231,6 @@ select.form-control, .form-select {
     gap: 12px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
 }
 .photo-strip li { scroll-snap-align: start; }
 .photo-strip a { display: block; aspect-ratio: 4 / 5; border-radius: var(--radius-m); overflow: hidden; background: var(--surface-2); }
