@@ -15,10 +15,41 @@
     <meta property="og:title" content="{% block og_title %}Chadrack Mbu Jess — Développeur full-stack{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Applications web, plateformes et interfaces sur mesure.{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo-chadrackmbujess.png' %}{% endblock %}">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Image de partage (Google, Facebook, WhatsApp, LinkedIn, X) : photo de Chadrack Mbu Jess par défaut -->
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/chadrack-mbu-jess-og.jpg' %}{% endblock %}">
+    {% block og_image_details %}
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    {% endblock %}
+    <meta property="og:image:alt" content="{% block og_image_alt %}Chadrack Mbu Jess, développeur full-stack{% endblock %}">
+    <link rel="image_src" href="{{ request.scheme }}://{{ request.get_host }}{% static 'images/chadrack-mbu-jess-og.jpg' %}">
     <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Fiche « Personne » pour Google : nom, métier et photo -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Chadrack Mbu Jess",
+        "alternateName": ["Chadrack Mbu", "Chadrackmbu", "Chadrackmbujess"],
+        "jobTitle": "Développeur full-stack",
+        "description": "Développeur full-stack : applications web, plateformes multimédia et design.",
+        "image": [
+            "{{ request.scheme }}://{{ request.get_host }}{% static 'images/chadrack-mbu-jess.jpg' %}",
+            "{{ request.scheme }}://{{ request.get_host }}{% static 'images/chadrack-mbu-jess-og.jpg' %}"
+        ],
+        "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}",
+        "email": "mailto:contact@chadrackmbu.com",
+        "knowsAbout": ["Python", "Django", "JavaScript", "Développement web", "Streaming", "Design graphique"]
+    }
+    </script>
     <meta name="theme-color" content="#14213d">
 
+    <link rel="sitemap" type="application/xml" title="Plan du site" href="{% url 'sitemap_xml' %}">
+    <link rel="alternate" type="text/plain" title="Résumé pour les assistants IA" href="{% url 'llms_txt' %}">
     <link rel="icon" href="{% static 'images/logo-chadrackmbujess.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'images/logo-chadrackmbujess.png' %}">
 
@@ -62,6 +93,7 @@
             <nav class="nav-main" id="nav-main" aria-label="Navigation principale">
                 <a href="{% url 'projects' %}" {% if url_name == 'projects' or url_name == 'project_detail' or url_name == 'project_detail_en' or url_name == 'search_projects' %}aria-current="page"{% endif %}>Projets</a>
                 <a href="{% url 'blog' %}" {% if url_name == 'blog' or url_name == 'blog_detail' %}aria-current="page"{% endif %}>Blog</a>
+                <a href="{% url 'gallery' %}" {% if url_name == 'gallery' or url_name == 'gallery_detail' %}aria-current="page"{% endif %}>Galerie</a>
                 <a href="{% url 'testimonials' %}" {% if url_name == 'testimonials' %}aria-current="page"{% endif %}>Témoignages</a>
                 <a href="{% url 'about' %}" {% if url_name == 'about' %}aria-current="page"{% endif %}>À propos</a>
                 <a href="{% url 'contact' %}" {% if url_name == 'contact' %}aria-current="page"{% endif %}>Contact</a>
@@ -161,6 +193,7 @@
                     <ul>
                         <li><a href="{% url 'projects' %}">Projets</a></li>
                         <li><a href="{% url 'blog' %}">Blog</a></li>
+                        <li><a href="{% url 'gallery' %}">Galerie</a></li>
                         <li><a href="{% url 'testimonials' %}">Témoignages</a></li>
                         <li><a href="{% url 'about' %}">À propos</a></li>
                     </ul>

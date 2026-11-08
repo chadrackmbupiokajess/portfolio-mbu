@@ -22,11 +22,19 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'status', 'featured', 'views_count', 'likes_count', 'created_at']
+    list_display = ['title', 'category', 'status', 'date_realisation', 'featured', 'views_count', 'likes_count', 'created_at']
     list_filter = ['category', 'status', 'featured', 'created_at', 'tags']
     search_fields = ['title', 'description', 'technologies']
     filter_horizontal = ['tags']
     readonly_fields = ['views_count', 'created_at', 'updated_at']
+
+    def get_changeform_initial_data(self, request):
+        # Valeurs proposées par défaut pour un nouveau projet
+        initial = super().get_changeform_initial_data(request)
+        initial.setdefault('user', request.user.pk)
+        initial.setdefault('status', 'en_cours')
+        initial.setdefault('technologies', 'Django, Python, JavaScript')
+        return initial
     
     def likes_count(self, obj):
         return obj.likes.count()
@@ -40,6 +48,12 @@ class BlogPostAdmin(admin.ModelAdmin):
     filter_horizontal = ['tags']
     readonly_fields = ['views_count', 'published_date', 'updated_at']
     prepopulated_fields = {'slug': ('title',)}
+
+    def get_changeform_initial_data(self, request):
+        # Un nouvel article commence en brouillon
+        initial = super().get_changeform_initial_data(request)
+        initial.setdefault('is_published', False)
+        return initial
 
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
@@ -172,3 +186,42 @@ admin.site.register(Comment)
 admin.site.register(Reply)
 admin.site.register(Notification)
 
+
+
+# ===== GALERIE =====
+
+@admin.register(GalleryPhoto)
+class GalleryPhotoAdmin(admin.ModelAdmin):
+    list_display = ['thumbnail', 'title', 'album', 'taken_at', 'is_published', 'is_featured', 'order']
+    list_display_links = ['thumbnail', 'title']
+    list_editable = ['is_published', 'is_featured', 'order']
+    list_filter = ['is_published', 'is_featured', 'album']
+    search_fields = ['title', 'alt_text', 'description', 'keywords', 'album', 'location']
+    prepopulated_fields = {'slug': ('title',)}
+    readonly_fields = ['preview', 'width', 'height', 'created_at', 'updated_at']
+
+    def get_changeform_initial_data(self, request):
+        initial = super().get_changeform_initial_data(request)
+        initial.setdefault('location', 'Kinshasa, RDC')
+        return initial
+    fieldsets = (
+        ('Photo', {'fields': ('image', 'preview', 'title', 'alt_text')}),
+        ('Référencement (Google et IA)', {
+            'fields': ('description', 'keywords', 'album', 'location', 'taken_at', 'slug'),
+            'description': "Ces informations apparaissent sur la page de la photo et sont lues par Google, Google Images et les assistants IA.",
+        }),
+        ('Affichage', {'fields': ('is_published', 'is_featured', 'order')}),
+        ('Informations', {'fields': ('width', 'height', 'created_at', 'updated_at'), 'classes': ('collapse',)}),
+    )
+
+    def thumbnail(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:6px">', obj.image.url)
+        return '-'
+    thumbnail.short_description = 'Aperçu'
+
+    def preview(self, obj):
+        if obj.pk and obj.image:
+            return format_html('<img src="{}" alt="" style="max-width:360px;border-radius:8px">', obj.image.url)
+        return "L'aperçu apparaîtra après l'enregistrement."
+    preview.short_description = 'Aperçu'

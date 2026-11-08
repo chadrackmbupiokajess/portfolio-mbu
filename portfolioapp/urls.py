@@ -56,6 +56,15 @@ urlpatterns = [
     path('notification/mark-as-read/<int:notification_id>/', mark_notification_as_read, name='mark_notification_as_read'),
     path('mark-all-notifications-as-read/', mark_all_notifications_as_read, name='mark_all_notifications_as_read'),
     
+    # Galerie photos
+    path('galerie/', views.gallery, name='gallery'),
+    path('galerie/<slug:slug>/', views.gallery_detail, name='gallery_detail'),
+
+    # Fichiers pour Google et les assistants IA
+    path('robots.txt', views.robots_txt, name='robots_txt'),
+    path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
+    path('llms.txt', views.llms_txt, name='llms_txt'),
+
     # Pages légales
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('terms-of-service/', views.terms_of_service, name='terms_of_service'),

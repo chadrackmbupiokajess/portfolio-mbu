@@ -60,6 +60,15 @@ def get_featured_testimonials(limit=3):
     from ..models import Testimonial
     return Testimonial.objects.filter(is_featured=True).order_by('-created_at')[:limit]
 
+@register.simple_tag
+def get_gallery_photos(limit=8, featured_only=True):
+    """Photos de la galerie pour l'accueil (celles cochées « Afficher sur l'accueil »)"""
+    from ..models import GalleryPhoto
+    qs = GalleryPhoto.objects.filter(is_published=True)
+    if featured_only:
+        qs = qs.filter(is_featured=True)
+    return qs[:limit]
+
 @register.inclusion_tag('portfolioapp/tags/project_card.html')
 def project_card(project, show_actions=True):
     """Template tag pour afficher une carte de projet"""

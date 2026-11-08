@@ -50,6 +50,11 @@ class Project(models.Model):
         ('archive', 'Archivé')
     ], default='termine')
     featured = models.BooleanField(default=False, verbose_name="Projet mis en avant")
+    date_realisation = models.DateField(
+        null=True, blank=True, verbose_name="Date de réalisation",
+        help_text="Mois de fin du projet (ou de début s'il est en cours). Seuls le mois et l'année sont affichés. "
+                  "Laissez vide pour utiliser la date d'ajout sur le site."
+    )
     views_count = models.PositiveIntegerField(default=0, verbose_name="Nombre de vues")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -65,6 +70,11 @@ class Project(models.Model):
     def increment_views(self):
         self.views_count += 1
         self.save(update_fields=['views_count'])
+
+    @property
+    def display_date(self):
+        """Date affichée sur le site : date de réalisation, sinon date d'ajout."""
+        return self.date_realisation or self.created_at.date()
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -662,3 +672,64 @@ class AdPerformance(models.Model):
             self.ctr = (self.clicks / self.impressions) * 100
         else:
             self.ctr = 0.00
+
+# ===== GALERIE PHOTOS =====
+
+class GalleryPhoto(models.Model):
+    """Photo publiée dans la galerie. Chaque photo a sa propre page,
+    lisible par Google, les moteurs d'images et les assistants IA."""
+    title = models.CharField("Titre", max_length=150)
+    slug = models.SlugField(
+        "Adresse de la page", max_length=170, unique=True, blank=True,
+        help_text="Laissez vide : elle est créée automatiquement à partir du titre."
+    )
+    image = models.ImageField(
+        "Image", upload_to='galerie/%Y/',
+        width_field='width', height_field='height',
+        help_text="JPG ou WebP de préférence, 2000 px de large maximum."
+    )
+    width = models.PositiveIntegerField("Largeur (px)", null=True, blank=True, editable=False)
+    height = models.PositiveIntegerField("Hauteur (px)", null=True, blank=True, editable=False)
+    alt_text = models.CharField(
+        "Ce que montre l'image", max_length=200,
+        help_text="Une phrase précise, lue par Google, les IA et les lecteurs d'écran. "
+                  "Exemple : « Chadrack Mbu Jess présente Jessna CinéHub sur une TV connectée »."
+    )
+    description = models.TextField(
+        "Texte de la page", blank=True,
+        help_text="Contexte de la photo : où, quand, pourquoi. Plus c'est précis, mieux c'est référencé."
+    )
+    album = models.CharField("Album", max_length=80, blank=True, help_text="Exemple : Événements, Projets, Portraits, Design.")
+    location = models.CharField("Lieu", max_length=120, blank=True, help_text="Exemple : Kinshasa, RDC.")
+    taken_at = models.DateField("Date de la photo", null=True, blank=True)
+    keywords = models.CharField("Mots-clés", max_length=255, blank=True, help_text="Séparés par des virgules.")
+    is_published = models.BooleanField("Publiée", default=True)
+    is_featured = models.BooleanField("Afficher sur l'accueil", default=False)
+    order = models.PositiveIntegerField("Ordre", default=0, help_text="Plus le nombre est petit, plus la photo apparaît tôt.")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Photo de la galerie"
+        verbose_name_plural = "Galerie photos"
+        ordering = ['order', '-taken_at', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title)[:150] or 'photo'
+            slug, n = base, 2
+            while GalleryPhoto.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base}-{n}"
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('gallery_detail', args=[self.slug])
+
+    @property
+    def keyword_list(self):
+        return [k.strip() for k in self.keywords.split(',') if k.strip()]

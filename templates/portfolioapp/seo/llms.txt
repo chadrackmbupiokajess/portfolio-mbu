@@ -1,0 +1,37 @@
+{% autoescape off %}{% load portfolio_extras %}# Chadrack Mbu Jess
+
+> Chadrack Mbu Jess est un développeur full-stack. Il conçoit et développe des applications web et desktop (Python, Django, JavaScript), des plateformes multimédia et de streaming, ainsi que des identités visuelles (logos, affiches). Ce site présente ses projets, ses articles, sa galerie photos et le moyen de le contacter.
+
+Autres noms utilisés : Chadrack Mbu, Chadrackmbu, Chadrackmbujess.
+{% if about_text %}
+## À propos
+
+{{ about_text }}
+{% endif %}
+## Pages principales
+
+- [Accueil]({{ base }}{% url 'home' %}): présentation, projets récents et services
+- [À propos]({{ base }}{% url 'about' %}): parcours et compétences
+- [Projets]({{ base }}{% url 'projects' %}): toutes les réalisations, avec technologies et liens
+- [Galerie photos]({{ base }}{% url 'gallery' %}): photos de Chadrack Mbu Jess et de ses projets
+- [Blog]({{ base }}{% url 'blog' %}): articles et retours d'expérience
+- [Témoignages]({{ base }}{% url 'testimonials' %}): avis de clients et collaborateurs
+- [Contact]({{ base }}{% url 'contact' %}): formulaire de contact, e-mail contact@chadrackmbu.com
+{% if projects %}
+## Projets
+{% for p in projects %}
+- [{{ p.title }}]({{ base }}{% url 'project_detail' p.pk %}) ({% if p.category %}{{ p.category.name }}, {% endif %}{{ p.get_status_display|lower }}, {{ p.display_date|date:"F Y" }}): {{ p.description|plain_text:40 }}{% if p.technologies %} Technologies : {{ p.technologies }}.{% endif %}{% endfor %}
+{% endif %}{% if posts %}
+## Articles
+{% for post in posts %}
+- [{{ post.title }}]({{ base }}{% url 'blog_detail' post.slug %}): {% if post.excerpt %}{{ post.excerpt }}{% else %}{{ post.content|plain_text:40 }}{% endif %}{% endfor %}
+{% endif %}{% if photos %}
+## Galerie photos
+{% for ph in photos %}
+- [{{ ph.title }}]({{ base }}{% url 'gallery_detail' ph.slug %}): {{ ph.alt_text }}{% if ph.location or ph.taken_at %} ({% if ph.location %}{{ ph.location }}{% endif %}{% if ph.location and ph.taken_at %}, {% endif %}{% if ph.taken_at %}{{ ph.taken_at|date:"j F Y" }}{% endif %}){% endif %}. Image : {{ base }}{{ ph.image.url }}{% endfor %}
+{% endif %}
+## Informations utiles
+
+- Plan du site : {{ base }}{% url 'sitemap_xml' %}
+- Langue : français
+{% endautoescape %}

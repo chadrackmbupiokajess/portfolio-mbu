@@ -9,8 +9,9 @@
     </a>
     <div class="body">
         <div class="meta-row">
-            {% if project.category %}<span>{{ project.category.name }}</span>{% endif %}
+            {% if project.category %}<span title="{{ project.category.name }}">{{ project.category.name }}</span>{% endif %}
             <span class="status status-{{ project.status }}">{{ project.get_status_display }}</span>
+            <time class="card-date date-badge" datetime="{{ project.display_date|date:'Y-m' }}"><i class="bi bi-calendar3" aria-hidden="true"></i> {% if project.status == 'en_cours' %}Depuis {% endif %}{{ project.display_date|date:"F Y" }}</time>
         </div>
         <h3><a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a></h3>
         <p class="excerpt">{{ project.description|plain_text:22 }}</p>

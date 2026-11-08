@@ -7,56 +7,58 @@
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ project.title }} — Chadrack Mbu Jess{% endblock %}
 {% block og_description %}{{ project.description|plain_text:28 }}{% endblock %}
-{% block og_image %}{% if project.image %}{{ request.scheme }}://{{ request.get_host }}{{ project.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo-chadrackmbujess.png' %}{% endif %}{% endblock %}
+{% block og_image %}{% if project.image %}{{ request.scheme }}://{{ request.get_host }}{{ project.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/chadrack-mbu-jess-og.jpg' %}{% endif %}{% endblock %}
+{% block og_image_details %}{% if not project.image %}{{ block.super }}{% endif %}{% endblock %}
+{% block og_image_alt %}{% if project.image %}Aperçu du projet {{ project.title }}{% else %}Chadrack Mbu Jess, développeur full-stack{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container-site">
-    <header class="project-head">
-        <nav class="breadcrumb-site" aria-label="Fil d'Ariane">
-            <a href="{% url 'home' %}">Accueil</a><span aria-hidden="true">/</span>
-            <a href="{% url 'projects' %}">Projets</a>
-            {% if project.category %}<span aria-hidden="true">/</span><a href="{% url 'projects' %}?category={{ project.category.id }}">{{ project.category.name }}</a>{% endif %}
-        </nav>
+    <nav class="breadcrumb-site detail-crumbs" aria-label="Fil d'Ariane">
+        <a href="{% url 'home' %}">Accueil</a><span aria-hidden="true">/</span>
+        <a href="{% url 'projects' %}">Projets</a>
+        {% if project.category %}<span aria-hidden="true">/</span><a href="{% url 'projects' %}?category={{ project.category.id }}">{{ project.category.name }}</a>{% endif %}
+    </nav>
 
-        <h1>{{ project.title }}</h1>
-        <div class="meta-row">
-            <span class="status status-{{ project.status }}">{{ project.get_status_display }}</span>
-            <span><i class="bi bi-calendar3" aria-hidden="true"></i> {{ project.created_at|date:"F Y" }}</span>
-            <span><i class="bi bi-eye" aria-hidden="true"></i> {{ project.views_count }} vue{{ project.views_count|pluralize }}</span>
-        </div>
-        <p class="summary">{{ project.description|plain_text:32 }}</p>
-
-        <div class="actions">
-            {% if project.demo_url %}
-                <a href="{{ project.demo_url }}" target="_blank" rel="noopener" class="btn-site btn-primary-site"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Voir la démo</a>
-            {% endif %}
-            {% if project.project_url %}
-                <a href="{{ project.project_url }}" target="_blank" rel="noopener" class="btn-site {% if project.demo_url %}btn-outline-site{% else %}btn-primary-site{% endif %}"><i class="bi bi-globe2" aria-hidden="true"></i> Visiter le site</a>
-            {% endif %}
-            {% if project.github_url %}
-                <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn-site btn-outline-site"><i class="bi bi-github" aria-hidden="true"></i> Code source</a>
-            {% endif %}
-            <button type="button" class="btn-site btn-outline-site like-btn{% if is_liked %} is-liked{% endif %}"
-                    data-like-project="{% url 'toggle_like' project.id %}"
-                    {% if not user.is_authenticated %}data-login-url="{% url 'login' %}?next={{ request.path|urlencode }}"{% endif %}
-                    aria-pressed="{% if is_liked %}true{% else %}false{% endif %}" aria-label="J'aime ce projet">
-                <i class="bi {% if is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}" aria-hidden="true"></i>
-                <span data-like-count>{{ project.likes.count }}</span>
-            </button>
-            <button type="button" class="btn-site btn-outline-site" data-copy-link><i class="bi bi-link-45deg" aria-hidden="true"></i> Copier le lien</button>
-        </div>
-    </header>
-
-    {% if project.image %}
-        <figure class="cover">
-            <button type="button" data-lightbox-src="{{ project.image.url }}" aria-label="Agrandir l'image du projet">
-                <img src="{{ project.image.url }}" alt="Aperçu du projet {{ project.title }}">
-            </button>
-        </figure>
-    {% endif %}
-
-    <div class="layout-aside">
+    <div class="layout-aside detail-layout">
         <div>
+            <header class="project-head">
+                <h1>{{ project.title }}</h1>
+                <div class="meta-row">
+                    <span class="status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                    <span class="date-badge"><i class="bi bi-calendar3" aria-hidden="true"></i> <time datetime="{{ project.display_date|date:'Y-m' }}">{% if project.status == 'en_cours' %}Depuis {% else %}Réalisé en {% endif %}{{ project.display_date|date:"F Y" }}</time></span>
+                    <span><i class="bi bi-eye" aria-hidden="true"></i> {{ project.views_count }} vue{{ project.views_count|pluralize }}</span>
+                </div>
+                <p class="summary">{{ project.description|plain_text:32 }}</p>
+
+                <div class="actions">
+                    {% if project.demo_url %}
+                        <a href="{{ project.demo_url }}" target="_blank" rel="noopener" class="btn-site btn-primary-site"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Voir la démo</a>
+                    {% endif %}
+                    {% if project.project_url %}
+                        <a href="{{ project.project_url }}" target="_blank" rel="noopener" class="btn-site {% if project.demo_url %}btn-outline-site{% else %}btn-primary-site{% endif %}"><i class="bi bi-globe2" aria-hidden="true"></i> Visiter le site</a>
+                    {% endif %}
+                    {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn-site btn-outline-site"><i class="bi bi-github" aria-hidden="true"></i> Code source</a>
+                    {% endif %}
+                    <button type="button" class="btn-site btn-outline-site like-btn{% if is_liked %} is-liked{% endif %}"
+                            data-like-project="{% url 'toggle_like' project.id %}"
+                            {% if not user.is_authenticated %}data-login-url="{% url 'login' %}?next={{ request.path|urlencode }}"{% endif %}
+                            aria-pressed="{% if is_liked %}true{% else %}false{% endif %}" aria-label="J'aime ce projet">
+                        <i class="bi {% if is_liked %}bi-heart-fill{% else %}bi-heart{% endif %}" aria-hidden="true"></i>
+                        <span data-like-count>{{ project.likes.count }}</span>
+                    </button>
+                    <button type="button" class="btn-site btn-outline-site" data-copy-link><i class="bi bi-link-45deg" aria-hidden="true"></i> Copier le lien</button>
+                </div>
+            </header>
+
+            {% if project.image %}
+                <figure class="cover">
+                    <button type="button" data-lightbox-src="{{ project.image.url }}" aria-label="Agrandir l'image du projet">
+                        <img src="{{ project.image.url }}" alt="Aperçu du projet {{ project.title }}" fetchpriority="high">
+                    </button>
+                    <figcaption><i class="bi bi-arrows-angle-expand" aria-hidden="true"></i> Cliquer pour agrandir</figcaption>
+                </figure>
+            {% endif %}
             <section aria-labelledby="desc-title">
                 <h2 id="desc-title" class="visually-hidden">Description du projet</h2>
                 <div class="prose">{{ project.description|safe }}</div>
@@ -80,7 +82,7 @@
                 <dl class="facts">
                     <div><dt>Statut</dt><dd><span class="status status-{{ project.status }}">{{ project.get_status_display }}</span></dd></div>
                     {% if project.category %}<div><dt>Catégorie</dt><dd>{{ project.category.name }}</dd></div>{% endif %}
-                    <div><dt>Publié le</dt><dd>{{ project.created_at|date:"j F Y" }}</dd></div>
+                    <div><dt>{% if project.status == 'en_cours' %}Commencé{% else %}Réalisé{% endif %}</dt><dd><span class="date-badge">{{ project.display_date|date:"F Y" }}</span></dd></div>
                     <div><dt>Mis à jour</dt><dd>{{ project.updated_at|date:"j F Y" }}</dd></div>
                     <div><dt>J'aime</dt><dd>{{ project.likes.count }}</dd></div>
                 </dl>

@@ -4,7 +4,6 @@
 
 {% block title %}Chadrack Mbu Jess — Développeur full-stack{% endblock %}
 {% block meta_description %}Chadrack Mbu Jess, développeur full-stack : applications web, plateformes de contenu et interfaces sur mesure. Découvrez mes projets et contactez-moi.{% endblock %}
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/profil1.jpg' %}{% endblock %}
 
 {% block head %}
     <meta name="google-site-verification" content="Y1OupyXaAXT6Wa7iaA8abCEXCiUZe3YLMu1rlNNdgNY">
@@ -97,6 +96,30 @@
 </section>
 
 <div class="ad-slot">{% adsense_unit 'content_middle' %}</div>
+
+{% get_gallery_photos 8 as home_photos %}
+{% if home_photos %}
+<section class="section" aria-labelledby="gallery-title">
+    <div class="container-site">
+        <div class="section-head">
+            <div>
+                <h2 id="gallery-title">En images</h2>
+                <p>Quelques moments et réalisations, à retrouver dans la galerie.</p>
+            </div>
+            <a href="{% url 'gallery' %}" class="link-arrow">Toute la galerie <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <ul class="photo-strip">
+            {% for photo in home_photos %}
+                <li>
+                    <a href="{% url 'gallery_detail' photo.slug %}">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" {% if photo.width %}width="{{ photo.width }}" height="{{ photo.height }}"{% endif %} loading="lazy" decoding="async">
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
 
 {% get_featured_testimonials 3 as featured_testimonials %}
 {% if featured_testimonials %}

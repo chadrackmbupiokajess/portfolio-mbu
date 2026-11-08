@@ -9,6 +9,7 @@
     </a>
     <div>
         <div class="meta">
+            {% if not post.is_published %}<span class="draft-badge">Brouillon</span>{% endif %}
             <time datetime="{{ post.published_date|date:'c' }}">{{ post.published_date|date:"j F Y" }}</time>
             &nbsp;&nbsp;{{ post.views_count }} lecture{{ post.views_count|pluralize }}
         </div>

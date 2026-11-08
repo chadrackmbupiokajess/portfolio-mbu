@@ -99,6 +99,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # Filtres retirés de Django mais encore utilisés par django-material-admin
+            'builtins': ['portfolioapp.templatetags.compat'],
         },
     },
 ]

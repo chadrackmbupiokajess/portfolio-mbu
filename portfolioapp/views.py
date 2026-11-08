@@ -296,7 +296,11 @@ def search_projects(request):
 
 def blog_list(request):
     """Vue pour la liste des articles de blog"""
-    posts = BlogPost.objects.filter(is_published=True)
+    # Les administrateurs voient aussi leurs brouillons (marqués « Brouillon »)
+    if request.user.is_staff:
+        posts = BlogPost.objects.all()
+    else:
+        posts = BlogPost.objects.filter(is_published=True)
     
     # Recherche
     search_query = request.GET.get('search')
@@ -330,8 +334,12 @@ def blog_list(request):
 
 def blog_detail(request, slug):
     """Vue pour le détail d'un article de blog"""
-    post = get_object_or_404(BlogPost, slug=slug, is_published=True)
-    post.increment_views()
+    if request.user.is_staff:
+        post = get_object_or_404(BlogPost, slug=slug)
+    else:
+        post = get_object_or_404(BlogPost, slug=slug, is_published=True)
+    if post.is_published:
+        post.increment_views()
     
     # Articles similaires
     related_posts = BlogPost.objects.filter(
@@ -410,3 +418,188 @@ def privacy_policy(request):
 def terms_of_service(request):
     """Vue pour les conditions d'utilisation"""
     return render(request, 'portfolioapp/terms_of_service.html')
+
+# =========================================================================
+# Galerie photos + fichiers lus par les moteurs de recherche et les IA
+# =========================================================================
+import json
+from django.utils.safestring import mark_safe
+from django.utils.html import strip_tags
+from django.templatetags.static import static as static_url
+from .models import GalleryPhoto
+
+SITE_OWNER = "Chadrack Mbu Jess"
+ROBOTS_DISALLOW = [
+    '/admin/', '/accounts/', '/login/', '/signup/', '/logout/', '/profile/',
+    '/notifications/', '/notification/', '/unread-notifications/',
+    '/mark-all-notifications-as-read/', '/comment/', '/stats/', '/download-resume/',
+]
+# Robots des moteurs de recherche et des assistants IA explicitement autorisés
+ALLOWED_BOTS = [
+    'Googlebot', 'Googlebot-Image', 'Google-Extended', 'Bingbot', 'DuckDuckBot', 'YandexBot', 'Applebot', 'Applebot-Extended',
+    'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
+    'ClaudeBot', 'Claude-SearchBot', 'Claude-User', 'anthropic-ai',
+    'PerplexityBot', 'Perplexity-User', 'CCBot', 'Meta-ExternalAgent', 'MistralAI-User', 'cohere-ai',
+]
+
+
+def _jsonld(data):
+    """Bloc JSON-LD sûr à insérer dans une balise <script>."""
+    text = json.dumps(data, ensure_ascii=False, indent=2)
+    text = text.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    return mark_safe(text)
+
+
+def _abs(request, path):
+    return request.build_absolute_uri(path)
+
+
+def _person(request):
+    return {
+        "@type": "Person",
+        "name": SITE_OWNER,
+        "url": _abs(request, reverse('home')),
+        "image": _abs(request, static_url('images/chadrack-mbu-jess.jpg')),
+    }
+
+
+def _image_object(request, photo, full=False):
+    data = {
+        "@type": "ImageObject",
+        "contentUrl": _abs(request, photo.image.url),
+        "url": _abs(request, photo.get_absolute_url()),
+        "name": photo.title,
+        "caption": photo.alt_text,
+        "creator": _person(request),
+        "creditText": SITE_OWNER,
+        "copyrightNotice": f"© {SITE_OWNER}",
+        "license": _abs(request, reverse('terms_of_service')),
+        "acquireLicensePage": _abs(request, reverse('contact')),
+    }
+    if photo.width and photo.height:
+        data["width"] = photo.width
+        data["height"] = photo.height
+    if full:
+        if photo.description:
+            data["description"] = photo.description
+        if photo.taken_at:
+            data["dateCreated"] = photo.taken_at.isoformat()
+        data["datePublished"] = photo.created_at.date().isoformat()
+        if photo.location:
+            data["contentLocation"] = {"@type": "Place", "name": photo.location}
+        if photo.keyword_list:
+            data["keywords"] = ", ".join(photo.keyword_list)
+    return data
+
+
+def gallery(request):
+    """Liste des photos publiées, filtrable par album."""
+    photos = GalleryPhoto.objects.filter(is_published=True)
+    albums = (GalleryPhoto.objects.filter(is_published=True).exclude(album='')
+              .order_by('album').values_list('album', flat=True).distinct())
+    active_album = request.GET.get('album') or ''
+    if active_album:
+        photos = photos.filter(album=active_album)
+
+    paginator = Paginator(photos, 24)
+    page_obj = paginator.get_page(request.GET.get('page'))
+
+    jsonld = _jsonld({
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": f"Galerie de {SITE_OWNER}",
+        "url": _abs(request, reverse('gallery')),
+        "author": _person(request),
+        "associatedMedia": [_image_object(request, p) for p in page_obj],
+    })
+    return render(request, 'portfolioapp/gallery.html', {
+        'page_obj': page_obj,
+        'albums': albums,
+        'active_album': active_album,
+        'total_count': GalleryPhoto.objects.filter(is_published=True).count(),
+        'jsonld': jsonld,
+    })
+
+
+def gallery_detail(request, slug):
+    """Page d'une photo : grande image, texte, informations et photos voisines."""
+    photo = get_object_or_404(GalleryPhoto, slug=slug, is_published=True)
+    ordered = list(GalleryPhoto.objects.filter(is_published=True).values_list('slug', flat=True))
+    idx = ordered.index(photo.slug)
+    prev_slug = ordered[idx - 1] if idx > 0 else None
+    next_slug = ordered[idx + 1] if idx < len(ordered) - 1 else None
+    prev_photo = GalleryPhoto.objects.filter(slug=prev_slug).first() if prev_slug else None
+    next_photo = GalleryPhoto.objects.filter(slug=next_slug).first() if next_slug else None
+
+    related = GalleryPhoto.objects.filter(is_published=True).exclude(pk=photo.pk)
+    if photo.album:
+        related = related.filter(album=photo.album)
+    related = related[:6]
+
+    data = {"@context": "https://schema.org"}
+    data.update(_image_object(request, photo, full=True))
+    return render(request, 'portfolioapp/gallery_detail.html', {
+        'photo': photo,
+        'prev_photo': prev_photo,
+        'next_photo': next_photo,
+        'related_photos': related,
+        'jsonld': _jsonld(data),
+    })
+
+
+def robots_txt(request):
+    lines = ["# Robots des moteurs de recherche et des assistants IA : bienvenue."]
+    lines += [f"User-agent: {bot}" for bot in ALLOWED_BOTS]
+    lines += ["User-agent: *", "Allow: /"]
+    lines += [f"Disallow: {path}" for path in ROBOTS_DISALLOW]
+    lines += ["", f"Sitemap: {_abs(request, reverse('sitemap_xml'))}", ""]
+    return HttpResponse("\n".join(lines), content_type='text/plain; charset=utf-8')
+
+
+def sitemap_xml(request):
+    """Plan du site avec les images (Google Images)."""
+    def entry(path, lastmod=None, images=None, priority='0.5'):
+        return {
+            'loc': _abs(request, path),
+            'lastmod': lastmod.date().isoformat() if hasattr(lastmod, 'date') else None,
+            'images': [_abs(request, i) for i in (images or [])],
+            'priority': priority,
+        }
+
+    about = About.objects.first()
+    urls = [
+        entry(reverse('home'), images=[static_url('images/chadrack-mbu-jess-og.jpg')], priority='1.0'),
+        entry(reverse('about'), images=[about.photo.url] if about and about.photo else [static_url('images/chadrack-mbu-jess.jpg')], priority='0.8'),
+        entry(reverse('projects'), priority='0.9'),
+        entry(reverse('gallery'), priority='0.8'),
+        entry(reverse('blog'), priority='0.7'),
+        entry(reverse('testimonials'), priority='0.5'),
+        entry(reverse('contact'), priority='0.6'),
+        entry(reverse('privacy_policy'), priority='0.2'),
+        entry(reverse('terms_of_service'), priority='0.2'),
+    ]
+    for p in Project.objects.all():
+        urls.append(entry(reverse('project_detail', args=[p.pk]), p.updated_at, [p.image.url] if p.image else [], '0.8'))
+    for post in BlogPost.objects.filter(is_published=True).exclude(slug=''):
+        urls.append(entry(reverse('blog_detail', args=[post.slug]), post.updated_at, [post.image.url] if post.image else [], '0.6'))
+    for photo in GalleryPhoto.objects.filter(is_published=True):
+        urls.append(entry(photo.get_absolute_url(), photo.updated_at, [photo.image.url], '0.6'))
+
+    return render(request, 'portfolioapp/seo/sitemap.xml', {'urls': urls},
+                  content_type='application/xml; charset=utf-8')
+
+
+def llms_txt(request):
+    """Résumé du site au format llms.txt, destiné aux assistants IA."""
+    projects = Project.objects.all().order_by('-created_at')
+    posts = BlogPost.objects.filter(is_published=True).exclude(slug='')[:30]
+    photos = GalleryPhoto.objects.filter(is_published=True)[:60]
+    about = About.objects.first()
+    about_text = strip_tags(about.description).strip() if about and about.description else ''
+    return render(request, 'portfolioapp/seo/llms.txt', {
+        'projects': projects,
+        'posts': posts,
+        'photos': photos,
+        'about_text': about_text,
+        'base': _abs(request, '/').rstrip('/'),
+    }, content_type='text/plain; charset=utf-8')

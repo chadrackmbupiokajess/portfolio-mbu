@@ -7,13 +7,13 @@
 
 {% block content %}
 <div class="container-site">
-    <header class="page-head">
-        <h1>Blog</h1>
-        <p class="lead-text">Notes de travail, retours d'expérience et coulisses de mes projets.</p>
-    </header>
-
-    <div class="layout-aside">
+    <div class="layout-aside list-layout">
         <div>
+            <header class="page-head">
+                <h1>Blog</h1>
+                <p class="lead-text">Notes de travail, retours d'expérience et coulisses de mes projets.</p>
+            </header>
+
             {% if search_query or request.GET.tag %}
                 <p class="muted mb-4">
                     {{ page_obj.paginator.count }} article{{ page_obj.paginator.count|pluralize }}
@@ -44,12 +44,11 @@
         </div>
 
         <aside class="aside" aria-label="Filtres du blog">
-            <form method="get" role="search" class="panel">
-                <h2><label for="blog-search">Rechercher</label></h2>
-                <div class="d-flex gap-2">
-                    <input id="blog-search" type="search" name="search" class="input-site" placeholder="Mot-clé" value="{{ search_query|default:'' }}">
-                    <button type="submit" class="btn-site btn-primary-site btn-sm-site" aria-label="Lancer la recherche"><i class="bi bi-search"></i></button>
-                </div>
+            <form method="get" role="search" class="search-field">
+                <label for="blog-search" class="visually-hidden">Rechercher un article</label>
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <input id="blog-search" type="search" name="search" placeholder="Rechercher un article…" value="{{ search_query|default:'' }}" autocomplete="off">
+                <button type="submit" class="visually-hidden">Rechercher</button>
             </form>
 
             {% if popular_tags %}

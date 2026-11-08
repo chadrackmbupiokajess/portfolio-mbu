@@ -1,0 +1,56 @@
+{% extends 'portfolioapp/base.html' %}
+{% load portfolio_extras %}
+
+{% block title %}Galerie photos{% if active_album %} : {{ active_album }}{% endif %} — Chadrack Mbu Jess{% endblock %}
+{% block meta_description %}Galerie photos de Chadrack Mbu Jess, développeur full-stack : portraits, événements, projets et réalisations en images.{% endblock %}
+{% block og_title %}Galerie photos — Chadrack Mbu Jess{% endblock %}
+{% block og_description %}Portraits, événements, projets et réalisations de Chadrack Mbu Jess en images.{% endblock %}
+{% block og_image %}{% with first=page_obj.object_list|first %}{% if first %}{{ request.scheme }}://{{ request.get_host }}{{ first.image.url }}{% else %}{{ block.super }}{% endif %}{% endwith %}{% endblock %}
+{% block og_image_details %}{% if not page_obj.object_list %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block head %}
+    <script type="application/ld+json">{{ jsonld }}</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-site">
+    <header class="page-head">
+        <h1>Galerie</h1>
+        <p class="lead-text">Portraits, événements et coulisses de mes projets, en images.</p>
+    </header>
+
+    {% if albums %}
+        <nav class="filter-bar" aria-label="Filtrer par album">
+            <a href="{% url 'gallery' %}" class="filter-pill{% if not active_album %} is-active{% endif %}">Toutes <span class="count">{{ total_count }}</span></a>
+            {% for album in albums %}
+                <a href="?album={{ album|urlencode }}" class="filter-pill{% if active_album == album %} is-active{% endif %}">{{ album }}</a>
+            {% endfor %}
+        </nav>
+    {% endif %}
+
+    {% if page_obj.object_list %}
+        <ul class="gallery-grid">
+            {% for photo in page_obj %}
+                <li>
+                    <a class="gallery-item" href="{% url 'gallery_detail' photo.slug %}">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}"
+                             {% if photo.width %}width="{{ photo.width }}" height="{{ photo.height }}"{% endif %}
+                             loading="{% if forloop.counter <= 6 %}eager{% else %}lazy{% endif %}" decoding="async">
+                        <span class="gallery-caption">
+                            <strong>{{ photo.title }}</strong>
+                            {% if photo.album or photo.taken_at %}<span>{% if photo.album %}{{ photo.album }}{% endif %}{% if photo.album and photo.taken_at %}, {% endif %}{% if photo.taken_at %}{{ photo.taken_at|date:"F Y" }}{% endif %}</span>{% endif %}
+                        </span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% include 'portfolioapp/partials/pagination.html' %}
+    {% else %}
+        <div class="empty">
+            <i class="bi bi-images" aria-hidden="true"></i>
+            <h2>La galerie est encore vide</h2>
+            <p>Les photos ajoutées depuis l'administration, rubrique « Galerie photos », apparaîtront ici.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

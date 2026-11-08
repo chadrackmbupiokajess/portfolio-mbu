@@ -1,0 +1,108 @@
+{% extends 'portfolioapp/base.html' %}
+{% load portfolio_extras %}
+
+{% block title %}{{ photo.title }} — Galerie de Chadrack Mbu Jess{% endblock %}
+{% block meta_description %}{% if photo.description %}{{ photo.description|plain_text:30 }}{% else %}{{ photo.alt_text }}{% endif %}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ photo.title }} — Chadrack Mbu Jess{% endblock %}
+{% block og_description %}{{ photo.alt_text }}{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ photo.image.url }}{% endblock %}
+{% block og_image_details %}{% if photo.width %}
+    <meta property="og:image:width" content="{{ photo.width }}">
+    <meta property="og:image:height" content="{{ photo.height }}">{% endif %}{% endblock %}
+{% block og_image_alt %}{{ photo.alt_text }}{% endblock %}
+
+{% block head %}
+    <script type="application/ld+json">{{ jsonld }}</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-site">
+    <header class="project-head">
+        <nav class="breadcrumb-site" aria-label="Fil d'Ariane">
+            <a href="{% url 'home' %}">Accueil</a><span aria-hidden="true">/</span>
+            <a href="{% url 'gallery' %}">Galerie</a>
+            {% if photo.album %}<span aria-hidden="true">/</span><a href="{% url 'gallery' %}?album={{ photo.album|urlencode }}">{{ photo.album }}</a>{% endif %}
+        </nav>
+        <h1>{{ photo.title }}</h1>
+        <div class="meta-row">
+            {% if photo.taken_at %}<span><i class="bi bi-calendar3" aria-hidden="true"></i> {{ photo.taken_at|date:"j F Y" }}</span>{% endif %}
+            {% if photo.location %}<span><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ photo.location }}</span>{% endif %}
+            <span><i class="bi bi-camera" aria-hidden="true"></i> Chadrack Mbu Jess</span>
+        </div>
+    </header>
+
+    <figure class="photo-stage">
+        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" {% if photo.width %}width="{{ photo.width }}" height="{{ photo.height }}"{% endif %} fetchpriority="high">
+        <figcaption>{{ photo.alt_text }}</figcaption>
+    </figure>
+
+    <div class="layout-aside">
+        <div>
+            {% if photo.description %}
+                <div class="prose">{{ photo.description|linebreaks }}</div>
+            {% endif %}
+            {% if photo.keyword_list %}
+                <ul class="tag-list mt-4" aria-label="Mots-clés">
+                    {% for k in photo.keyword_list %}<li class="tag">{{ k }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+
+            <nav class="photo-pager" aria-label="Photo précédente ou suivante">
+                {% if prev_photo %}
+                    <a href="{% url 'gallery_detail' prev_photo.slug %}" rel="prev">
+                        <img src="{{ prev_photo.image.url }}" alt="" loading="lazy">
+                        <span><small>Photo précédente</small>{{ prev_photo.title }}</span>
+                    </a>
+                {% else %}<span></span>{% endif %}
+                {% if next_photo %}
+                    <a href="{% url 'gallery_detail' next_photo.slug %}" rel="next" class="is-next">
+                        <span><small>Photo suivante</small>{{ next_photo.title }}</span>
+                        <img src="{{ next_photo.image.url }}" alt="" loading="lazy">
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+
+        <aside class="aside" aria-label="Informations sur la photo">
+            <div class="panel">
+                <h2>Informations</h2>
+                <dl class="facts">
+                    {% if photo.taken_at %}<div><dt>Date</dt><dd>{{ photo.taken_at|date:"j F Y" }}</dd></div>{% endif %}
+                    {% if photo.location %}<div><dt>Lieu</dt><dd>{{ photo.location }}</dd></div>{% endif %}
+                    {% if photo.album %}<div><dt>Album</dt><dd><a href="{% url 'gallery' %}?album={{ photo.album|urlencode }}">{{ photo.album }}</a></dd></div>{% endif %}
+                    {% if photo.width %}<div><dt>Format</dt><dd>{{ photo.width }} × {{ photo.height }} px</dd></div>{% endif %}
+                    <div><dt>Crédit</dt><dd>© Chadrack Mbu Jess</dd></div>
+                </dl>
+            </div>
+            <div class="panel">
+                <h2>Partager</h2>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn-site btn-outline-site btn-sm-site" href="https://wa.me/?text={{ photo.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+                    <a class="btn-site btn-outline-site btn-sm-site" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener"><i class="bi bi-facebook" aria-hidden="true"></i> Facebook</a>
+                    <button type="button" class="btn-site btn-outline-site btn-sm-site" data-copy-link><i class="bi bi-link-45deg" aria-hidden="true"></i> Copier le lien</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    {% if related_photos %}
+        <section class="section" aria-labelledby="related-photos">
+            <div class="section-head">
+                <h2 id="related-photos">{% if photo.album %}Dans l'album {{ photo.album }}{% else %}Autres photos{% endif %}</h2>
+                <a href="{% url 'gallery' %}" class="link-arrow">Toute la galerie <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+            </div>
+            <ul class="gallery-grid gallery-grid-sm">
+                {% for p in related_photos %}
+                    <li>
+                        <a class="gallery-item" href="{% url 'gallery_detail' p.slug %}">
+                            <img src="{{ p.image.url }}" alt="{{ p.alt_text }}" {% if p.width %}width="{{ p.width }}" height="{{ p.height }}"{% endif %} loading="lazy" decoding="async">
+                            <span class="gallery-caption"><strong>{{ p.title }}</strong></span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+</div>
+{% endblock %}

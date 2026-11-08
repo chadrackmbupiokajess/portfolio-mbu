@@ -7,39 +7,41 @@
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ post.title }}{% endblock %}
 {% block og_description %}{% if post.excerpt %}{{ post.excerpt }}{% else %}{{ post.content|plain_text:28 }}{% endif %}{% endblock %}
-{% block og_image %}{% if post.image %}{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo-chadrackmbujess.png' %}{% endif %}{% endblock %}
+{% block og_image %}{% if post.image %}{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/chadrack-mbu-jess-og.jpg' %}{% endif %}{% endblock %}
+{% block og_image_details %}{% if not post.image %}{{ block.super }}{% endif %}{% endblock %}
+{% block og_image_alt %}{% if post.image %}Illustration de l'article {{ post.title }}{% else %}Chadrack Mbu Jess, développeur full-stack{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container-site">
-    <header class="article-head">
-        <nav class="breadcrumb-site" aria-label="Fil d'Ariane">
-            <a href="{% url 'home' %}">Accueil</a><span aria-hidden="true">/</span>
-            <a href="{% url 'blog' %}">Blog</a>
-        </nav>
-        <h1>{{ post.title }}</h1>
-        <div class="meta">
-            <span>Par Chadrack Mbu Jess</span>
-            <time datetime="{{ post.published_date|date:'c' }}">Publié le {{ post.published_date|date:"j F Y" }}</time>
-            {% if post.updated_at|date:"Ymd" != post.published_date|date:"Ymd" %}<span>Mis à jour le {{ post.updated_at|date:"j F Y" }}</span>{% endif %}
-            <span>{{ post.views_count }} lecture{{ post.views_count|pluralize }}</span>
-        </div>
-        {% if post.tags.exists %}
-            <div class="tag-list">
-                {% for tag in post.tags.all %}
-                    <a class="tag" href="{% url 'blog' %}?tag={{ tag.id }}"><span class="swatch" style="background: {{ tag.color }}"></span>{{ tag.name }}</a>
-                {% endfor %}
-            </div>
-        {% endif %}
-    </header>
+    <nav class="breadcrumb-site detail-crumbs" aria-label="Fil d'Ariane">
+        <a href="{% url 'home' %}">Accueil</a><span aria-hidden="true">/</span>
+        <a href="{% url 'blog' %}">Blog</a>
+    </nav>
 
-    {% if post.image %}
-        <figure class="article-cover">
-            <img src="{{ post.image.url }}" alt="">
-        </figure>
-    {% endif %}
-
-    <div class="layout-aside">
+    <div class="layout-aside detail-layout">
         <article>
+            <header class="article-head">
+                {% if not post.is_published %}<p class="flash warning"><span>Brouillon : cet article n'est visible que par vous. Cochez « Publié » dans l'administration pour le mettre en ligne.</span></p>{% endif %}
+                <h1>{{ post.title }}</h1>
+                <div class="meta">
+                    <span>Par Chadrack Mbu Jess</span>
+                    <time datetime="{{ post.published_date|date:'c' }}">Publié le {{ post.published_date|date:"j F Y" }}</time>
+                    {% if post.updated_at|date:"Ymd" != post.published_date|date:"Ymd" %}<span>Mis à jour le {{ post.updated_at|date:"j F Y" }}</span>{% endif %}
+                    <span>{{ post.views_count }} lecture{{ post.views_count|pluralize }}</span>
+                </div>
+                {% if post.tags.exists %}
+                    <div class="tag-list">
+                        {% for tag in post.tags.all %}
+                            <a class="tag" href="{% url 'blog' %}?tag={{ tag.id }}"><span class="swatch" style="background: {{ tag.color }}"></span>{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </header>
+            {% if post.image %}
+                <figure class="article-cover">
+                    <img src="{{ post.image.url }}" alt="Illustration de l'article {{ post.title }}" fetchpriority="high">
+                </figure>
+            {% endif %}
             <div class="prose">
                 {{ post.content|safe }}
             </div>
