@@ -51,8 +51,9 @@
 
     <link rel="sitemap" type="application/xml" title="Plan du site" href="{% url 'sitemap_xml' %}">
     <link rel="alternate" type="text/plain" title="Résumé pour les assistants IA" href="{% url 'llms_txt' %}">
-    <link rel="icon" href="{% static 'images/logo-chadrackmbujess.ico' %}">
-    <link rel="apple-touch-icon" href="{% static 'images/logo-chadrackmbujess.png' %}">
+    <link rel="icon" href="{% static 'images/favicon-cmj.ico' %}" sizes="any">
+    <link rel="icon" href="{% static 'images/logo-officiel-cmj-192.png' %}" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="{% static 'images/logo-officiel-cmj-180.png' %}">
 
     <!-- Thème appliqué avant l'affichage pour éviter le flash : sombre par défaut, sauf si le visiteur a choisi le mode clair -->
     <script>
@@ -83,7 +84,7 @@
     <header class="site-header">
         <div class="container-site">
             <a class="brand" href="{% url 'home' %}" aria-label="Chadrack Mbu Jess, accueil">
-                <img src="{% static 'images/logo-chadrackmbujess.png' %}" alt="" width="38" height="38">
+                <img src="{% static 'images/logo-officiel-cmj-192.png' %}" alt="" width="38" height="38">
                 <span>Chadrack Mbu Jess</span>
             </a>
 
@@ -174,7 +175,7 @@
             <div class="footer-grid">
                 <div>
                     <a class="brand" href="{% url 'home' %}">
-                        <img src="{% static 'images/logo-chadrackmbujess.png' %}" alt="" width="38" height="38">
+                        <img src="{% static 'images/logo-officiel-cmj-192.png' %}" alt="" width="38" height="38">
                         <span>Chadrack Mbu Jess</span>
                     </a>
                     <p>Développeur full-stack. Je conçois et construis des applications web, des plateformes et des interfaces sur mesure.</p>

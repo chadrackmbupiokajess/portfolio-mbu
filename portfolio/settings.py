@@ -305,12 +305,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MATERIAL_ADMIN_SITE = {
     'HEADER': 'Portfolio Chadrack Mbu Jess - Connexion Admin',  # Texte de l'en-tête
     'TITLE': 'MBU',  # Titre de l'administration
-    'FAVICON': 'images/logo-chadrackmbujess.ico',  # Chemin vers une icône favicon (optionnel)
+    'FAVICON': 'images/favicon-cmj.ico',  # Chemin vers une icône favicon (optionnel)
    # 'MAIN_BG_COLOR': '#3f51b5',  # Couleur de fond principale (optionnel)
     #'MAIN_HOVER_COLOR': '#303f9f',  # Couleur de survol principale (optionnel)
     'PROFILE_PICTURE': 'images/profil1.jpg',  # Photo de profil (optionnel)
     #'PROFILE_BG': 'images/profile-bg.jpg',  # Image de fond du profil (optionnel)
-    'LOGIN_LOGO': 'images/logo-chadrackmbujess.png',  # Logo sur la page de connexion (optionnel)
+    'LOGIN_LOGO': 'images/logo-officiel-cmj-512.png',  # Logo sur la page de connexion (optionnel)
     #'LOGOUT_BG': 'images/logo-chadrackmbujess.png',  # Image de fond sur la page de déconnexion (optionnel)
 }
 
