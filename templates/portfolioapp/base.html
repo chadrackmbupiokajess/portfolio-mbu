@@ -46,19 +46,20 @@
         "knowsAbout": ["Python", "Django", "JavaScript", "Développement web", "Streaming", "Design graphique"]
     }
     </script>
-    <meta name="theme-color" content="#14213d">
+    <meta name="theme-color" content="#0d1424">
+    <meta name="color-scheme" content="dark light">
 
     <link rel="sitemap" type="application/xml" title="Plan du site" href="{% url 'sitemap_xml' %}">
     <link rel="alternate" type="text/plain" title="Résumé pour les assistants IA" href="{% url 'llms_txt' %}">
     <link rel="icon" href="{% static 'images/logo-chadrackmbujess.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'images/logo-chadrackmbujess.png' %}">
 
-    <!-- Thème appliqué avant l'affichage pour éviter le flash -->
+    <!-- Thème appliqué avant l'affichage pour éviter le flash : sombre par défaut, sauf si le visiteur a choisi le mode clair -->
     <script>
         (function () {
             var t = null;
             try { t = localStorage.getItem('theme'); } catch (e) {}
-            if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            if (t !== 'light' && t !== 'dark') t = 'dark'; // mode sombre par défaut
             document.documentElement.setAttribute('data-theme', t);
         })();
     </script>
