@@ -14,8 +14,10 @@ from .forms import (CommentForm, ReplyForm, ProfileForm, ContactForm,
                    TestimonialForm, ProjectSearchForm)
 
 def home(request):
+    from .models import HomeHero
     projects = Project.objects.all().order_by('-created_at')
-    return render(request, 'portfolioapp/home.html', {'projects': projects})
+    hero = HomeHero.get_solo()  # en-tête modifiable dans l'administration
+    return render(request, 'portfolioapp/home.html', {'projects': projects, 'hero': hero})
 
 def blog(request):
     return render(request, 'portfolioapp/blog.html')

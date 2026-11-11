@@ -733,3 +733,54 @@ class GalleryPhoto(models.Model):
     @property
     def keyword_list(self):
         return [k.strip() for k in self.keywords.split(',') if k.strip()]
+
+
+# ===== ACCUEIL (en-tête de la page d'accueil, modifiable dans l'administration) =====
+
+DEFAULT_HERO_TEXT = (
+    "Je conçois et développe des applications web sur mesure, du site vitrine à la plateforme complète : "
+    "une base de code soignée, des interfaces claires et un produit qui tient la route une fois en ligne."
+)
+
+
+class HomeHero(models.Model):
+    """En-tête de la page d'accueil. Une seule fiche existe : on la modifie, on ne la recrée pas."""
+    name = models.CharField("Nom affiché", max_length=80, default="Chadrack Mbu Jess")
+    role = models.CharField("Métier", max_length=120, default="Développeur full-stack",
+                            help_text="Affiché en doré sous le nom. Exemple : Développeur full-stack et designer.")
+    intro = models.TextField("Texte de présentation", default=DEFAULT_HERO_TEXT,
+                             help_text="2 ou 3 phrases maximum : ce que vous faites et pour qui.")
+    photo = models.ImageField("Photo", upload_to='accueil/', blank=True,
+                              help_text="Photo carrée de préférence (au moins 800 × 800 px). "
+                                        "Laissez vide pour garder la photo actuelle.")
+    photo_alt = models.CharField("Description de la photo", max_length=150, default="Portrait de Chadrack Mbu Jess",
+                                 help_text="Lue par Google et les lecteurs d'écran.")
+    primary_label = models.CharField("Bouton principal : texte", max_length=40, default="Voir mes projets")
+    primary_url = models.CharField("Bouton principal : lien", max_length=200, blank=True,
+                                   help_text="Laissez vide pour la page Projets. Exemple : /galerie/ ou https://…")
+    secondary_label = models.CharField("Bouton secondaire : texte", max_length=40, default="Me contacter", blank=True,
+                                       help_text="Laissez vide pour masquer ce bouton.")
+    secondary_url = models.CharField("Bouton secondaire : lien", max_length=200, blank=True,
+                                     help_text="Laissez vide pour la page Contact.")
+    technologies = models.CharField("Technologies", max_length=150, default="Python, Django, JavaScript", blank=True,
+                                    help_text="Ligne affichée sous les boutons. Laissez vide pour la masquer.")
+    show_projects_count = models.BooleanField("Afficher le nombre de projets", default=True)
+    show_cv = models.BooleanField("Afficher le lien vers le CV", default=True,
+                                  help_text="Nécessite un CV ajouté dans la rubrique CV.")
+    updated_at = models.DateTimeField("Dernière modification", auto_now=True)
+
+    class Meta:
+        verbose_name = "Accueil : en-tête"
+        verbose_name_plural = "Accueil : en-tête"
+
+    def __str__(self):
+        return "En-tête de la page d'accueil"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1  # une seule fiche
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_solo(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj

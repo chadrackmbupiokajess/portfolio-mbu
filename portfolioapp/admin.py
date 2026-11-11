@@ -225,3 +225,36 @@ class GalleryPhotoAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" alt="" style="max-width:360px;border-radius:8px">', obj.image.url)
         return "L'aperçu apparaîtra après l'enregistrement."
     preview.short_description = 'Aperçu'
+
+
+# ===== ACCUEIL : EN-TÊTE (fiche unique) =====
+
+@admin.register(HomeHero)
+class HomeHeroAdmin(admin.ModelAdmin):
+    readonly_fields = ['photo_preview', 'updated_at']
+    fieldsets = (
+        ('Texte', {'fields': ('name', 'role', 'intro')}),
+        ('Photo', {'fields': ('photo', 'photo_preview', 'photo_alt')}),
+        ('Boutons', {'fields': ('primary_label', 'primary_url', 'secondary_label', 'secondary_url')}),
+        ('Informations sous les boutons', {'fields': ('technologies', 'show_projects_count', 'show_cv')}),
+        ('Suivi', {'fields': ('updated_at',), 'classes': ('collapse',)}),
+    )
+
+    def photo_preview(self, obj):
+        from django.templatetags.static import static
+        url = obj.photo.url if obj and obj.photo else static('images/profil1.jpg')
+        return format_html('<img src="{}" alt="" style="width:160px;height:160px;object-fit:cover;border-radius:50%">', url)
+    photo_preview.short_description = 'Aperçu'
+
+    # Une seule fiche : on ouvre directement le formulaire de modification
+    def has_add_permission(self, request):
+        return not HomeHero.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        from django.shortcuts import redirect
+        from django.urls import reverse
+        obj = HomeHero.get_solo()
+        return redirect(reverse('admin:portfolioapp_homehero_change', args=[obj.pk]))

@@ -2,7 +2,7 @@
 {% load static %}
 {% load portfolio_extras %}
 
-{% block title %}Chadrack Mbu Jess — Développeur full-stack{% endblock %}
+{% block title %}{{ hero.name }} — {{ hero.role }}{% endblock %}
 {% block meta_description %}Chadrack Mbu Jess, développeur full-stack : applications web, plateformes de contenu et interfaces sur mesure. Découvrez mes projets et contactez-moi.{% endblock %}
 
 {% block head %}
@@ -13,23 +13,28 @@
 <section class="hero" aria-labelledby="hero-title">
     <div class="container-site">
         <div>
-            <h1 id="hero-title">Chadrack Mbu Jess</h1>
-            <p class="hero-role">Développeur full-stack</p>
-            <p class="hero-text">
-                Je conçois et développe des applications web sur mesure, du site vitrine à la plateforme complète :
-                une base de code soignée, des interfaces claires et un produit qui tient la route une fois en ligne.
-            </p>
+            <h1 id="hero-title">{{ hero.name }}</h1>
+            {% if hero.role %}<p class="hero-role">{{ hero.role }}</p>{% endif %}
+            {% if hero.intro %}<p class="hero-text">{{ hero.intro|linebreaksbr }}</p>{% endif %}
             <div class="hero-actions">
-                <a href="{% url 'projects' %}" class="btn-site btn-gold">Voir mes projets</a>
-                <a href="{% url 'contact' %}" class="btn-site btn-on-dark">Me contacter</a>
+                {% if hero.primary_label %}
+                    <a href="{% if hero.primary_url %}{{ hero.primary_url }}{% else %}{% url 'projects' %}{% endif %}" class="btn-site btn-gold">{{ hero.primary_label }}</a>
+                {% endif %}
+                {% if hero.secondary_label %}
+                    <a href="{% if hero.secondary_url %}{{ hero.secondary_url }}{% else %}{% url 'contact' %}{% endif %}" class="btn-site btn-on-dark">{{ hero.secondary_label }}</a>
+                {% endif %}
             </div>
+            {% if hero.technologies or hero.show_projects_count or hero.show_cv and global_resumes %}
             <ul class="hero-facts">
-                <li><i class="bi bi-code-slash" aria-hidden="true"></i> Python, Django, JavaScript</li>
-                <li><i class="bi bi-folder2" aria-hidden="true"></i> {{ projects.count }} projet{{ projects.count|pluralize }} publié{{ projects.count|pluralize }}</li>
-                {% for resume in global_resumes|slice:":1" %}
-                    <li><i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i> <a href="{% url 'download_resume' resume.id %}" style="color:inherit">Télécharger mon CV</a></li>
-                {% endfor %}
+                {% if hero.technologies %}<li><i class="bi bi-code-slash" aria-hidden="true"></i> {{ hero.technologies }}</li>{% endif %}
+                {% if hero.show_projects_count %}<li><i class="bi bi-folder2" aria-hidden="true"></i> {{ projects.count }} projet{{ projects.count|pluralize }} publié{{ projects.count|pluralize }}</li>{% endif %}
+                {% if hero.show_cv %}
+                    {% for resume in global_resumes|slice:":1" %}
+                        <li><i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i> <a href="{% url 'download_resume' resume.id %}" style="color:inherit">Télécharger mon CV</a></li>
+                    {% endfor %}
+                {% endif %}
             </ul>
+            {% endif %}
         </div>
 
         <div class="portrait">
@@ -37,7 +42,11 @@
                 <circle cx="200" cy="200" r="192" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 25.1327"/>
                 <circle cx="200" cy="200" r="178" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5"/>
             </svg>
-            <img src="{% static 'images/profil1.jpg' %}" alt="Portrait de Chadrack Mbu Jess" width="400" height="400">
+            {% if hero.photo %}
+                <img src="{{ hero.photo.url }}" alt="{{ hero.photo_alt }}" width="400" height="400" fetchpriority="high">
+            {% else %}
+                <img src="{% static 'images/profil1.jpg' %}" alt="{{ hero.photo_alt }}" width="400" height="400" fetchpriority="high">
+            {% endif %}
         </div>
     </div>
 </section>
