@@ -23,7 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-gzy9dxg(x==)q2)-&2n4m^)0wlf1e)a(+clg0l@^d)%yrz)e4&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG est désactivé en ligne (PythonAnywhere). Il ne s'active qu'en local, avec « python manage.py runserver »,
+# pour que tu continues à voir les erreurs détaillées pendant que tu développes.
+# Pour forcer une valeur : variable d'environnement DJANGO_DEBUG=1 (activé) ou DJANGO_DEBUG=0 (désactivé).
+import sys
+DEBUG = os.environ.get('DJANGO_DEBUG', '1' if 'runserver' in sys.argv else '0') == '1'
 
 ALLOWED_HOSTS = ['chadrackmbu.pythonanywhere.com','127.0.0.1','localhost']
 
@@ -88,7 +92,7 @@ ROOT_URLCONF = 'portfolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,18 @@
+{% extends 'portfolioapp/base.html' %}
+
+{% block title %}Page introuvable — Chadrack Mbu Jess{% endblock %}
+{% block head %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+<div class="container-site">
+    <div class="empty" style="margin:72px 0">
+        <i class="bi bi-signpost-split" aria-hidden="true"></i>
+        <h1 class="h3">Cette page n'existe pas</h1>
+        <p>Le lien est peut-être ancien, ou l'adresse contient une faute de frappe.</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a href="{% url 'home' %}" class="btn-site btn-primary-site btn-sm-site">Revenir à l'accueil</a>
+            <a href="{% url 'projects' %}" class="btn-site btn-outline-site btn-sm-site">Voir les projets</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
