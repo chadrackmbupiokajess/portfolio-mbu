@@ -1,0 +1,20 @@
+{% load static %}
+{% if groups %}
+<div class="screenshots-gallery">
+    {% for group in groups %}
+        <div class="screenshots-group">
+            <h3 class="screenshots-group-title"><i class="bi {{ group.icon }}" aria-hidden="true"></i> {{ group.label }}</h3>
+            <ul class="screenshots-grid screenshots-grid-{{ group.key }}">
+                {% for shot in group.items %}
+                    <li>
+                        <button type="button" class="screenshot-thumb" data-lightbox-src="{{ shot.image.url }}" aria-label="Agrandir la capture {{ shot.caption|default:group.label }}">
+                            <img src="{{ shot.image.url }}" alt="{{ shot.caption|default:group.label }} — {{ project.title }}" loading="lazy">
+                        </button>
+                        {% if shot.caption %}<p class="screenshot-caption">{{ shot.caption }}</p>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

@@ -59,14 +59,15 @@
             });
         }
 
-        /* ---------- Agrandissement de l'image ---------- */
+        /* ---------- Agrandissement des images (couverture et captures) ---------- */
         var lightbox = document.getElementById('lightbox');
-        var opener = document.querySelector('[data-lightbox-src]');
-        if (lightbox && opener) {
+        if (lightbox) {
             var img = lightbox.querySelector('img');
             var closeBtn = lightbox.querySelector('[data-close]');
-            var open = function () {
-                img.src = opener.getAttribute('data-lightbox-src');
+            var opener = null;
+            var open = function (trigger) {
+                opener = trigger;
+                img.src = trigger.getAttribute('data-lightbox-src');
                 lightbox.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
                 closeBtn.focus();
@@ -74,9 +75,11 @@
             var close = function () {
                 lightbox.classList.remove('is-open');
                 document.body.style.overflow = '';
-                opener.focus();
+                if (opener) opener.focus();
             };
-            opener.addEventListener('click', open);
+            document.querySelectorAll('[data-lightbox-src]').forEach(function (trigger) {
+                trigger.addEventListener('click', function () { open(trigger); });
+            });
             closeBtn.addEventListener('click', close);
             lightbox.addEventListener('click', function (e) { if (e.target === lightbox) close(); });
             document.addEventListener('keydown', function (e) {

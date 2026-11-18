@@ -52,7 +52,7 @@ def get_recent_blog_posts(limit=3):
 @register.simple_tag
 def get_featured_projects(limit=6):
     """Retourne les projets mis en avant"""
-    return Project.objects.filter(featured=True).order_by('-created_at')[:limit]
+    return Project.objects.filter(featured=True).order_by('featured_order', '-created_at')[:limit]
 
 @register.simple_tag
 def get_featured_testimonials(limit=3):
@@ -83,6 +83,51 @@ def blog_card(post):
     return {
         'post': post,
     }
+
+SCREENSHOTS_MARKER = '<!--CAPTURES-D-ECRAN-->'
+
+@register.inclusion_tag('portfolioapp/tags/project_screenshots.html')
+def project_screenshots(project):
+    """Galerie des captures d'écran d'un projet, groupées par plateforme
+    (mobile, PC, TV). Ne renvoie rien si le projet n'a aucune capture."""
+    screenshots = project.screenshots.all()
+    platforms = [
+        ('mobile', 'Captures de la version mobile', 'bi-phone'),
+        ('pc', 'Captures de la version PC', 'bi-display'),
+        ('tv', 'Captures de la version TV', 'bi-tv'),
+    ]
+    groups = [
+        {'key': key, 'label': label, 'icon': icon, 'items': [s for s in screenshots if s.platform == key]}
+        for key, label, icon in platforms
+    ]
+    groups = [g for g in groups if g['items']]
+    return {'project': project, 'groups': groups}
+
+@register.filter
+def inject_screenshots(description, project):
+    """Insère la galerie des captures d'écran d'un projet dans sa description.
+
+    Ordre de priorité :
+    1. Remplace le marqueur <!--CAPTURES-D-ECRAN--> s'il est présent ;
+    2. Sinon, insère la galerie juste après le titre « Aperçu visuel » ;
+    3. Sinon, l'ajoute à la fin de la description.
+    Sans capture d'écran, la description est renvoyée inchangée."""
+    if not description:
+        return description
+    screenshots = project.screenshots.all()
+    if not screenshots.exists():
+        return description
+    from django.template.loader import render_to_string
+    import re
+    gallery = render_to_string('portfolioapp/tags/project_screenshots.html',
+                               {'project': project, **project_screenshots(project)})
+    desc = str(description)
+    if SCREENSHOTS_MARKER in desc:
+        return mark_safe(desc.replace(SCREENSHOTS_MARKER, gallery))
+    match = re.search(r'<h2[^>]*>[^<]*[Aa]per[çc]u[^<]*</h2>', desc)
+    if match:
+        return mark_safe(desc[:match.end()] + gallery + desc[match.end():])
+    return mark_safe(desc + gallery)
 
 @register.filter
 def json_encode(value):

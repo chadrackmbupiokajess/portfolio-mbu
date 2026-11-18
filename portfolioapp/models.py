@@ -50,6 +50,10 @@ class Project(models.Model):
         ('archive', 'Archivé')
     ], default='termine')
     featured = models.BooleanField(default=False, verbose_name="Projet mis en avant")
+    featured_order = models.PositiveIntegerField(
+        default=0, verbose_name="Ordre d'affichage en avant",
+        help_text="Pour les projets mis en avant : plus le nombre est petit, plus le projet apparaît en haut."
+    )
     date_realisation = models.DateField(
         null=True, blank=True, verbose_name="Date de réalisation",
         help_text="Mois de fin du projet (ou de début s'il est en cours). Seuls le mois et l'année sont affichés. "
@@ -75,6 +79,32 @@ class Project(models.Model):
     def display_date(self):
         """Date affichée sur le site : date de réalisation, sinon date d'ajout."""
         return self.date_realisation or self.created_at.date()
+
+# Modèle ProjectScreenshot : captures d'écran d'un projet, classées par plateforme
+class ProjectScreenshot(models.Model):
+    PLATFORM_CHOICES = [
+        ('mobile', 'Mobile'),
+        ('pc', 'PC / Desktop'),
+        ('tv', 'TV'),
+    ]
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='screenshots')
+    platform = models.CharField(max_length=10, choices=PLATFORM_CHOICES, default='mobile',
+                                verbose_name="Plateforme")
+    image = models.ImageField(upload_to='projets/captures/%Y/', verbose_name="Capture d'écran")
+    caption = models.CharField(max_length=200, blank=True, verbose_name="Légende",
+                               help_text="Exemple : « Liste des films sur mobile ».")
+    order = models.PositiveIntegerField(default=0, verbose_name="Ordre",
+                                        help_text="Plus le nombre est petit, plus la capture apparaît tôt.")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Capture d'écran de projet"
+        verbose_name_plural = "Captures d'écran de projets"
+        ordering = ['platform', 'order', 'id']
+
+    def __str__(self):
+        return f"{self.project.title} — {self.get_platform_display()}"
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 

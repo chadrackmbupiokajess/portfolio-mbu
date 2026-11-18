@@ -1451,3 +1451,78 @@ select.form-control, .form-select {
 
 @media print { .bottom-nav { display: none !important; } }
 
+/* =========================================================================
+   29. Captures d'écran d'un projet (mobile, PC, TV)
+   ========================================================================= */
+.screenshots-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin: 1.6em 0 2.2em;
+    align-items: start;
+}
+.screenshots-group { margin-bottom: 0; min-width: 0; }
+.screenshots-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--gold);
+}
+.screenshots-group-title i { color: var(--gold); font-size: 1.1em; }
+.screenshots-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.screenshots-grid li { margin: 0; }
+.screenshot-thumb {
+    all: unset;
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.screenshot-thumb:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px -12px rgba(8, 14, 30, .35);
+    border-color: var(--gold);
+}
+.screenshot-thumb:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.screenshot-thumb img {
+    width: 100%;
+    height: auto;
+    max-height: 380px;
+    display: block;
+    object-fit: contain;
+    background: var(--surface-2);
+}
+.screenshot-caption {
+    margin: 8px 2px 0;
+    font-size: .86rem;
+    color: var(--muted);
+    text-align: center;
+}
+@media (max-width: 991px) {
+    .screenshots-gallery { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+@media (max-width: 640px) {
+    .screenshots-gallery { grid-template-columns: 1fr; gap: 20px; }
+    .screenshots-group { max-width: 360px; margin-left: auto; margin-right: auto; width: 100%; }
+    .screenshot-thumb img { max-height: 320px; }
+}
+@media (min-width: 1400px) {
+    .screenshots-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+

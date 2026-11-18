@@ -15,7 +15,7 @@ from .forms import (CommentForm, ReplyForm, ProfileForm, ContactForm,
 
 def home(request):
     from .models import HomeHero
-    projects = Project.objects.all().order_by('-created_at')
+    projects = Project.objects.all().order_by('-featured', 'featured_order', '-created_at')
     hero = HomeHero.get_solo()  # en-tête modifiable dans l'administration
     return render(request, 'portfolioapp/home.html', {'projects': projects, 'hero': hero})
 
@@ -23,7 +23,7 @@ def blog(request):
     return render(request, 'portfolioapp/blog.html')
 
 def projects_view(request):
-    all_projects = Project.objects.all().order_by('-created_at')
+    all_projects = Project.objects.all().order_by('-featured', 'featured_order', '-created_at')
     projects = all_projects
     categories = Category.objects.annotate(num_projects=Count('project')).order_by('name')
     category_filter = request.GET.get('category')

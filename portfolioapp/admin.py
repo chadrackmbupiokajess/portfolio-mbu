@@ -20,13 +20,20 @@ class TagAdmin(admin.ModelAdmin):
         return obj.project_set.count()
     projects_count.short_description = 'Nombre de projets'
 
+class ProjectScreenshotInline(admin.TabularInline):
+    model = ProjectScreenshot
+    extra = 1
+    fields = ['platform', 'image', 'caption', 'order']
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'status', 'date_realisation', 'featured', 'views_count', 'likes_count', 'created_at']
+    list_display = ['title', 'category', 'status', 'date_realisation', 'featured', 'featured_order', 'views_count', 'likes_count', 'created_at']
+    list_editable = ['featured', 'featured_order']
     list_filter = ['category', 'status', 'featured', 'created_at', 'tags']
     search_fields = ['title', 'description', 'technologies']
     filter_horizontal = ['tags']
     readonly_fields = ['views_count', 'created_at', 'updated_at']
+    inlines = [ProjectScreenshotInline]
 
     def get_changeform_initial_data(self, request):
         # Valeurs proposées par défaut pour un nouveau projet
@@ -39,6 +46,18 @@ class ProjectAdmin(admin.ModelAdmin):
     def likes_count(self, obj):
         return obj.likes.count()
     likes_count.short_description = 'Likes'
+
+@admin.register(ProjectScreenshot)
+class ProjectScreenshotAdmin(admin.ModelAdmin):
+    list_display = ['thumbnail', 'project', 'platform', 'caption', 'order']
+    list_filter = ['platform', 'project']
+    search_fields = ['project__title', 'caption']
+
+    def thumbnail(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:4px">', obj.image.url)
+        return '-'
+    thumbnail.short_description = 'Aperçu'
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
